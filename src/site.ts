@@ -7,7 +7,7 @@ export const SITE = {
     'Notes on AI, automation, e-commerce and international trade from Can Sevengin, Istanbul.',
   email: 'hello@cansevengin.com',
   // Add the full profile URL to show a LinkedIn link in the header/footer.
-  linkedin: '',
+  linkedin: 'https://www.linkedin.com/in/can-sevengin-3884a516a/',
 };
 
 // Drafts show locally and on Vercel preview deploys, never on production.

@@ -90,6 +90,13 @@ const stats = [
 
   <!-- Proof: statement + numbers -->
   <section class="container proof">
+    <figure class="portrait" data-reveal>
+      <picture>
+        <source srcset="/can-sevengin.webp" type="image/webp" />
+        <img src="/can-sevengin.jpg" alt="Can Sevengin at his desk with a laptop, an AI visual on the screen behind him" width="1086" height="1448" loading="lazy" decoding="async" />
+      </picture>
+    </figure>
+    <div class="proof-copy">
     <p class="statement" data-reveal>
       From marketplace listings to export deals, I’ve worked every layer of how products get sold. <span>Now I write down what actually works.</span>
     </p>
@@ -101,6 +108,8 @@ const stats = [
         </div>
       ))}
     </dl>
+    <a href="/about/" class="more about-link" data-reveal>More about me <Icon name="arrow-right" size={16} /></a>
+    </div>
   </section>
 
   <!-- Writing: featured + list -->
@@ -282,14 +291,20 @@ const stats = [
   .spot:hover::before { opacity: 1; }
 
   /* Proof */
-  .proof { padding-top: 140px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: start; }
+  .proof { padding-top: 140px; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 72px; align-items: center; }
+  .portrait { position: relative; margin: 0; border-radius: 20px; overflow: hidden; border: 1px solid var(--line); aspect-ratio: 4 / 5; background: var(--bg-1); }
+  .portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; transform: scale(1.06); transition: transform 1.6s var(--ease); }
+  .portrait.in img, .portrait:not([data-reveal]) img { transform: scale(1); }
+  .portrait::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, transparent 60%, rgb(7 8 10 / .55)); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .04); }
+  .proof-copy { display: grid; gap: 40px; }
+  .about-link { justify-self: start; }
   .statement { margin: 0; font-size: clamp(1.6rem, 2.8vw, 2.35rem); line-height: 1.22; letter-spacing: -0.03em; font-weight: 500; max-width: 24ch; }
   .statement span { color: var(--ink-3); }
   .stats { margin: 0; display: grid; gap: 30px; }
   .stat { display: grid; grid-template-columns: 140px 1fr; gap: 20px; align-items: baseline; padding-top: 20px; border-top: 1px solid var(--line); }
   .num { margin: 0; font-size: clamp(2.4rem, 4vw, 3.4rem); font-weight: 500; letter-spacing: -0.04em; color: var(--accent); font-variant-numeric: tabular-nums; line-height: 1; }
   .stat dd { margin: 0; color: var(--ink-2); font-size: 15.5px; }
-  @media (max-width: 860px) { .proof { grid-template-columns: 1fr; gap: 40px; } .stat { grid-template-columns: 110px 1fr; } }
+  @media (max-width: 860px) { .proof { grid-template-columns: 1fr; gap: 40px; } .portrait { max-width: 460px; } .stat { grid-template-columns: 110px 1fr; } }
 
   /* Writing */
   .writing { padding-top: 140px; }

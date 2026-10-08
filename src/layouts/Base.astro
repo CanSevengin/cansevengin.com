@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Icon from '../components/Icon.astro';
+import Logo from '../components/Logo.astro';
 import { SITE } from '../site';
 
 interface Props {
@@ -31,6 +32,9 @@ const nav = [
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:image" content={new URL('/og.jpg', Astro.site)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate" type="application/rss+xml" title={SITE.name} href="/rss.xml" />
@@ -43,8 +47,8 @@ const nav = [
     <header class="nav">
       <div class="container nav-in">
         <a href="/" class="brand" aria-label="Can Sevengin, home" translate="no">
-          <span class="glyph" aria-hidden="true">cs</span>
-          <span>Can Sevengin</span>
+          <Logo size={32} class="logo" />
+          <span class="word">Can<span>Sevengin</span></span>
         </a>
         <nav aria-label="Primary">
           {nav.map((n) => (
@@ -59,7 +63,7 @@ const nav = [
 
     <footer class="foot">
       <div class="container foot-in">
-        <p class="foot-name">Can Sevengin</p>
+        <p class="foot-name"><Logo size={26} />Can Sevengin</p>
         <div class="foot-links">
           <a href={`mailto:${SITE.email}`}><Icon name="envelope-simple" size={16} />{SITE.email}</a>
           {SITE.linkedin && <a href={SITE.linkedin} rel="me noopener" target="_blank"><Icon name="linkedin-logo" size={16} />LinkedIn</a>}
@@ -89,11 +93,11 @@ const nav = [
   }
   .nav-in { height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; }
-  .glyph {
-    display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px;
-    background: var(--accent); color: var(--accent-ink);
-    font: 700 13px/1 var(--mono); letter-spacing: -0.04em;
-  }
+  .brand :global(.logo) { transition: transform .5s var(--ease); }
+  .brand:hover :global(.logo) { transform: rotate(-90deg); }
+  .word { font-size: 16px; letter-spacing: -0.02em; }
+  .word span { color: var(--ink-3); margin-left: 5px; font-weight: 500; transition: color .2s; }
+  .brand:hover .word span { color: var(--ink); }
   nav { display: flex; align-items: center; gap: 6px; }
   nav a:not(.btn) {
     text-decoration: none; color: var(--ink-2); font-size: 15px;
@@ -104,13 +108,13 @@ const nav = [
   nav a[aria-current] { color: var(--ink); }
   .nav-cta { --h: 38px; margin-left: 8px; padding: 0 16px; font-size: 14px; }
   @media (max-width: 560px) {
-    .brand span:last-child { display: none; }
+    .word { display: none; }
     nav a:not(.btn) { padding: 8px 10px; }
   }
 
   .foot { border-top: 1px solid var(--line); margin-top: 0; padding: 40px 0 48px; }
   .foot-in { display: grid; grid-template-columns: 1fr auto; gap: 18px 32px; align-items: center; }
-  .foot-name { margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+  .foot-name { margin: 0; font-weight: 600; letter-spacing: -0.01em; display: inline-flex; align-items: center; gap: 10px; }
   .foot-links { display: flex; gap: 22px; flex-wrap: wrap; justify-self: end; }
   .foot-links a { display: inline-flex; align-items: center; gap: 8px; color: var(--ink-2); text-decoration: none; font-size: 14px; }
   .foot-links a:hover { color: var(--accent); }
