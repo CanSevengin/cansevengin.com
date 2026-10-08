@@ -41,3 +41,5 @@ Site name, email and LinkedIn URL live in `src/site.ts`.
 - English, professional, plain language. No hype.
 - No em dashes between clauses.
 - No invented statistics, quotes or client stories. Facts that matter get checked against a source.
+
+<!-- Review branch for the 5 launch posts. Merge to publish after approval. -->
