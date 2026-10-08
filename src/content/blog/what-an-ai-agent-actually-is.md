@@ -8,7 +8,7 @@ draft: false
 
 "Agent" has become the word everybody uses and few people define. Vendors call almost anything an agent now: a chatbot, a scheduled script, a form with a language model behind it. That makes it hard for business owners to know what they are buying, or whether they need it at all.
 
-Here is the definition I use with clients, and it fits in one sentence:
+Here is the definition I keep coming back to, and it fits in one sentence:
 
 > An agent is a system where the AI decides what to do next, not just what to say next.
 

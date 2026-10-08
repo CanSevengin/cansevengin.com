@@ -18,7 +18,7 @@ So the ambitious project stalls. Not because the technology doesn't work, but be
 
 ## What a good first automation looks like
 
-When I sit down with a small team, I look for a task that has four properties:
+When I look at a small team’s week, I look for a task that has four properties:
 
 - **It happens often.** Daily or several times a week. Rare tasks don't pay back the setup time.
 - **The input is predictable.** The same kind of email, form, file or order every time.

@@ -22,7 +22,7 @@ Visual, hosted, very fast to start. A non-technical person can build and underst
 
 ### n8n
 
-Also visual, but more flexible. You can self-host it or use the cloud version, mix visual steps with small pieces of code, and build longer, branching workflows with AI steps inside. It's what I reach for most often with clients.
+Also visual, but more flexible. You can self-host it or use the cloud version, mix visual steps with small pieces of code, and build longer, branching workflows with AI steps inside. It's what I reach for most often.
 
 **Choose it when:** the workflows are getting complex, you want AI steps and real branching, volume is growing, or you want more control over where your data lives.
 
