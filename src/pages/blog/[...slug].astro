@@ -1,0 +1,56 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { getPosts, formatDate, readingTime, SITE } from '../../site';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: { post, next: posts[i + 1] ?? null },
+  }));
+}
+
+const { post, next } = Astro.props;
+const { Content } = await render(post);
+const { title, description, date, tags, draft } = post.data;
+---
+<Base title={title} description={description} type="article">
+  <article class="wrap">
+    <header class="ph">
+      <p class="eyebrow">
+        {formatDate(date)} · {readingTime(post.body)} min read
+        {tags.length > 0 && <> · {tags.join(', ')}</>}
+      </p>
+      <h1 class="serif">{title}</h1>
+      <p class="dek">{description}</p>
+      {draft && <p class="draft">Draft · only visible in preview</p>}
+    </header>
+    <div class="prose measure body">
+      <Content />
+    </div>
+    <footer class="pf measure">
+      <p>
+        Thoughts or pushback? Write to me at <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+      </p>
+      {next && (
+        <a class="next" href={`/blog/${next.id}/`}>
+          <span class="eyebrow">Previous post</span>
+          <span class="serif">{next.data.title}</span>
+        </a>
+      )}
+    </footer>
+  </article>
+</Base>
+
+<style>
+  .ph { padding: 80px 0 44px; max-width: 50rem; }
+  h1 { font-size: clamp(2.3rem, 5.5vw, 3.9rem); line-height: 1.05; letter-spacing: -0.02em; margin: 20px 0 20px; }
+  .dek { font-size: 20px; color: var(--ink-2); margin: 0; max-width: 40rem; }
+  .draft { display: inline-block; margin-top: 18px; font: 500 12px var(--mono); color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 4px 8px; text-transform: uppercase; letter-spacing: .06em; }
+  .body { border-top: 1px solid var(--rule); padding-top: 36px; }
+  .pf { margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--rule); color: var(--ink-2); }
+  .next { display: block; margin-top: 28px; text-decoration: none; }
+  .next .serif { display: block; font-size: 1.7rem; line-height: 1.2; margin-top: 8px; color: var(--ink); }
+  .next:hover .serif { color: var(--accent); }
+</style>

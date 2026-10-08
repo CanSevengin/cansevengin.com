@@ -1,0 +1,43 @@
+---
+import { formatDate, readingTime } from '../site';
+const { posts } = Astro.props;
+---
+{posts.length === 0 && <p class="empty">First posts are on the way.</p>}
+<ol class="posts">
+  {posts.map((p) => (
+    <li>
+      <a href={`/blog/${p.id}/`}>
+        <span class="date">{formatDate(p.data.date)}</span>
+        <span class="body">
+          <span class="t">
+            {p.data.title}
+            {p.data.draft && <em class="draft">Draft</em>}
+          </span>
+          <span class="d">{p.data.description}</span>
+        </span>
+        <span class="rt">{readingTime(p.body)} min</span>
+      </a>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .posts { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+  .posts li { border-bottom: 1px solid var(--rule); }
+  .posts a {
+    display: grid; grid-template-columns: 120px 1fr 56px; gap: 24px;
+    padding: 26px 0; text-decoration: none; align-items: baseline;
+  }
+  .date, .rt { font: 13px var(--mono); color: var(--ink-3); }
+  .rt { text-align: right; }
+  .t { display: block; font: 400 1.65rem/1.2 var(--serif); letter-spacing: -0.005em; transition: color .15s; }
+  .d { display: block; margin-top: 6px; color: var(--ink-2); font-size: 15.5px; max-width: 52ch; }
+  .posts a:hover .t { color: var(--accent); }
+  .draft { font: 500 11px var(--mono); font-style: normal; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 2px 6px; margin-left: 10px; vertical-align: middle; }
+  @media (max-width: 640px) {
+    .posts a { grid-template-columns: 1fr; gap: 6px; }
+    .rt { display: none; }
+  }
+</style>
+
+<style>.empty{color:var(--ink-3);font-style:italic;margin:0 0 18px}</style>

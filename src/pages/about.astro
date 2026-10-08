@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site';
+
+const timeline = [
+  { y: '2026 →', r: 'International Sales', o: 'Babyjem', d: 'Export, distributor development, international e-commerce and new market entry for a mother & baby brand sold in 65+ countries.' },
+  { y: 'Ongoing', r: 'Founder', o: 'ASEAL', d: 'AI consulting, n8n automation, AI agents and data dashboards for Turkish SMEs.' },
+  { y: '2022-2026', r: 'Marketing Manager', o: 'Düş Patikası', d: 'Brand, digital and performance marketing for a boutique tourism company.' },
+  { y: '2022-2023', r: 'E-commerce Manager', o: 'Andulife-Beowell', d: 'Marketplace and D2C growth in health and wellness.' },
+  { y: 'Earlier', r: 'Founder', o: "Solare Dijital & Can's Box Store", d: 'A digital marketing agency serving 80+ companies across 7 countries, and cross-border e-commerce into the US, UAE, Japan and Canada.' },
+  { y: '2019-2021', r: 'Digital Marketing', o: 'Getir', d: 'Growth marketing during one of Türkiye’s fastest scale-ups.' },
+];
+---
+<Base title="About" description="Can Sevengin: international sales, e-commerce and AI automation, based in Istanbul.">
+  <section class="wrap top">
+    <p class="eyebrow">About</p>
+    <h1 class="serif">Sales person by trade, builder by habit.</h1>
+    <div class="cols">
+      <div class="prose measure">
+        <p>
+          I'm Can Sevengin, based in Istanbul. My work sits where three things meet: selling physical products
+          internationally, the marketing and e-commerce machinery behind it, and the AI and automation tools that
+          are quietly rewriting how small teams operate.
+        </p>
+        <p>
+          I've run Trendyol, Hepsiburada and N11 stores, managed Google and Meta ad budgets, launched cross-border
+          stores, and built automation systems for companies that couldn't afford a data team. Today I work on
+          export and distributor growth, and I keep building with AI on the side.
+        </p>
+        <p>
+          I write here to think in public: practical notes on AI, automation and international commerce, without
+          the hype. If something here is useful to you, or you think I've got it wrong, I'd like to hear about it.
+        </p>
+        <p><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2 class="serif sub">Path so far</h2>
+    <ol class="tl">
+      {timeline.map((t) => (
+        <li>
+          <span class="y">{t.y}</span>
+          <div>
+            <p class="r">{t.r} <span>· {t.o}</span></p>
+            <p class="d">{t.d}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+    <p class="edu">Business Administration, Anadolu University (2019)</p>
+  </section>
+</Base>
+
+<style>
+  .top { padding-top: 80px; }
+  h1 { font-size: clamp(2.4rem, 6vw, 4.2rem); line-height: 1.04; letter-spacing: -0.02em; margin: 20px 0 40px; max-width: 16ch; }
+  .sub { font-size: 2.2rem; margin: 96px 0 20px; }
+  .tl { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--rule); }
+  .tl li { display: grid; grid-template-columns: 140px 1fr; gap: 24px; padding: 22px 0; border-bottom: 1px solid var(--rule); }
+  .y { font: 13px var(--mono); color: var(--ink-3); padding-top: 4px; }
+  .r { margin: 0; font-weight: 600; }
+  .r span { font-weight: 400; color: var(--ink-2); }
+  .d { margin: 4px 0 0; color: var(--ink-2); font-size: 15.5px; max-width: 60ch; }
+  .edu { font: 13px var(--mono); color: var(--ink-3); margin-top: 22px; }
+  @media (max-width: 640px) { .tl li { grid-template-columns: 1fr; gap: 4px; } }
+</style>

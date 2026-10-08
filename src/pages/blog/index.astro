@@ -1,0 +1,19 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostList from '../../components/PostList.astro';
+import { getPosts } from '../../site';
+
+const posts = await getPosts();
+---
+<Base title="Writing" description="Essays and notes on AI, automation, e-commerce and international sales.">
+  <section class="wrap top">
+    <p class="eyebrow">Writing · {posts.length} posts</p>
+    <h1 class="serif">Notes on AI, automation and selling across borders.</h1>
+    <PostList posts={posts} />
+  </section>
+</Base>
+
+<style>
+  .top { padding-top: 80px; }
+  h1 { font-size: clamp(2.2rem, 5.5vw, 3.8rem); line-height: 1.05; letter-spacing: -0.02em; margin: 20px 0 48px; max-width: 18ch; }
+</style>
