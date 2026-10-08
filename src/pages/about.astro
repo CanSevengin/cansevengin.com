@@ -5,11 +5,16 @@ import Icon from '../components/Icon.astro';
 import { SITE } from '../site';
 
 const timeline = [
-  { y: '2026', r: 'International Sales', o: 'Babyjem', d: 'Export, distributor development, international e-commerce, Amazon and new market entry for a mother and baby brand sold in 65+ countries.' },
-  { y: '2022-2026', r: 'Marketing Manager', o: 'Düş Patikası', d: 'Brand, digital and performance marketing for a boutique tourism company.' },
-  { y: '2022-2023', r: 'E-commerce Manager', o: 'Andulife-Beowell', d: 'Marketplace and direct-to-consumer growth in health and wellness.' },
-  { y: 'Earlier', r: 'Founder', o: "Solare Dijital and Can's Box Store", d: 'A digital marketing agency serving 80+ companies across 7 countries, plus cross-border e-commerce into the US, UAE, Japan and Canada.' },
-  { y: '2019-2021', r: 'Digital Marketing', o: 'Getir', d: 'Growth marketing inside one of Türkiye’s fastest-scaling startups.' },
+  { y: 'Aug 2026 - now', r: 'International Sales Assistant Manager', o: 'Babyjem', d: 'Export, distributor development, international e-commerce and new market entry for a Turkish mother and baby brand sold in 65+ countries.' },
+  { y: '2022 - 2026', r: 'E-Commerce Lead', o: 'HHP Eurasia', d: 'Led e-commerce operations and growth: marketplaces, listings, pricing and promotions, and the end-to-end online customer journey, working across sales, marketing, operations and logistics.' },
+  { y: '2020 - 2022', r: 'Digital Growth Specialist', o: 'Getir', d: 'Data-driven acquisition, engagement and retention campaigns across channels, with a lot of testing, analysis and optimization along the way.' },
+  { y: '2016 - 2020', r: 'Founder, E-Commerce & Marketing Director', o: 'Solare Digital', d: 'Started with dropshipping while at university and grew it into cross-border Amazon operations in the US, Mexico, the UAE and Japan, from product research to listings, pricing and suppliers.' },
+  { y: '2016', r: 'Lifeguard', o: 'Kalahari Resorts & Conventions, USA', d: 'A Work and Travel summer: an international team, guests from everywhere, and calm under pressure.' },
+  { y: '2014 - 2016', r: 'Marketing Intern', o: 'Xeno Arts Digital', d: 'Where it began: SEO, market research, content and analytics inside a creative agency.' },
+];
+const education = [
+  { y: '2024 - 2027', s: 'Istanbul University', d: 'E-Commerce (in progress)' },
+  { y: '2014 - 2019', s: 'Anadolu University', d: 'BA, Business Administration' },
 ];
 ---
 <Base title="About" description="Can Sevengin: international sales, e-commerce and AI automation, based in Istanbul.">
@@ -22,9 +27,9 @@ const timeline = [
           internationally, the e-commerce and marketing machinery behind it, and the AI tools that are changing how small teams operate.
         </p>
         <p>
-          I’ve run Trendyol, Hepsiburada and N11 stores, managed Google and Meta ad budgets, launched cross-border stores
-          and built automation systems for companies that couldn’t afford a data team. Today I work on international sales at Babyjem, growing
-          distributors and new markets, and I keep building with AI on the side.
+          My e-commerce story started at university with dropshipping, which turned into cross-border Amazon stores in the US,
+          Mexico, the UAE and Japan. Since then I’ve worked on digital growth at Getir and led e-commerce at HHP Eurasia. Today I work
+          on international sales at Babyjem, growing distributors and new markets, and I keep building with AI on the side.
         </p>
         <p>This site is my everyday space: notes, experiments and whatever I’m curious about this month. Nothing for sale here.</p>
       </div>
@@ -56,7 +61,18 @@ const timeline = [
         </li>
       ))}
     </ol>
-    <p class="edu"><Icon name="graduation-cap" size={18} />Business Administration, Anadolu University, 2019</p>
+    <h2 class="edu-h" data-reveal>Education</h2>
+    <ul class="edu-list">
+      {education.map((e) => (
+        <li data-reveal>
+          <Icon name="graduation-cap" size={20} class="edu-ic" />
+          <div>
+            <p class="edu-s">{e.s}</p>
+            <p class="edu-d">{e.d} <span>{e.y}</span></p>
+          </div>
+        </li>
+      ))}
+    </ul>
   </section>
 </Base>
 
@@ -77,16 +93,22 @@ const timeline = [
   .path { padding-top: 140px; padding-bottom: 120px; }
   .path h2 { margin: 0 0 48px; font-size: clamp(2rem, 3.6vw, 3rem); letter-spacing: -0.035em; font-weight: 600; }
   .tl { list-style: none; margin: 0; padding: 0; position: relative; }
-  .tl::before { content: ''; position: absolute; left: 150px; top: 8px; bottom: 8px; width: 1px; background: linear-gradient(var(--accent), var(--line) 40%); }
-  .tl li { display: grid; grid-template-columns: 130px 40px 1fr; align-items: start; padding-bottom: 40px; }
+  .tl::before { content: ''; position: absolute; left: 170px; top: 8px; bottom: 8px; width: 1px; background: linear-gradient(var(--accent), var(--line) 40%); }
+  .tl li { display: grid; grid-template-columns: 150px 40px 1fr; align-items: start; padding-bottom: 40px; }
   .y { font: 13px var(--mono); color: var(--ink-3); padding-top: 5px; text-align: right; padding-right: 0; }
   .node { justify-self: center; margin-top: 7px; width: 11px; height: 11px; border-radius: 50%; background: var(--bg); border: 1.5px solid var(--ink-3); position: relative; left: 0; }
   .tl li:first-child .node { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 5px var(--accent-soft); }
   .item h3 { margin: 0; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; }
   .item h3 span { color: var(--ink-3); font-weight: 500; margin-left: 8px; }
   .item p { margin: 8px 0 0; color: var(--ink-2); max-width: 58ch; }
-  .edu { display: inline-flex; align-items: center; gap: 10px; margin: 8px 0 0; font: 13px var(--mono); color: var(--ink-3); }
-  .edu :global(svg) { color: var(--accent); }
+  .edu-h { margin: 72px 0 24px !important; font-size: clamp(1.6rem, 2.6vw, 2.2rem) !important; }
+  .edu-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .edu-list li { display: flex; gap: 16px; align-items: flex-start; padding: 24px 26px; border-radius: 22px; background: var(--bg-1); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .06); }
+  .edu-list :global(.edu-ic) { color: var(--accent); flex: none; margin-top: 2px; }
+  .edu-s { margin: 0; font-weight: 600; font-size: 1.15rem; letter-spacing: -0.02em; }
+  .edu-d { margin: 4px 0 0; color: var(--ink-2); }
+  .edu-d span { color: var(--ink-3); margin-left: 8px; font-size: 14px; }
+  @media (max-width: 700px) { .edu-list { grid-template-columns: 1fr; } }
   @media (max-width: 640px) {
     .tl::before { left: 5px; }
     .tl li { grid-template-columns: 22px 1fr; grid-template-areas: 'node y' 'node item'; }
