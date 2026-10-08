@@ -1,0 +1,26 @@
+---
+import { PHOTOS, photoUrl, photoSrcset, type PhotoKey } from '../lib/photos';
+interface Props {
+  name: PhotoKey;
+  sizes?: string;
+  ratio?: number;
+  max?: number;
+  class?: string;
+  eager?: boolean;
+  position?: string;
+}
+const { name, sizes = '100vw', ratio, max = 2200, class: cls, eager = false, position = '50% 50%' } = Astro.props;
+const p = PHOTOS[name];
+const w = Math.min(1600, max);
+---
+<div class:list={['ph-img', cls]}>
+  <img
+    src={photoUrl(p.id, w, ratio ? Math.round(w / ratio) : undefined)}
+    srcset={photoSrcset(p.id, ratio, max)}
+    sizes={sizes}
+    alt={p.alt}
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+    style={`object-position:${position}`}
+  />
+</div>

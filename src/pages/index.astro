@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Globe from '../components/Globe.astro';
 import Cover from '../components/Cover.astro';
 import Icon from '../components/Icon.astro';
+import Photo from '../components/Photo.astro';
 import { getPosts, formatDate, readingTime, SITE } from '../site';
 
 const posts = (await getPosts()).slice(0, 6);
@@ -11,11 +12,11 @@ const statement =
 const words = statement.split(' ');
 
 const now = [
-  { k: 'Work', t: 'International sales at Babyjem, a Turkish mother and baby brand sold in 65+ countries. Distributors, marketplaces, trade fairs and new markets.' },
-  { k: 'Building', t: 'Ghostline: a Claude agent that keeps a personal site alive, in your voice. This site is its first user.', href: '/build/' },
-  { k: 'Writing', t: 'Notes on AI, work and selling across borders. Short, practical, and written to think out loud.' },
-  { k: 'Based in', t: 'Istanbul. Travelling a few times a year for fairs and customer visits.' },
-];
+  { k: 'Work', t: 'International sales at Babyjem, a Turkish mother and baby brand sold in 65+ countries. Distributors, marketplaces, trade fairs and new markets.', photo: 'fair' },
+  { k: 'Building', t: 'Ghostline: a Claude agent that keeps a personal site alive, in your voice. This site is its first user.', href: '/build/', photo: 'aiHands' },
+  { k: 'Writing', t: 'Notes on AI, work and selling across borders. Short, practical, and written to think out loud.', photo: 'deskLight' },
+  { k: 'Based in', t: 'Istanbul. Travelling a few times a year for fairs and customer visits.', photo: 'istanbulDay' },
+] as const;
 ---
 <Base>
   <!-- 1. Hero: pinned. Headline recedes, globe rises and fills the screen -->
@@ -43,10 +44,12 @@ const now = [
   </section>
 
   <!-- 2. Statement: words light up as you scroll -->
-  <section class="statement-wrap container" aria-label="Statement">
-    <p class="statement" data-words>
-      {words.map((w) => <span class="w">{w} </span>)}
-    </p>
+  <section class="t-light statement-sec" aria-label="Statement">
+    <div class="container statement-wrap">
+      <p class="statement" data-words>
+        {words.map((w) => <span class="w">{w} </span>)}
+      </p>
+    </div>
   </section>
 
   <!-- 3. Portrait: card expands to full bleed -->
@@ -68,20 +71,25 @@ const now = [
   </section>
 
   <!-- 4. Now -->
-  <section class="container now">
+  <section class="t-gray now-sec">
+   <div class="container now">
     <div class="now-head" data-rise>
       <h2 class="sec-h">Now.</h2>
       <p class="now-date">Updated October 2026</p>
     </div>
     <dl class="now-list">
       {now.map((n, i) => (
-        <div class:list={['now-item', { linked: n.href }]} data-rise style={`--i:${i}`}>
-          <dt>{n.k}</dt>
-          <dd>{n.t}</dd>
-          {n.href && <a class="now-link" href={n.href}>See what I’m building <Icon name="arrow-right" size={15} /></a>}
+        <div class:list={['now-item', { linked: 'href' in n }]} data-rise style={`--i:${i}`}>
+          <Photo name={n.photo} ratio={16 / 9} max={1200} sizes="(max-width: 760px) 92vw, 600px" class="now-ph" />
+          <div class="now-txt">
+            <dt>{n.k}</dt>
+            <dd>{n.t}</dd>
+            {'href' in n && <a class="now-link" href={n.href}>See what I’m building <Icon name="arrow-right" size={15} /></a>}
+          </div>
         </div>
       ))}
     </dl>
+   </div>
   </section>
 
   <!-- 5. Focus tiles -->
@@ -89,21 +97,21 @@ const now = [
     <h2 class="sec-h" data-rise>What I think about.</h2>
     <div class="tiles">
       <article class="tile tile-xl" data-tilt data-rise>
-        <Cover slug="ai-real-work" kind={3} class="tile-art" />
+        <Photo name="laptopDark" sizes="(max-width: 860px) 92vw, 700px" max={1600} class="tile-art" />
         <div class="tile-body">
           <p class="tile-k"><Icon name="robot" size={18} /> AI in real work</p>
           <h3>Trying AI on everyday work and writing down what actually sticks.</h3>
         </div>
       </article>
       <article class="tile" data-tilt data-rise style="--i:1">
-        <Cover slug="automation-small-teams" kind={2} class="tile-art" />
+        <Photo name="robotArm" sizes="(max-width: 860px) 92vw, 540px" max={1200} class="tile-art" />
         <div class="tile-body">
           <p class="tile-k"><Icon name="flow-arrow" size={18} /> Automation</p>
           <h3>Small automations that make the boring parts disappear.</h3>
         </div>
       </article>
       <article class="tile" data-tilt data-rise style="--i:2">
-        <Cover slug="selling-across-borders" kind={0} class="tile-art" />
+        <Photo name="containersAerial" sizes="(max-width: 860px) 92vw, 540px" max={1200} class="tile-art" />
         <div class="tile-body">
           <p class="tile-k"><Icon name="globe-hemisphere-east" size={18} /> Cross-border sales</p>
           <h3>Babyjem, distributors and marketplaces, country by country.</h3>
@@ -112,8 +120,23 @@ const now = [
     </div>
   </section>
 
-  <!-- 6. Writing rail -->
-  <section class="writing">
+  <!-- 6. Full-bleed photo band: image settles as you scroll -->
+  <section class="band" data-band>
+    <div class="band-stage">
+      <div class="band-frame" data-band-frame>
+        <Photo name="ship" sizes="100vw" class="band-ph" />
+        <div class="band-shade" aria-hidden="true"></div>
+      </div>
+      <div class="container band-copy" data-band-copy>
+        <p class="band-k">From Istanbul</p>
+        <p class="band-t">to the rest of the world.</p>
+        <p class="band-s">Distributors, marketplaces and trade fairs, one country at a time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Writing rail -->
+  <section class="writing t-light">
     <div class="container w-head">
       <h2 class="sec-h" data-rise>Latest notes.</h2>
       <div class="rail-ctrl">
@@ -149,7 +172,10 @@ const now = [
   </section>
 
   <!-- 7. Close -->
-  <section class="container close">
+  <section class="close-sec">
+   <Photo name="istanbulNight" sizes="100vw" class="close-ph" />
+   <div class="close-shade" aria-hidden="true"></div>
+   <div class="container close">
     <h2 data-rise>Say hi.</h2>
     <p data-rise style="--i:1">Thoughts on something I wrote, or just want to talk shop? My inbox is open.</p>
     <div class="ctas center" data-rise style="--i:2">
@@ -158,6 +184,7 @@ const now = [
         <Icon name="copy" size={16} /><span>{SITE.email}</span>
       </button>
     </div>
+   </div>
   </section>
 </Base>
 
@@ -210,10 +237,19 @@ const now = [
       });
     });
 
-    // Parallax inside tiles
-    gsap.utils.toArray<HTMLElement>('.tile-art svg').forEach((svg) => {
-      gsap.fromTo(svg, { yPercent: -6 }, { yPercent: 6, ease: 'none', scrollTrigger: { trigger: svg, start: 'top bottom', end: 'bottom top', scrub: true } });
+    // Parallax inside photo tiles and Now cards
+    gsap.utils.toArray<HTMLElement>('.tile-art img, .now-ph img').forEach((img) => {
+      gsap.fromTo(img, { yPercent: -5, scale: 1.12 }, { yPercent: 5, scale: 1.12, ease: 'none', scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } });
     });
+
+    // Photo band: inset card opens to full bleed, then the copy rises
+    const bt = gsap.timeline({ scrollTrigger: { trigger: '[data-band]', start: 'top top', end: 'bottom bottom', scrub: 0.6 } });
+    bt.fromTo('[data-band-frame]', { clipPath: 'inset(10% 8% 10% 8% round 36px)' }, { clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'none', duration: 0.5 }, 0)
+      .fromTo('[data-band-frame] img', { scale: 1.2 }, { scale: 1, ease: 'none', duration: 0.6 }, 0)
+      .fromTo('[data-band-copy] > *', { opacity: 0, y: 60 }, { opacity: 1, y: 0, stagger: 0.07, duration: 0.25 }, 0.35);
+
+    // Close: slow zoom on the city
+    gsap.fromTo('.close-ph img', { scale: 1.15 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '.close-sec', start: 'top bottom', end: 'bottom bottom', scrub: true } });
   });
 
   // 3D tilt on tiles (pointer feedback), fine pointers only
@@ -284,7 +320,8 @@ const now = [
   }
 
   /* ---------- Statement ---------- */
-  .statement-wrap { padding: 18vh 24px 22vh; }
+  .statement-sec { padding: 20vh 0 22vh; }
+  .statement-sec .statement { color: var(--ink); }
   .statement {
     margin: 0 auto; max-width: 22ch; text-align: left;
     font-size: clamp(2rem, 4.6vw, 4rem); line-height: 1.12; font-weight: 700; letter-spacing: -0.035em;
@@ -313,16 +350,19 @@ const now = [
     .portrait-copy { bottom: 8vh; right: 20px; }
   }
 
-  /* ---------- Now ---------- */
-  .now { padding-top: 22vh; }
+  /* ---------- Now (light gray surface, photo cards) ---------- */
+  .now-sec { padding: 16vh 0 18vh; }
   .now-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
   .now-date { margin: 0; color: var(--ink-3); font-size: 15px; }
-  .now-list { margin: 40px 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-  .now-item { border-radius: 26px; background: var(--bg-1); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .06); padding: 28px 30px 32px; }
+  .now-list { margin: 40px 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .now-item { border-radius: 28px; background: var(--bg-1); overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 1px 2px rgb(0 0 0 / .04), 0 12px 40px -18px rgb(0 0 0 / .18); transition: transform .6s var(--ease), box-shadow .6s var(--ease); }
+  .now-item:hover { transform: translateY(-4px); box-shadow: 0 1px 2px rgb(0 0 0 / .04), 0 24px 60px -20px rgb(0 0 0 / .25); }
+  .now-item :global(.now-ph) { aspect-ratio: 16 / 9; }
+  .now-txt { padding: 26px 30px 32px; }
   .now-item dt { color: var(--accent); font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
-  .now-item dd { margin: 10px 0 0; font-size: clamp(19px, 1.8vw, 23px); line-height: 1.32; letter-spacing: -0.02em; font-weight: 500; color: var(--ink); }
-  .now-item.linked { box-shadow: inset 0 0 0 1px rgb(200 240 49 / .3); background: linear-gradient(160deg, rgb(200 240 49 / .08), var(--bg-1) 55%); }
-  .now-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; color: var(--accent); text-decoration: none; font-size: 15px; font-weight: 500; }
+  .now-item dd { margin: 10px 0 0; font-size: clamp(19px, 1.8vw, 23px); line-height: 1.32; letter-spacing: -0.02em; font-weight: 600; color: var(--ink); }
+  .now-item.linked { box-shadow: 0 0 0 2px #c8f031, 0 12px 40px -18px rgb(0 0 0 / .18); }
+  .now-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; color: var(--accent); text-decoration: none; font-size: 15px; font-weight: 600; }
   .now-link:hover { text-decoration: underline; text-underline-offset: 4px; }
   @media (max-width: 760px) { .now-list { grid-template-columns: 1fr; } }
 
@@ -342,10 +382,10 @@ const now = [
   .tile:hover::after { opacity: 1; }
   .tile-xl { grid-row: span 2; min-height: 640px; }
   .tile :global(.tile-art) { position: absolute; inset: 0; z-index: 0; }
-  .tile :global(.tile-art svg) { height: 116%; margin-top: -8%; }
+  .tile :global(.tile-art img) { will-change: transform; }
   .tile-body {
     position: absolute; z-index: 1; inset: auto 0 0 0; padding: 28px 30px 30px;
-    background: linear-gradient(0deg, rgb(13 15 18 / .96) 30%, rgb(13 15 18 / 0));
+    background: linear-gradient(0deg, rgb(7 8 10 / .92) 25%, rgb(7 8 10 / 0));
   }
   .tile-k { margin: 0 0 10px; display: inline-flex; align-items: center; gap: 8px; color: var(--accent); font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
   .tile h3 { margin: 0; font-size: clamp(1.4rem, 2.2vw, 1.9rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.12; max-width: 20ch; }
@@ -356,14 +396,31 @@ const now = [
   }
 
   /* ---------- Writing rail ---------- */
-  .writing { padding-top: 22vh; }
+  /* ---------- Photo band ---------- */
+  .band { position: relative; height: 230vh; }
+  .band-stage { position: sticky; top: 0; height: 100dvh; overflow: hidden; display: flex; align-items: flex-end; }
+  .band-frame { position: absolute; inset: 0; clip-path: inset(10% 8% 10% 8% round 36px); will-change: clip-path; }
+  .band-frame :global(.band-ph) { position: absolute; inset: 0; }
+  .band-frame :global(img) { will-change: transform; }
+  .band-shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgb(7 8 10 / .78) 0%, rgb(7 8 10 / .15) 55%, transparent 75%); }
+  .band-copy { position: relative; z-index: 2; padding-bottom: 14vh; }
+  .band-k, .band-t { margin: 0; font-size: clamp(2.6rem, 7vw, 6rem); font-weight: 700; letter-spacing: -0.045em; line-height: 1; }
+  .band-t { color: #c8f031; }
+  .band-s { margin: 22px 0 0; max-width: 30rem; font-size: clamp(18px, 1.8vw, 22px); color: rgb(255 255 255 / .82); }
+  @media (prefers-reduced-motion: reduce) {
+    .band { height: auto; }
+    .band-stage { position: relative; height: 90dvh; }
+    .band-frame { clip-path: none; }
+  }
+
+  .writing { padding: 18vh 0 16vh; }
   .w-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; }
   .rail-ctrl { display: flex; gap: 10px; }
   .rail-btn {
     width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center;
-    background: rgb(255 255 255 / .08); color: var(--ink); transition: background-color .2s, transform .2s;
+    background: var(--bg-2); color: var(--ink); transition: background-color .2s, transform .2s;
   }
-  .rail-btn:hover { background: rgb(255 255 255 / .16); }
+  .rail-btn:hover { background: var(--bg-3); }
   .rail-btn:active { transform: scale(.94); }
   .rail {
     list-style: none; margin: 40px 0 0; padding: 0 max(24px, calc((100vw - var(--max)) / 2 + 24px)) 20px;
@@ -375,7 +432,7 @@ const now = [
   .rail li { scroll-snap-align: start; }
   .card {
     display: flex; flex-direction: column; height: 100%; border-radius: 26px; overflow: hidden; text-decoration: none;
-    background: var(--bg-1); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .06);
+    background: var(--bg-1);
     transition: transform .5s var(--ease);
   }
   .card:hover { transform: scale(1.02); }
@@ -389,9 +446,14 @@ const now = [
   .empty a { color: var(--accent); }
 
   /* ---------- Close ---------- */
-  .close { padding-top: 26vh; padding-bottom: 20vh; text-align: center; }
+  .close-sec { position: relative; overflow: hidden; isolation: isolate; }
+  .close-sec :global(.close-ph) { position: absolute; inset: 0; z-index: -2; }
+  .close-sec :global(.close-ph img) { will-change: transform; }
+  .close-shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgb(7 8 10 / .85) 0%, rgb(7 8 10 / .45) 45%, rgb(7 8 10 / .8) 100%); }
+  .close { padding-top: 26vh; padding-bottom: 24vh; text-align: center; }
   .close h2 { margin: 0 auto; max-width: 16ch; font-size: clamp(2.4rem, 6vw, 5rem); font-weight: 700; letter-spacing: -0.045em; line-height: 1.02; }
-  .close > p { margin: 20px auto 0; max-width: 32rem; font-size: clamp(19px, 2vw, 24px); color: var(--ink-2); }
+  .close > p { margin: 20px auto 0; max-width: 32rem; font-size: clamp(19px, 2vw, 24px); color: rgb(255 255 255 / .82); }
+  .close .copy { background: rgb(7 8 10 / .35); border-color: rgb(255 255 255 / .3); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
   .copy { font-family: var(--mono); font-size: 14px; letter-spacing: 0; }
   .copy.done { border-color: var(--accent); color: var(--accent); }
   .btn-glass {

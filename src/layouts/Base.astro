@@ -59,6 +59,7 @@ const nav = [
     <link rel="author" href="/about/" />
     <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt" />
     <link rel="preload" href="/can-sevengin.webp" as="image" type="image/webp" fetchpriority="low" />
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
     <script type="application/ld+json" set:html={jsonLd} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate" type="application/rss+xml" title={SITE.name} href="/rss.xml" />
@@ -95,7 +96,7 @@ const nav = [
           <a href="/how-it-works/"><Icon name="gear-six" size={16} />Built with Claude</a>
           <a href="/rss.xml"><Icon name="rss" size={16} />RSS</a>
         </div>
-        <p class="foot-c">© {new Date().getFullYear()} Can Sevengin. Written in Istanbul.</p>
+        <p class="foot-c">© {new Date().getFullYear()} Can Sevengin. Written in Istanbul. Stock photos from <a href="https://unsplash.com/?utm_source=cansevengin&utm_medium=referral" rel="noopener" target="_blank">Unsplash</a>.</p>
       </div>
     </footer>
 
@@ -146,5 +147,6 @@ const nav = [
   .foot-links a { display: inline-flex; align-items: center; gap: 8px; color: var(--ink-2); text-decoration: none; font-size: 14px; }
   .foot-links a:hover { color: var(--accent); }
   .foot-c { grid-column: 1 / -1; margin: 0; color: var(--ink-3); font-size: 13px; }
+  .foot-c a { color: var(--ink-2); }
   @media (max-width: 720px) { .foot-in { grid-template-columns: 1fr; } .foot-links { justify-self: start; } }
 </style>
