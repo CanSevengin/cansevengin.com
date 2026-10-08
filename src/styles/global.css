@@ -15,7 +15,7 @@
   --line-2: #2c3138;
   --ink: #f1f3f5;
   --ink-2: #b4bac3;
-  --ink-3: #7f8792;
+  --ink-3: #8a919b;
   --accent: #c8f031;
   --accent-ink: #0b0d05;
   --accent-soft: rgb(200 240 49 / 0.12);
@@ -38,7 +38,7 @@ body {
   background: var(--bg);
   color: var(--ink);
   font: 400 17px/1.47 var(--sans);
-  letter-spacing: -0.022em;
+  letter-spacing: -0.011em;
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -47,17 +47,6 @@ body {
 }
 h1, h2, h3 { text-wrap: balance; }
 p { text-wrap: pretty; }
-
-/* Fixed film grain, pointer-events none, never on scrolling containers */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  pointer-events: none;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
 
 a { color: inherit; }
 img, svg, canvas { display: block; max-width: 100%; }
@@ -81,8 +70,8 @@ img, svg, canvas { display: block; max-width: 100%; }
 
 .mono { font-family: var(--mono); }
 .label {
-  font: 500 12px/1 var(--mono);
-  letter-spacing: 0.06em;
+  font: 600 12px/1 var(--sans);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--ink-3);
 }
@@ -152,15 +141,15 @@ img, svg, canvas { display: block; max-width: 100%; }
 /* ---------- Light surfaces (Apple-style alternation) ----------
    Scoped token overrides: anything using the tokens adapts automatically. */
 .t-light, .t-gray {
-  --bg: #ffffff;
-  --bg-1: #f5f5f7;
+  --bg: #fbfbfd;
+  --bg-1: #f2f2f5;
   --bg-2: #ebebef;
   --bg-3: #e3e3e8;
   --line: #e3e3e8;
   --line-2: #d2d2d7;
   --ink: #1d1d1f;
   --ink-2: #4a4a4f;
-  --ink-3: #86868b;
+  --ink-3: #6e6e73;
   --accent: #4a7300;
   --accent-soft: rgb(74 115 0 / 0.1);
   --card-ring: rgb(0 0 0 / 0);
@@ -171,6 +160,7 @@ img, svg, canvas { display: block; max-width: 100%; }
   z-index: 1;
 }
 .t-gray { --bg: #f5f5f7; --bg-1: #ffffff; --bg-2: #ececf0; }
+.t-light :focus-visible, .t-gray :focus-visible { outline-color: #4a7300; }
 .t-light ::selection, .t-gray ::selection { background: #c8f031; color: #0b0d05; }
 .t-light .btn-primary, .t-gray .btn-primary { background: #c8f031; border-color: #c8f031; color: #0b0d05; }
 .t-light .btn-primary:hover, .t-gray .btn-primary:hover { background: #b8e01f; border-color: #b8e01f; }

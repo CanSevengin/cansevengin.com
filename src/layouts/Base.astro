@@ -113,12 +113,14 @@ const nav = [
       let ticking = false;
       const check = () => {
         ticking = false;
-        const on = lights.some((el) => { const r = el.getBoundingClientRect(); return r.top <= 28 && r.bottom >= 28; });
+        const on = lights.some((el) => { const r = el.getBoundingClientRect(); return r.top <= 57 && r.bottom >= 57; });
         nav?.classList.toggle('on-light', on);
       };
       if (nav && lights.length) {
         addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(check); } }, { passive: true });
+        nav.style.transition = 'none';
         check();
+        requestAnimationFrame(() => requestAnimationFrame(() => { nav.style.transition = ''; }));
       }
     </script>
   </body>
@@ -134,8 +136,8 @@ const nav = [
   }
   .nav { transition: background-color .35s var(--ease), border-color .35s var(--ease); }
   .nav.on-light {
-    --ink: #1d1d1f; --ink-2: #424245; --ink-3: #86868b; --bg-2: rgb(0 0 0 / .06); --line: rgb(0 0 0 / .08);
-    background: rgb(255 255 255 / .72); color: var(--ink);
+    --ink: #1d1d1f; --ink-2: #424245; --ink-3: #6e6e73; --bg-2: rgb(0 0 0 / .06); --line: rgb(0 0 0 / .08);
+    background: rgb(251 251 253 / .86); color: var(--ink);
   }
   .nav-in { height: 56px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; }
@@ -165,7 +167,7 @@ const nav = [
   .foot-links { display: flex; gap: 22px; flex-wrap: wrap; justify-self: end; }
   .foot-links a { display: inline-flex; align-items: center; gap: 8px; color: var(--ink-2); text-decoration: none; font-size: 14px; }
   .foot-links a:hover { color: var(--accent); }
-  .foot-c { grid-column: 1 / -1; margin: 0; color: var(--ink-3); font-size: 13px; }
+  .foot-c { grid-column: 1 / -1; margin: 0; color: var(--ink-3); font-size: 14px; }
   .foot-c a { color: var(--ink-2); }
   @media (max-width: 720px) { .foot-in { grid-template-columns: 1fr; } .foot-links { justify-self: start; } }
 </style>

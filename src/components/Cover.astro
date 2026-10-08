@@ -1,9 +1,9 @@
 ---
 import { coverSvg } from '../lib/cover';
-interface Props { slug: string; kind?: number; class?: string }
-const { slug, kind, class: cls } = Astro.props;
+interface Props { slug: string; kind?: number; class?: string; light?: boolean }
+const { slug, kind, class: cls, light = false } = Astro.props;
 ---
-<div class:list={['cover', cls]} set:html={coverSvg(slug, kind)} />
+<div class:list={['cover', cls]} set:html={coverSvg(slug, kind, light)} />
 
 <style>
   .cover { position: relative; overflow: hidden; background: var(--bg-1); }

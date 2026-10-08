@@ -1,6 +1,7 @@
 // Deterministic generative cover art per post (seeded by slug). Accent + neutrals only.
-const ACC = '#c8f031';
-const INK = '#d6dce4';
+let ACC = '#c8f031';
+let INK = '#d6dce4';
+let NODE = '#0d0f12';
 
 function rng(seed: string) {
   let h = 2166136261;
@@ -73,17 +74,20 @@ function graph(r: () => number) {
     if (d < 260) s += `<line x1="${f(pts[hub][0])}" y1="${f(pts[hub][1])}" x2="${f(pts[j][0])}" y2="${f(pts[j][1])}" stroke="${ACC}" stroke-width="1.2" opacity="0.8"/>`;
   }
   pts.forEach((p, i) => {
-    s += `<circle cx="${f(p[0])}" cy="${f(p[1])}" r="${i === hub ? 7 : 3}" fill="${i === hub ? ACC : '#0d0f12'}" stroke="${i === hub ? ACC : INK}" stroke-width="1" opacity="${i === hub ? 1 : 0.7}"/>`;
+    s += `<circle cx="${f(p[0])}" cy="${f(p[1])}" r="${i === hub ? 7 : 3}" fill="${i === hub ? ACC : NODE}" stroke="${i === hub ? ACC : INK}" stroke-width="1" opacity="${i === hub ? 1 : 0.7}"/>`;
   });
   return s;
 }
 
 const KINDS = [dotWave, rings, flow, graph];
 
-export function coverSvg(slug: string, kind?: number) {
+export function coverSvg(slug: string, kind?: number, light = false) {
+  ACC = light ? '#5f9400' : '#c8f031';
+  INK = light ? '#1d1d1f' : '#d6dce4';
+  NODE = light ? '#ffffff' : '#0d0f12';
   const r = rng(slug);
   const k = kind ?? Math.floor(r() * KINDS.length);
   const body = KINDS[k % KINDS.length](r);
   const gx = f(W * (0.2 + r() * 0.6)), gy = f(H * (0.2 + r() * 0.6));
-  return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><radialGradient id="g-${slug}" cx="${gx}" cy="${gy}" r="520" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#1a2008"/><stop offset="1" stop-color="#0b0c0e"/></radialGradient></defs><rect width="${W}" height="${H}" fill="url(#g-${slug})"/>${body}</svg>`;
+  return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><radialGradient id="g-${slug}${light ? '-l' : ''}" cx="${gx}" cy="${gy}" r="520" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="${light ? '#eef7d2' : '#1a2008'}"/><stop offset="1" stop-color="${light ? '#f2f2f5' : '#0b0c0e'}"/></radialGradient></defs><rect width="${W}" height="${H}" fill="url(#g-${slug}${light ? '-l' : ''})"/>${body}</svg>`;
 }
