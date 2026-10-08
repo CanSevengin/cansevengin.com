@@ -3,7 +3,7 @@
   Dark-tech language, Linear / x.ai restraint, one electric accent.
   Dials: VARIANCE 8 · MOTION 7 · DENSITY 4. Theme locked to dark (brand choice).
 */
-@import '@fontsource-variable/geist';
+@import '@fontsource-variable/inter/opsz.css';
 @import '@fontsource-variable/geist-mono';
 
 :root {
@@ -19,8 +19,9 @@
   --accent: #c8f031;
   --accent-ink: #0b0d05;
   --accent-soft: rgb(200 240 49 / 0.12);
-  --sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
-  --mono: 'Geist Mono Variable', ui-monospace, monospace;
+  /* SF Pro on Apple devices, Inter (optical sizes) everywhere else */
+  --sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter Variable', system-ui, sans-serif;
+  --mono: ui-monospace, 'SF Mono', 'Geist Mono Variable', monospace;
   --r: 14px;
   --r-pill: 999px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -36,7 +37,9 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font: 400 16px/1.6 var(--sans);
+  font: 400 17px/1.47 var(--sans);
+  letter-spacing: -0.022em;
+  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: clip;
