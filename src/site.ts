@@ -2,7 +2,7 @@ import { getCollection } from 'astro:content';
 
 export const SITE = {
   name: 'Can Sevengin',
-  title: 'Can Sevengin · AI, automation and the business of selling across borders',
+  title: 'Can Sevengin | Selling across borders, built with AI',
   description:
     'Notes on AI, automation, e-commerce and international trade from Can Sevengin, Istanbul.',
   email: 'hello@cansevengin.com',

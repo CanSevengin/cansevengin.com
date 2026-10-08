@@ -6,14 +6,15 @@ import { getPosts } from '../../site';
 const posts = await getPosts();
 ---
 <Base title="Writing" description="Essays and notes on AI, automation, e-commerce and international sales.">
-  <section class="wrap top">
-    <p class="eyebrow">Writing · {posts.length} posts</p>
-    <h1 class="serif">Notes on AI, automation and selling across borders.</h1>
+  <section class="container top">
+    <h1 data-reveal>Writing</h1>
+    <p class="lede" data-reveal style="--i:1">Practical notes on AI, automation, e-commerce and selling across borders. New essays twice a week.</p>
     <PostList posts={posts} />
   </section>
 </Base>
 
 <style>
-  .top { padding-top: 80px; }
-  h1 { font-size: clamp(2.2rem, 5.5vw, 3.8rem); line-height: 1.05; letter-spacing: -0.02em; margin: 20px 0 48px; max-width: 18ch; }
+  .top { padding-top: 88px; padding-bottom: 120px; }
+  h1 { margin: 0; font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 600; letter-spacing: -0.055em; line-height: 0.95; }
+  .lede { margin: 22px 0 56px; max-width: 36rem; color: var(--ink-2); font-size: 18px; }
 </style>

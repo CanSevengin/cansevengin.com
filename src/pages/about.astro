@@ -1,68 +1,91 @@
 ---
 import Base from '../layouts/Base.astro';
+import Cover from '../components/Cover.astro';
+import Icon from '../components/Icon.astro';
 import { SITE } from '../site';
 
 const timeline = [
-  { y: '2026 →', r: 'International Sales', o: 'Babyjem', d: 'Export, distributor development, international e-commerce and new market entry for a mother & baby brand sold in 65+ countries.' },
+  { y: '2026', r: 'International Sales', o: 'Babyjem', d: 'Export, distributor development, international e-commerce, Amazon and new market entry for a mother and baby brand sold in 65+ countries.' },
   { y: 'Ongoing', r: 'Founder', o: 'ASEAL', d: 'AI consulting, n8n automation, AI agents and data dashboards for Turkish SMEs.' },
   { y: '2022-2026', r: 'Marketing Manager', o: 'Düş Patikası', d: 'Brand, digital and performance marketing for a boutique tourism company.' },
-  { y: '2022-2023', r: 'E-commerce Manager', o: 'Andulife-Beowell', d: 'Marketplace and D2C growth in health and wellness.' },
-  { y: 'Earlier', r: 'Founder', o: "Solare Dijital & Can's Box Store", d: 'A digital marketing agency serving 80+ companies across 7 countries, and cross-border e-commerce into the US, UAE, Japan and Canada.' },
-  { y: '2019-2021', r: 'Digital Marketing', o: 'Getir', d: 'Growth marketing during one of Türkiye’s fastest scale-ups.' },
+  { y: '2022-2023', r: 'E-commerce Manager', o: 'Andulife-Beowell', d: 'Marketplace and direct-to-consumer growth in health and wellness.' },
+  { y: 'Earlier', r: 'Founder', o: "Solare Dijital and Can's Box Store", d: 'A digital marketing agency serving 80+ companies across 7 countries, plus cross-border e-commerce into the US, UAE, Japan and Canada.' },
+  { y: '2019-2021', r: 'Digital Marketing', o: 'Getir', d: 'Growth marketing inside one of Türkiye’s fastest-scaling startups.' },
 ];
 ---
 <Base title="About" description="Can Sevengin: international sales, e-commerce and AI automation, based in Istanbul.">
-  <section class="wrap top">
-    <p class="eyebrow">About</p>
-    <h1 class="serif">Sales person by trade, builder by habit.</h1>
-    <div class="cols">
-      <div class="prose measure">
+  <section class="container intro">
+    <div class="copy">
+      <h1 data-reveal>Sales by trade.<br /><span class="accent">Builder by habit.</span></h1>
+      <div class="text" data-reveal style="--i:1">
         <p>
-          I'm Can Sevengin, based in Istanbul. My work sits where three things meet: selling physical products
-          internationally, the marketing and e-commerce machinery behind it, and the AI and automation tools that
-          are quietly rewriting how small teams operate.
+          I’m Can Sevengin, based in Istanbul. My work sits where three things meet: selling physical products
+          internationally, the e-commerce and marketing machinery behind it, and the AI tools that are changing how small teams operate.
         </p>
         <p>
-          I've run Trendyol, Hepsiburada and N11 stores, managed Google and Meta ad budgets, launched cross-border
-          stores, and built automation systems for companies that couldn't afford a data team. Today I work on
-          export and distributor growth, and I keep building with AI on the side.
+          I’ve run Trendyol, Hepsiburada and N11 stores, managed Google and Meta ad budgets, launched cross-border stores
+          and built automation systems for companies that couldn’t afford a data team. Today I work on export and
+          distributor growth, and I keep building with AI on the side.
         </p>
-        <p>
-          I write here to think in public: practical notes on AI, automation and international commerce, without
-          the hype. If something here is useful to you, or you think I've got it wrong, I'd like to hear about it.
-        </p>
-        <p><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+        <p>I write here to think in public. If something is useful, or you think I got it wrong, tell me.</p>
       </div>
+      <div class="ctas" data-reveal style="--i:2">
+        <a class="btn btn-primary" href={`mailto:${SITE.email}`}>Email Me <Icon name="arrow-right" /></a>
+        <a class="btn" href="/blog/">Read the Writing</a>
+      </div>
+    </div>
+    <!-- TODO: replace with a portrait photo of Can (1200x1500, /public/can.jpg) -->
+    <div class="visual" data-reveal style="--i:1">
+      <Cover slug="can-sevengin-about" kind={1} class="vis-art" />
     </div>
   </section>
 
-  <section class="wrap">
-    <h2 class="serif sub">Path so far</h2>
+  <section class="container path">
+    <h2 data-reveal>The path so far</h2>
     <ol class="tl">
-      {timeline.map((t) => (
-        <li>
+      {timeline.map((t, i) => (
+        <li data-reveal style={`--i:${i % 3}`}>
           <span class="y">{t.y}</span>
-          <div>
-            <p class="r">{t.r} <span>· {t.o}</span></p>
-            <p class="d">{t.d}</p>
+          <span class="node" aria-hidden="true"></span>
+          <div class="item">
+            <h3>{t.r} <span>{t.o}</span></h3>
+            <p>{t.d}</p>
           </div>
         </li>
       ))}
     </ol>
-    <p class="edu">Business Administration, Anadolu University (2019)</p>
+    <p class="edu"><Icon name="graduation-cap" size={18} />Business Administration, Anadolu University, 2019</p>
   </section>
 </Base>
 
 <style>
-  .top { padding-top: 80px; }
-  h1 { font-size: clamp(2.4rem, 6vw, 4.2rem); line-height: 1.04; letter-spacing: -0.02em; margin: 20px 0 40px; max-width: 16ch; }
-  .sub { font-size: 2.2rem; margin: 96px 0 20px; }
-  .tl { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--rule); }
-  .tl li { display: grid; grid-template-columns: 140px 1fr; gap: 24px; padding: 22px 0; border-bottom: 1px solid var(--rule); }
-  .y { font: 13px var(--mono); color: var(--ink-3); padding-top: 4px; }
-  .r { margin: 0; font-weight: 600; }
-  .r span { font-weight: 400; color: var(--ink-2); }
-  .d { margin: 4px 0 0; color: var(--ink-2); font-size: 15.5px; max-width: 60ch; }
-  .edu { font: 13px var(--mono); color: var(--ink-3); margin-top: 22px; }
-  @media (max-width: 640px) { .tl li { grid-template-columns: 1fr; gap: 4px; } }
+  .intro { display: grid; grid-template-columns: 1.15fr 1fr; gap: 64px; align-items: center; padding-top: 72px; }
+  h1 { margin: 0; font-size: clamp(2.6rem, 5.6vw, 4.8rem); line-height: 1.02; letter-spacing: -0.045em; font-weight: 600; }
+  .text { margin-top: 30px; max-width: 38rem; color: var(--ink-2); font-size: 17.5px; line-height: 1.7; }
+  .text p { margin: 0; }
+  .text p + p { margin-top: 1.1em; }
+  .ctas { display: flex; gap: 12px; margin-top: 34px; flex-wrap: wrap; }
+  .visual :global(.vis-art) { aspect-ratio: 4 / 5; border-radius: 20px; border: 1px solid var(--line); }
+  @media (max-width: 900px) { .intro { grid-template-columns: 1fr; gap: 40px; } .visual { max-width: 420px; } }
+
+  .path { padding-top: 140px; padding-bottom: 120px; }
+  .path h2 { margin: 0 0 48px; font-size: clamp(2rem, 3.6vw, 3rem); letter-spacing: -0.035em; font-weight: 600; }
+  .tl { list-style: none; margin: 0; padding: 0; position: relative; }
+  .tl::before { content: ''; position: absolute; left: 150px; top: 8px; bottom: 8px; width: 1px; background: linear-gradient(var(--accent), var(--line) 40%); }
+  .tl li { display: grid; grid-template-columns: 130px 40px 1fr; align-items: start; padding-bottom: 40px; }
+  .y { font: 13px var(--mono); color: var(--ink-3); padding-top: 5px; text-align: right; padding-right: 0; }
+  .node { justify-self: center; margin-top: 7px; width: 11px; height: 11px; border-radius: 50%; background: var(--bg); border: 1.5px solid var(--ink-3); position: relative; left: 0; }
+  .tl li:first-child .node { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 5px var(--accent-soft); }
+  .item h3 { margin: 0; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; }
+  .item h3 span { color: var(--ink-3); font-weight: 500; margin-left: 8px; }
+  .item p { margin: 8px 0 0; color: var(--ink-2); max-width: 58ch; }
+  .edu { display: inline-flex; align-items: center; gap: 10px; margin: 8px 0 0; font: 13px var(--mono); color: var(--ink-3); }
+  .edu :global(svg) { color: var(--accent); }
+  @media (max-width: 640px) {
+    .tl::before { left: 5px; }
+    .tl li { grid-template-columns: 22px 1fr; grid-template-areas: 'node y' 'node item'; }
+    .y { grid-area: y; text-align: left; padding-top: 2px; }
+    .node { grid-area: node; justify-self: start; margin-top: 4px; }
+    .item { grid-area: item; margin-top: 6px; }
+  }
 </style>

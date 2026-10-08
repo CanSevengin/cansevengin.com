@@ -1,94 +1,346 @@
 ---
 import Base from '../layouts/Base.astro';
-import PostList from '../components/PostList.astro';
-import { getPosts } from '../site';
+import Globe from '../components/Globe.astro';
+import Cover from '../components/Cover.astro';
+import Icon from '../components/Icon.astro';
+import { getPosts, formatDate, readingTime, SITE } from '../site';
+import * as si from 'simple-icons';
 
-const posts = (await getPosts()).slice(0, 5);
-const themes = [
-  {
-    n: '01',
-    t: 'AI that does real work',
-    d: 'Agents, assistants and workflows judged by one test: does it save a team hours this week, or just look good in a demo?',
-  },
-  {
-    n: '02',
-    t: 'Automation for small teams',
-    d: 'n8n, APIs and plain spreadsheets. How a five-person company gets the operational leverage of a fifty-person one.',
-  },
-  {
-    n: '03',
-    t: 'Selling across borders',
-    d: 'Export, distributors, marketplaces and Amazon. What changes when the buyer is in another country and another language.',
-  },
+const posts = await getPosts();
+const [featured, ...rest] = posts;
+const more = rest.slice(0, 4);
+
+const tools = [
+  si.siN8n, si.siClaude, si.siVercel, si.siGithub, si.siGoogleads, si.siMeta,
+  si.siGoogleanalytics, si.siAstro, si.siGooglesheets, si.siMake, si.siZapier, si.siNotion,
+].map((i) => ({ name: i.title, path: i.path }));
+
+const stats = [
+  { n: 80, s: '+', t: 'companies served through my digital marketing agency' },
+  { n: 7, s: '', t: 'countries those clients were based in' },
+  { n: 65, s: '+', t: 'countries the brand I sell for ships to today' },
 ];
 ---
 <Base>
-  <section class="hero wrap">
-    <p class="eyebrow">Istanbul · International sales · AI & automation</p>
-    <h1 class="serif">
-      I help brands sell <em>across borders</em>, and build the AI systems that keep the machine running.
-    </h1>
-    <p class="lede measure">
-      I'm Can. I work in export and international sales, and I've spent the last decade on the other side
-      too: running e-commerce, performance marketing and an automation agency for small businesses.
-      This is where I write down what actually works.
-    </p>
-    <div class="actions">
-      <a href="/blog/" class="btn primary">Read the writing</a>
-      <a href="/about/" class="btn">More about me</a>
+  <!-- Hero: asymmetric split, live globe as the visual -->
+  <section class="hero container">
+    <div class="hero-copy">
+      <h1>
+        <span class="line" data-reveal style="--i:0">Selling across borders,</span>
+        <span class="line accent" data-reveal style="--i:1">built with AI.</span>
+      </h1>
+      <p class="sub" data-reveal style="--i:2">
+        I’m Can Sevengin. I grow international sales and build the AI systems that let small teams operate like big ones.
+      </p>
+      <div class="ctas" data-reveal style="--i:3">
+        <a href="/blog/" class="btn btn-primary">Read the Writing <Icon name="arrow-right" /></a>
+        <a href={`mailto:${SITE.email}`} class="btn">Email Me</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <Globe />
     </div>
   </section>
 
-  <section class="wrap"><div class="themes">
-    {themes.map((x) => (
-      <div class="theme">
-        <span class="n">{x.n}</span>
-        <h2>{x.t}</h2>
-        <p>{x.d}</p>
-      </div>
-    ))}
-  </div></section>
-
-  <section class="wrap latest">
-    <div class="head">
-      <h2 class="serif">Latest writing</h2>
-      <a href="/blog/">All posts →</a>
+  <!-- Tool marquee: the one marquee on the page -->
+  <section class="tools" aria-label="Tools I build with">
+    <p class="tools-h">Tools I build with</p>
+    <div class="marquee">
+      <ul class="track">
+        {[...tools, ...tools].map((t, i) => (
+          <li aria-hidden={i >= tools.length ? 'true' : undefined}>
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d={t.path} fill="currentColor" /></svg>
+            <span>{t.name}</span>
+          </li>
+        ))}
+      </ul>
     </div>
-    <PostList posts={posts} />
+  </section>
+
+  <!-- Bento: what I work on -->
+  <section class="container work">
+    <h2 class="h2" data-reveal>Three things I spend my time on.</h2>
+    <div class="bento">
+      <article class="cell big spot" data-reveal style="--i:0">
+        <Cover slug="ai-real-work" kind={3} class="cell-art" />
+        <div class="cell-body">
+          <Icon name="robot" size={22} class="ic" />
+          <h3>AI that does real work</h3>
+          <p>Agents and assistants judged by one test: does a team get hours back this week, or does it just demo well?</p>
+        </div>
+      </article>
+      <article class="cell spot" data-reveal style="--i:1">
+        <Cover slug="automation-small-teams" kind={2} class="cell-art short" />
+        <div class="cell-body">
+          <Icon name="flow-arrow" size={22} class="ic" />
+          <h3>Automation for small teams</h3>
+          <p>n8n, APIs and plain spreadsheets that give a five-person company real operational leverage.</p>
+        </div>
+      </article>
+      <article class="cell spot" data-reveal style="--i:2">
+        <Cover slug="selling-across-borders" kind={0} class="cell-art short" />
+        <div class="cell-body">
+          <Icon name="globe-hemisphere-east" size={22} class="ic" />
+          <h3>Selling across borders</h3>
+          <p>Export, distributors, marketplaces and Amazon. What changes when the buyer is in another country.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Proof: statement + numbers -->
+  <section class="container proof">
+    <p class="statement" data-reveal>
+      From marketplace listings to export deals, I’ve worked every layer of how products get sold. <span>Now I write down what actually works.</span>
+    </p>
+    <dl class="stats">
+      {stats.map((s, i) => (
+        <div class="stat" data-reveal style={`--i:${i}`}>
+          <dt class="num mono"><span data-count={s.n}>{s.n}</span>{s.s}</dt>
+          <dd>{s.t}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <!-- Writing: featured + list -->
+  <section class="container writing">
+    <div class="w-head">
+      <h2 class="h2">Latest writing</h2>
+      <a href="/blog/" class="more">All Posts <Icon name="arrow-right" size={16} /></a>
+    </div>
+    {!featured && (
+      <div class="empty">
+        <Icon name="pen-nib" size={22} class="ic" />
+        <p>The first essays are in review and land here soon. Subscribe via <a href="/rss.xml">RSS</a> to catch them.</p>
+      </div>
+    )}
+    {featured && (
+      <div class="w-grid">
+        <a href={`/blog/${featured.id}/`} class="feat spot" data-reveal>
+          <Cover slug={featured.id} class="feat-art" />
+          <div class="feat-body">
+            <p class="meta mono">{formatDate(featured.data.date)} / {readingTime(featured.body)} min{featured.data.draft && <span class="draft">Draft</span>}</p>
+            <h3>{featured.data.title}</h3>
+            <p class="desc">{featured.data.description}</p>
+          </div>
+        </a>
+        <ol class="w-list">
+          {more.map((p, i) => (
+            <li data-reveal style={`--i:${i}`}>
+              <a href={`/blog/${p.id}/`}>
+                <Cover slug={p.id} class="thumb" />
+                <span class="w-text">
+                  <span class="meta mono">{formatDate(p.data.date)}{p.data.draft && <span class="draft">Draft</span>}</span>
+                  <span class="w-title">{p.data.title}</span>
+                </span>
+                <Icon name="arrow-up-right" size={18} class="w-arrow" />
+              </a>
+            </li>
+          ))}
+        </ol>
+      </div>
+    )}
+  </section>
+
+  <!-- Closing CTA -->
+  <section class="container close">
+    <div class="close-in" data-reveal>
+      <div class="close-grid" aria-hidden="true"></div>
+      <h2>Building something that needs to sell across borders?</h2>
+      <p>I read every email. Tell me what you’re working on.</p>
+      <div class="ctas">
+        <a href={`mailto:${SITE.email}`} class="btn btn-primary">Email Me <Icon name="arrow-right" /></a>
+        <button type="button" class="btn copy" data-copy={SITE.email} aria-live="polite">
+          <Icon name="copy" size={16} /><span>{SITE.email}</span>
+        </button>
+      </div>
+    </div>
   </section>
 </Base>
 
+<script>
+  // Spotlight border follows the pointer (feedback on hover)
+  for (const el of document.querySelectorAll<HTMLElement>('.spot')) {
+    el.addEventListener('pointermove', (e) => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', `${e.clientX - r.left}px`);
+      el.style.setProperty('--my', `${e.clientY - r.top}px`);
+    });
+  }
+
+  // Count-up when stats enter view (draws the eye to the proof)
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        io.unobserve(e.target);
+        const el = e.target as HTMLElement, to = +el.dataset.count!, t0 = performance.now();
+        const step = (t: number) => {
+          const p = Math.min(1, (t - t0) / 1400), k = 1 - Math.pow(1 - p, 4);
+          el.textContent = String(Math.round(to * k));
+          if (p < 1) requestAnimationFrame(step);
+        };
+        el.textContent = '0';
+        requestAnimationFrame(step);
+      }
+    }, { threshold: 0.6 });
+    document.querySelectorAll('[data-count]').forEach((n) => io.observe(n));
+  }
+
+  // Copy email with confirmation
+  for (const b of document.querySelectorAll<HTMLButtonElement>('[data-copy]')) {
+    b.addEventListener('click', async () => {
+      const span = b.querySelector('span')!, orig = span.textContent;
+      try { await navigator.clipboard.writeText(b.dataset.copy!); span.textContent = 'Copied'; }
+      catch { span.textContent = 'Copy failed, select it manually'; }
+      b.classList.add('done');
+      setTimeout(() => { span.textContent = orig; b.classList.remove('done'); }, 1800);
+    });
+  }
+</script>
+
 <style>
-  .hero { padding: 96px 20px 72px; }
+  /* Hero */
+  .hero {
+    position: relative; isolation: isolate;
+    display: grid; grid-template-columns: 1.05fr 1fr; align-items: center; gap: 24px;
+    min-height: calc(100dvh - 68px); padding-top: 40px; padding-bottom: 40px;
+  }
   h1 {
-    font-size: clamp(2.6rem, 7vw, 5.2rem);
-    line-height: 1.02;
-    letter-spacing: -0.02em;
-    margin: 22px 0 28px;
-    max-width: 17ch;
+    margin: 0; font-weight: 600; letter-spacing: -0.045em; line-height: 1.04;
+    font-size: clamp(2.5rem, 4.6vw, 4.4rem);
   }
-  h1 em { color: var(--accent); }
-  .lede { font-size: 19px; color: var(--ink-2); margin: 0; }
-  .actions { display: flex; gap: 12px; margin-top: 34px; flex-wrap: wrap; }
-  .btn { padding: 11px 20px; border-radius: 999px; border: 1px solid var(--rule); text-decoration: none; font-size: 15px; font-weight: 500; }
-  .btn:hover { border-color: var(--ink); }
-  .btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-  .btn.primary:hover { background: var(--accent); border-color: var(--accent); }
-
-  .themes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 0; }
-  .theme { padding: 32px 28px 36px 0; }
-  .theme + .theme { padding-left: 28px; border-left: 1px solid var(--rule); }
-  .n { font: 13px var(--mono); color: var(--accent); }
-  .theme h2 { font: 400 1.7rem/1.15 var(--serif); margin: 14px 0 10px; }
-  .theme p { margin: 0; color: var(--ink-2); font-size: 15.5px; }
-  @media (max-width: 820px) {
-    .themes { grid-template-columns: 1fr; }
-    .theme, .theme + .theme { padding: 28px 0; border-left: 0; }
-    .theme + .theme { border-top: 1px solid var(--rule); }
+  .line { display: block; padding-bottom: 0.06em; }
+  @media (min-width: 901px) { .line { white-space: nowrap; } }
+  .sub { margin: 26px 0 0; max-width: 34rem; font-size: clamp(17px, 1.5vw, 19px); color: var(--ink-2); line-height: 1.55; }
+  .ctas { display: flex; gap: 12px; margin-top: 34px; flex-wrap: wrap; }
+  .hero::before {
+    content: ''; position: absolute; inset: 0 -40vw; z-index: -1; pointer-events: none;
+    background-image:
+      linear-gradient(rgb(214 220 228 / .045) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(214 220 228 / .045) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(60% 70% at 72% 50%, #000, transparent 75%);
+    -webkit-mask-image: radial-gradient(60% 70% at 72% 50%, #000, transparent 75%);
+  }
+  .hero-visual { position: relative; width: 100%; max-width: 700px; justify-self: end; }
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 56px; gap: 8px; }
+    .hero-visual { justify-self: center; max-width: 520px; margin-top: 8px; }
   }
 
-  .latest { margin-top: 96px; }
-  .head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px; }
-  .head h2 { font-size: 2.4rem; margin: 0; }
-  .head a { font-size: 15px; color: var(--ink-2); }
+  /* Marquee */
+  .tools { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 26px 0 28px; }
+  .tools-h { margin: 0 0 18px; text-align: center; color: var(--ink-3); font-size: 14px; }
+  .marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  }
+  .track { list-style: none; margin: 0; padding: 0; display: flex; gap: 56px; width: max-content; animation: slide 46s linear infinite; }
+  .marquee:hover .track, .marquee:focus-within .track { animation-play-state: paused; }
+  .track li { display: flex; align-items: center; gap: 12px; color: #8b929c; font-size: 15px; white-space: nowrap; }
+  @keyframes slide { to { transform: translateX(calc(-50% - 28px)); } }
+  @media (prefers-reduced-motion: reduce) {
+    .track { animation: none; flex-wrap: wrap; justify-content: center; width: auto; padding: 0 16px; }
+    .track li[aria-hidden] { display: none; }
+  }
+
+  /* Section heads */
+  .h2 { margin: 0; font-weight: 600; letter-spacing: -0.035em; line-height: 1.08; font-size: clamp(2rem, 3.6vw, 3rem); max-width: 18ch; }
+
+  /* Bento */
+  .work { padding-top: 140px; }
+  .bento { margin-top: 44px; display: grid; grid-template-columns: 1.35fr 1fr; grid-template-rows: auto auto; gap: 16px; }
+  .cell {
+    position: relative; overflow: hidden; border-radius: var(--r);
+    background: var(--bg-1); border: 1px solid var(--line);
+    display: flex; flex-direction: column;
+  }
+  .big { grid-row: span 2; }
+  .cell :global(.cell-art) { aspect-ratio: 16 / 10; border-bottom: 1px solid var(--line); }
+  .big :global(.cell-art) { flex: 1; aspect-ratio: auto; min-height: 280px; }
+  .cell :global(.cell-art.short) { aspect-ratio: 16 / 6; }
+  .cell-body { padding: 24px 26px 28px; }
+  .cell :global(.ic) { color: var(--accent); }
+  .cell h3 { margin: 14px 0 8px; font-size: 1.35rem; font-weight: 600; letter-spacing: -0.025em; }
+  .big h3 { font-size: 1.75rem; }
+  .cell p { margin: 0; color: var(--ink-2); font-size: 15.5px; max-width: 46ch; }
+  .cell:hover :global(svg) { transform: scale(1.04); }
+  @media (max-width: 820px) { .bento { grid-template-columns: 1fr; } .big { grid-row: auto; } .big :global(.cell-art) { min-height: 0; aspect-ratio: 16 / 10; } }
+
+  /* Spotlight border */
+  .spot::before {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px; z-index: 2; pointer-events: none;
+    background: radial-gradient(320px circle at var(--mx, -400px) var(--my, -400px), rgb(200 240 49 / 0.65), transparent 60%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0; transition: opacity .3s;
+  }
+  .spot:hover::before { opacity: 1; }
+
+  /* Proof */
+  .proof { padding-top: 140px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: start; }
+  .statement { margin: 0; font-size: clamp(1.6rem, 2.8vw, 2.35rem); line-height: 1.22; letter-spacing: -0.03em; font-weight: 500; max-width: 24ch; }
+  .statement span { color: var(--ink-3); }
+  .stats { margin: 0; display: grid; gap: 30px; }
+  .stat { display: grid; grid-template-columns: 140px 1fr; gap: 20px; align-items: baseline; padding-top: 20px; border-top: 1px solid var(--line); }
+  .num { margin: 0; font-size: clamp(2.4rem, 4vw, 3.4rem); font-weight: 500; letter-spacing: -0.04em; color: var(--accent); font-variant-numeric: tabular-nums; line-height: 1; }
+  .stat dd { margin: 0; color: var(--ink-2); font-size: 15.5px; }
+  @media (max-width: 860px) { .proof { grid-template-columns: 1fr; gap: 40px; } .stat { grid-template-columns: 110px 1fr; } }
+
+  /* Writing */
+  .writing { padding-top: 140px; }
+  .w-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 40px; }
+  .more { display: inline-flex; align-items: center; gap: 8px; color: var(--ink-2); text-decoration: none; font-size: 15px; white-space: nowrap; }
+  .more:hover { color: var(--accent); }
+  .w-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 32px; align-items: start; }
+  .feat { position: relative; display: block; text-decoration: none; border-radius: var(--r); overflow: hidden; border: 1px solid var(--line); background: var(--bg-1); }
+  .feat :global(.feat-art) { aspect-ratio: 16 / 10; }
+  .feat:hover :global(svg) { transform: scale(1.04); }
+  .feat-body { padding: 24px 26px 28px; }
+  .feat h3 { margin: 10px 0 10px; font-size: clamp(1.5rem, 2.4vw, 2rem); line-height: 1.15; letter-spacing: -0.03em; font-weight: 600; }
+  .feat:hover h3 { color: var(--accent); }
+  .desc { margin: 0; color: var(--ink-2); }
+  .meta { margin: 0; font-size: 12.5px; color: var(--ink-3); display: inline-flex; align-items: center; gap: 10px; }
+  .draft { font: 500 10.5px var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--accent); border: 1px solid rgb(200 240 49 / .5); border-radius: 6px; padding: 2px 6px; }
+  .w-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .w-list a {
+    display: grid; grid-template-columns: 112px 1fr 20px; gap: 18px; align-items: center;
+    padding: 12px; border-radius: var(--r); text-decoration: none; border: 1px solid transparent;
+    transition: background-color .25s, border-color .25s;
+  }
+  .w-list a:hover { background: var(--bg-1); border-color: var(--line); }
+  .w-list :global(.thumb) { aspect-ratio: 4 / 3; border-radius: 10px; }
+  .w-text { display: grid; gap: 6px; }
+  .w-title { font-size: 1.08rem; font-weight: 500; line-height: 1.3; letter-spacing: -0.015em; }
+  .w-list :global(.w-arrow) { color: var(--ink-3); transition: transform .3s var(--ease), color .3s; }
+  .w-list a:hover :global(.w-arrow) { color: var(--accent); transform: translate(2px, -2px); }
+  .empty { display: flex; gap: 14px; align-items: center; padding: 28px; border: 1px dashed var(--line-2); border-radius: var(--r); color: var(--ink-2); }
+  .empty p { margin: 0; }
+  .empty :global(.ic) { color: var(--accent); flex: none; }
+  @media (max-width: 900px) { .w-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 480px) { .w-list a { grid-template-columns: 84px 1fr; } .w-list :global(.w-arrow) { display: none; } }
+
+  /* Close */
+  .close { padding-top: 140px; padding-bottom: 120px; }
+  .close-in {
+    position: relative; overflow: hidden; border-radius: 20px; border: 1px solid var(--line);
+    padding: clamp(40px, 7vw, 88px) clamp(24px, 6vw, 72px);
+    background: radial-gradient(120% 140% at 100% 0%, rgb(200 240 49 / 0.10), transparent 55%), var(--bg-1);
+  }
+  .close-grid {
+    position: absolute; inset: 0; pointer-events: none; opacity: .5;
+    background-image: radial-gradient(rgb(214 220 228 / .18) 1px, transparent 1px);
+    background-size: 22px 22px;
+    mask-image: radial-gradient(80% 90% at 100% 0%, #000, transparent 70%);
+    -webkit-mask-image: radial-gradient(80% 90% at 100% 0%, #000, transparent 70%);
+  }
+  .close h2 { position: relative; margin: 0; max-width: 18ch; font-size: clamp(2rem, 4.4vw, 3.6rem); line-height: 1.04; letter-spacing: -0.04em; font-weight: 600; }
+  .close p { position: relative; margin: 18px 0 0; color: var(--ink-2); font-size: 18px; }
+  .close .ctas { position: relative; }
+  .copy { font-family: var(--mono); font-size: 14px; }
+  .copy.done { border-color: var(--accent); color: var(--accent); }
 </style>

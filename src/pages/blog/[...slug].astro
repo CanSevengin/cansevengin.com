@@ -1,56 +1,146 @@
 ---
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import Cover from '../../components/Cover.astro';
+import Icon from '../../components/Icon.astro';
 import { getPosts, formatDate, readingTime, SITE } from '../../site';
 
 export async function getStaticPaths() {
   const posts = await getPosts();
   return posts.map((post, i) => ({
     params: { slug: post.id },
-    props: { post, next: posts[i + 1] ?? null },
+    props: { post, next: posts[i + 1] ?? posts[0] ?? null },
   }));
 }
 
 const { post, next } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 const { title, description, date, tags, draft } = post.data;
+const toc = headings.filter((h) => h.depth === 2);
+const nextPost = next && next.id !== post.id ? next : null;
 ---
 <Base title={title} description={description} type="article">
-  <article class="wrap">
-    <header class="ph">
-      <p class="eyebrow">
-        {formatDate(date)} · {readingTime(post.body)} min read
-        {tags.length > 0 && <> · {tags.join(', ')}</>}
+  <div class="progress" aria-hidden="true"></div>
+
+  <article>
+    <header class="container ph">
+      <a href="/blog/" class="back"><Icon name="arrow-left" size={16} />All Writing</a>
+      <p class="meta" data-reveal>
+        <span>{formatDate(date)}</span>
+        <span>{readingTime(post.body)} min read</span>
+        {draft && <span class="draft">Draft, preview only</span>}
       </p>
-      <h1 class="serif">{title}</h1>
-      <p class="dek">{description}</p>
-      {draft && <p class="draft">Draft · only visible in preview</p>}
+      <h1 data-reveal style="--i:1">{title}</h1>
+      <p class="dek" data-reveal style="--i:2">{description}</p>
     </header>
-    <div class="prose measure body">
-      <Content />
+
+    <div class="container">
+      <Cover slug={post.id} class="hero-art" />
     </div>
-    <footer class="pf measure">
-      <p>
-        Thoughts or pushback? Write to me at <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
-      </p>
-      {next && (
-        <a class="next" href={`/blog/${next.id}/`}>
-          <span class="eyebrow">Previous post</span>
-          <span class="serif">{next.data.title}</span>
+
+    <div class="container layout">
+      <aside class="side">
+        {toc.length > 0 && (
+          <nav aria-label="On this page" class="toc">
+            <p>On this page</p>
+            <ol>{toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+          </nav>
+        )}
+        {tags.length > 0 && <ul class="tags">{tags.map((t) => <li>{t}</li>)}</ul>}
+      </aside>
+
+      <div class="prose body">
+        <Content />
+        <div class="end">
+          <p>Thoughts, pushback or a project in mind? I read every email.</p>
+          <div class="end-ctas">
+            <a class="btn btn-primary" href={`mailto:${SITE.email}?subject=${encodeURIComponent('Re: ' + title)}`}>Email Me <Icon name="arrow-right" /></a>
+            <button type="button" class="btn" data-share aria-live="polite"><Icon name="link" size={16} /><span>Copy Link</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {nextPost && (
+      <div class="container">
+        <a class="next" href={`/blog/${nextPost.id}/`}>
+          <Cover slug={nextPost.id} class="next-art" />
+          <span class="next-body">
+            <span class="next-k">Read next</span>
+            <span class="next-t">{nextPost.data.title}</span>
+          </span>
+          <Icon name="arrow-right" size={22} class="next-ic" />
         </a>
-      )}
-    </footer>
+      </div>
+    )}
   </article>
 </Base>
 
+<script>
+  for (const b of document.querySelectorAll<HTMLButtonElement>('[data-share]')) {
+    b.addEventListener('click', async () => {
+      const span = b.querySelector('span')!;
+      try { await navigator.clipboard.writeText(location.href); span.textContent = 'Link Copied'; }
+      catch { span.textContent = 'Copy failed'; }
+      setTimeout(() => (span.textContent = 'Copy Link'), 1800);
+    });
+  }
+</script>
+
 <style>
-  .ph { padding: 80px 0 44px; max-width: 50rem; }
-  h1 { font-size: clamp(2.3rem, 5.5vw, 3.9rem); line-height: 1.05; letter-spacing: -0.02em; margin: 20px 0 20px; }
-  .dek { font-size: 20px; color: var(--ink-2); margin: 0; max-width: 40rem; }
-  .draft { display: inline-block; margin-top: 18px; font: 500 12px var(--mono); color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 4px 8px; text-transform: uppercase; letter-spacing: .06em; }
-  .body { border-top: 1px solid var(--rule); padding-top: 36px; }
-  .pf { margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--rule); color: var(--ink-2); }
-  .next { display: block; margin-top: 28px; text-decoration: none; }
-  .next .serif { display: block; font-size: 1.7rem; line-height: 1.2; margin-top: 8px; color: var(--ink); }
-  .next:hover .serif { color: var(--accent); }
+  /* Reading progress, CSS scroll-driven (no JS, no scroll listeners) */
+  .progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 60; background: var(--accent); transform-origin: 0 50%; transform: scaleX(0); }
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .progress { animation: grow linear both; animation-timeline: scroll(root); }
+    }
+  }
+  @keyframes grow { to { transform: scaleX(1); } }
+
+  .ph { padding-top: 64px; padding-bottom: 44px; }
+  .back { display: inline-flex; align-items: center; gap: 8px; color: var(--ink-3); text-decoration: none; font-size: 14px; margin-bottom: 36px; }
+  .back:hover { color: var(--accent); }
+  .meta { margin: 0; display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; font: 13px var(--mono); color: var(--ink-3); }
+  .draft { font: 500 10.5px var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--accent); border: 1px solid rgb(200 240 49 / .5); border-radius: 6px; padding: 3px 7px; }
+  h1 { margin: 18px 0 0; max-width: 20ch; font-size: clamp(2.3rem, 5.4vw, 4.4rem); line-height: 1.02; letter-spacing: -0.045em; font-weight: 600; }
+  .dek { margin: 22px 0 0; max-width: 40rem; font-size: clamp(18px, 1.6vw, 21px); color: var(--ink-2); }
+  .container :global(.hero-art) { aspect-ratio: 21 / 8; border-radius: 18px; border: 1px solid var(--line); }
+
+  .layout { display: grid; grid-template-columns: 220px minmax(0, 42rem); gap: 72px; padding-top: 64px; justify-content: center; }
+  .side { position: sticky; top: 100px; align-self: start; }
+  .toc p { margin: 0 0 14px; font: 500 12px var(--mono); color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; border-left: 1px solid var(--line); }
+  .toc a { display: block; padding-left: 14px; margin-left: -1px; border-left: 1px solid transparent; color: var(--ink-3); text-decoration: none; font-size: 14px; line-height: 1.4; }
+  .toc a:hover { color: var(--ink); border-left-color: var(--accent); }
+  .tags { list-style: none; margin: 32px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tags li { font: 12px var(--mono); color: var(--ink-2); border: 1px solid var(--line-2); border-radius: var(--r-pill); padding: 4px 10px; }
+
+  .end { margin-top: 64px !important; padding-top: 32px; border-top: 1px solid var(--line); }
+  .end p { margin: 0; color: var(--ink); font-size: 18px; }
+  .end-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+
+  .next {
+    margin: 96px 0 120px; display: grid; grid-template-columns: 220px 1fr auto; gap: 28px; align-items: center;
+    padding: 14px; padding-right: 28px; border: 1px solid var(--line); border-radius: 18px; background: var(--bg-1); text-decoration: none;
+    transition: border-color .3s;
+  }
+  .next:hover { border-color: var(--line-2); }
+  .next :global(.next-art) { aspect-ratio: 16 / 10; border-radius: 10px; }
+  .next-body { display: grid; gap: 8px; }
+  .next-k { font: 12.5px var(--mono); color: var(--ink-3); }
+  .next-t { font-size: clamp(1.3rem, 2.4vw, 1.9rem); font-weight: 600; letter-spacing: -0.03em; line-height: 1.15; }
+  .next:hover .next-t { color: var(--accent); }
+  .next :global(.next-ic) { color: var(--ink-3); transition: transform .3s var(--ease), color .3s; }
+  .next:hover :global(.next-ic) { color: var(--accent); transform: translateX(4px); }
+
+  @media (max-width: 960px) {
+    .layout { grid-template-columns: 1fr; gap: 0; padding-top: 44px; }
+    .side { position: static; display: none; }
+    .container :global(.hero-art) { aspect-ratio: 16 / 9; }
+  }
+  @media (max-width: 640px) {
+    .next { grid-template-columns: 1fr; padding: 12px 12px 22px; }
+    .next-body { padding: 0 8px; }
+    .next :global(.next-ic) { display: none; }
+  }
 </style>

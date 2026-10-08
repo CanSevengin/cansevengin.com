@@ -1,0 +1,11 @@
+---
+import { coverSvg } from '../lib/cover';
+interface Props { slug: string; kind?: number; class?: string }
+const { slug, kind, class: cls } = Astro.props;
+---
+<div class:list={['cover', cls]} set:html={coverSvg(slug, kind)} />
+
+<style>
+  .cover { position: relative; overflow: hidden; background: var(--bg-1); }
+  .cover :global(svg) { width: 100%; height: 100%; transition: transform 1.2s var(--ease); }
+</style>

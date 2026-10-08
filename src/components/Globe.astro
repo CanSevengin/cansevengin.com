@@ -1,0 +1,193 @@
+---
+// Live canvas globe: real land lattice (Natural Earth via world-atlas), great-circle trade routes out of Istanbul.
+// Drag to rotate. Pauses offscreen. Static under prefers-reduced-motion.
+---
+<div class="globe" data-globe>
+  <canvas aria-label="Rotating globe with trade routes radiating from Istanbul" role="img"></canvas>
+  <div class="halo" aria-hidden="true"></div>
+</div>
+
+<script>
+  import dots from '../data/land-dots.json';
+
+  const HUB: [number, number] = [28.98, 41.01];
+  const ROUTES: [number, number][] = [
+    [-0.13, 51.5], [13.4, 52.52], [19.04, 47.5], [55.3, 25.2], [47.98, 29.37],
+    [46.7, 24.7], [31.24, 30.04], [3.38, 6.52], [-74.0, 40.71], [-99.13, 19.43],
+    [139.7, 35.68], [151.2, -33.87], [72.88, 19.08], [-46.63, -23.55],
+  ];
+  const D2R = Math.PI / 180;
+  const toVec = ([lon, lat]: [number, number]) => {
+    const la = lat * D2R, lo = lon * D2R;
+    return [Math.cos(la) * Math.sin(lo), Math.sin(la), Math.cos(la) * Math.cos(lo)];
+  };
+
+  function slerp(a: number[], b: number[], t: number) {
+    const dot = Math.min(1, Math.max(-1, a[0] * b[0] + a[1] * b[1] + a[2] * b[2]));
+    const om = Math.acos(dot), s = Math.sin(om) || 1;
+    const k1 = Math.sin((1 - t) * om) / s, k2 = Math.sin(t * om) / s;
+    return [a[0] * k1 + b[0] * k2, a[1] * k1 + b[1] * k2, a[2] * k1 + b[2] * k2];
+  }
+
+  // Precompute arcs as lists of unit vectors (lifted) in globe space (lon not yet rotated)
+  const hubV = toVec(HUB);
+  const arcs = ROUTES.map((r, i) => {
+    const b = toVec(r);
+    const dist = Math.acos(hubV[0] * b[0] + hubV[1] * b[1] + hubV[2] * b[2]);
+    const lift = 0.03 + dist * 0.07;
+    const pts: number[][] = [];
+    const N = 64;
+    for (let s = 0; s <= N; s++) {
+      const t = s / N, v = slerp(hubV, b, t), h = 1 + lift * Math.sin(Math.PI * t);
+      pts.push([v[0] * h, v[1] * h, v[2] * h]);
+    }
+    return { pts, end: b, speed: 0.08 + (i % 5) * 0.018, offset: (i * 0.37) % 1 };
+  });
+  const land = (dots as [number, number][]).map(toVec);
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-globe]')) {
+    const canvas = root.querySelector('canvas')!;
+    const ctx = canvas.getContext('2d')!;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let W = 0, H = 0, R = 0, cx = 0, cy = 0, dpr = 1;
+    let rot = -HUB[0] * D2R + 0.35; // start with Istanbul slightly right of centre
+    const tilt = 24 * D2R;
+    const cosT = Math.cos(tilt), sinT = Math.sin(tilt);
+    let vel = 0, dragging = false, lastX = 0, visible = true, raf = 0, last = performance.now();
+
+    const resize = () => {
+      const r = canvas.getBoundingClientRect();
+      dpr = Math.min(devicePixelRatio || 1, 2);
+      W = r.width; H = r.height;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      R = Math.min(W, H) * 0.44; cx = W / 2; cy = H / 2;
+      if (reduce) draw(0);
+    };
+
+    // rotate around Y by rot, then tilt around X
+    const proj = (v: number[], cr: number, sr: number) => {
+      const x = v[0] * cr + v[2] * sr;
+      const z0 = -v[0] * sr + v[2] * cr;
+      const y = v[1] * cosT - z0 * sinT;
+      const z = v[1] * sinT + z0 * cosT;
+      return [cx + x * R, cy - y * R, z];
+    };
+
+    function draw(t: number) {
+      ctx.clearRect(0, 0, W, H);
+      const cr = Math.cos(rot), sr = Math.sin(rot);
+
+      // sphere body
+      const g = ctx.createRadialGradient(cx - R * 0.35, cy - R * 0.4, R * 0.1, cx, cy, R);
+      g.addColorStop(0, '#15191e'); g.addColorStop(1, '#090a0c');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = 'rgba(200,240,49,0.18)'; ctx.lineWidth = 1; ctx.stroke();
+
+      // land lattice
+      for (let i = 0; i < land.length; i++) {
+        const p = proj(land[i], cr, sr);
+        if (p[2] <= 0) continue;
+        const a = 0.12 + p[2] * 0.6;
+        ctx.fillStyle = `rgba(214,220,228,${a})`;
+        const s = 0.6 + p[2] * 1.05;
+        ctx.fillRect(p[0] - s / 2, p[1] - s / 2, s, s);
+      }
+
+      // routes
+      for (const arc of arcs) {
+        const P = arc.pts.map((v) => proj(v, cr, sr));
+        const onDisc = (p: number[]) => p[2] > 0 || (p[0] - cx) ** 2 + (p[1] - cy) ** 2 > R * R;
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = 'rgba(200,240,49,0.22)';
+        ctx.beginPath();
+        let pen = false;
+        for (const p of P) {
+          if (onDisc(p)) { pen ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]); pen = true; } else pen = false;
+        }
+        ctx.stroke();
+
+        // travelling pulse
+        const head = reduce ? 0.6 : ((t / 1000) * arc.speed + arc.offset) % 1;
+        const hi = Math.floor(head * (P.length - 1));
+        const tail = Math.max(0, hi - 14);
+        for (let k = tail; k < hi; k++) {
+          const a = P[k], b = P[k + 1];
+          if (!onDisc(a) || !onDisc(b)) continue;
+          ctx.strokeStyle = `rgba(200,240,49,${((k - tail) / 14) * 0.95})`;
+          ctx.lineWidth = 1.6;
+          ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+        }
+        const hp = P[hi];
+        if (hp && onDisc(hp)) {
+          ctx.fillStyle = '#e6ff8a';
+          ctx.beginPath(); ctx.arc(hp[0], hp[1], 2, 0, Math.PI * 2); ctx.fill();
+        }
+        // destination marker
+        const e = proj(arc.end, cr, sr);
+        if (e[2] > 0) {
+          ctx.fillStyle = 'rgba(200,240,49,0.9)';
+          ctx.beginPath(); ctx.arc(e[0], e[1], 1.8, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+
+      // hub
+      const h = proj(hubV, cr, sr);
+      if (h[2] > 0) {
+        const pulse = reduce ? 0.5 : (t / 1600) % 1;
+        ctx.strokeStyle = `rgba(200,240,49,${0.7 * (1 - pulse)})`;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.arc(h[0], h[1], 4 + pulse * 18, 0, Math.PI * 2); ctx.stroke();
+        ctx.fillStyle = '#c8f031';
+        ctx.beginPath(); ctx.arc(h[0], h[1], 3.4, 0, Math.PI * 2); ctx.fill();
+        ctx.font = '500 11px "Geist Mono Variable", ui-monospace, monospace';
+        ctx.fillStyle = 'rgba(241,243,245,0.9)';
+        ctx.fillText('IST', h[0] + 9, h[1] - 8);
+      }
+    }
+
+    const loop = (now: number) => {
+      const dt = Math.min(48, now - last); last = now;
+      if (!dragging) { vel += (0.00011 - vel) * 0.04; rot += vel * dt; }
+      draw(now);
+      raf = visible ? requestAnimationFrame(loop) : 0;
+    };
+
+    canvas.addEventListener('pointerdown', (e) => {
+      dragging = true; lastX = e.clientX; canvas.setPointerCapture(e.pointerId); root.classList.add('drag');
+    });
+    canvas.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - lastX; lastX = e.clientX;
+      rot += dx * 0.006; vel = dx * 0.0004;
+      if (reduce) draw(0);
+    });
+    const end = () => { dragging = false; root.classList.remove('drag'); };
+    canvas.addEventListener('pointerup', end);
+    canvas.addEventListener('pointercancel', end);
+
+    new ResizeObserver(resize).observe(canvas);
+    resize();
+    if (!reduce) {
+      new IntersectionObserver(([e]) => {
+        visible = e.isIntersecting;
+        if (visible && !raf) { last = performance.now(); raf = requestAnimationFrame(loop); }
+      }).observe(root);
+      document.addEventListener('visibilitychange', () => { visible = !document.hidden; if (visible && !raf) raf = requestAnimationFrame(loop); });
+    }
+    document.fonts?.ready.then(() => reduce && draw(0));
+    root.classList.add('ready');
+  }
+</script>
+
+<style>
+  .globe { position: relative; aspect-ratio: 1; width: 100%; opacity: 0; transition: opacity 1.4s var(--ease); }
+  .globe.ready { opacity: 1; }
+  canvas { position: relative; z-index: 1; width: 100%; height: 100%; cursor: grab; touch-action: pan-y; }
+  .globe.drag canvas { cursor: grabbing; }
+  .halo {
+    position: absolute; inset: 6%; border-radius: 50%; z-index: 0;
+    background: radial-gradient(circle at 50% 50%, rgb(200 240 49 / 0.10), transparent 62%);
+    filter: blur(20px);
+  }
+</style>
