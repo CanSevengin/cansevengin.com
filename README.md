@@ -41,3 +41,10 @@ Site name, email and LinkedIn URL live in `src/site.ts`.
 - English, professional, plain language. No hype.
 - No em dashes between clauses.
 - No invented statistics, quotes or client stories. Facts that matter get checked against a source.
+
+## Languages and topics (since 8 Oct 2026)
+
+- Every note exists in English (`src/content/blog/<slug>.md`, served at `/blog/<slug>/`) and Turkish (`src/content/blog/tr/<slug>.md`, served at `/tr/blog/<slug>/`, frontmatter `lang: tr`). Same slug, same date and category in both.
+- `category` is one of `ai`, `tech`, `work`, `fatherhood`, `life` (labels, slugs and photos live in `src/lib/categories.ts`). Topic pages: `/blog/topic/<slug>/` and `/tr/blog/topic/<tr-slug>/`.
+- Pages are thin wrappers around language-aware views in `src/views/`; shared UI strings are in `src/site.ts` (`UI`).
+- Fatherhood notes are research-based and never include details about the family.

@@ -1,0 +1,9 @@
+---
+import Notes from '../../../views/Notes.astro';
+import { CATEGORIES, CATEGORY_ORDER } from '../../../lib/categories';
+export function getStaticPaths() {
+  return CATEGORY_ORDER.map((k) => ({ params: { topic: CATEGORIES[k].en.slug }, props: { category: k } }));
+}
+const { category } = Astro.props;
+---
+<Notes lang="en" category={category} />

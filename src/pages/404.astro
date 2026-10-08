@@ -2,16 +2,22 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 ---
-<Base title="Not found">
+<Base title="Not found" alt={false}>
   <section class="container nf">
-    <p class="code mono">404</p>
-    <h1>This route doesn’t exist.</h1>
-    <a class="btn btn-primary" href="/">Back to Home <Icon name="arrow-right" /></a>
+    <p class="code">404</p>
+    <h1>This page doesn’t exist.</h1>
+    <p class="tr" lang="tr">Aradığın sayfa burada değil.</p>
+    <div class="ctas">
+      <a class="btn btn-primary" href="/">Back to Home <Icon name="arrow-right" /></a>
+      <a class="btn" href="/tr/" lang="tr">Ana Sayfaya Dön</a>
+    </div>
   </section>
 </Base>
 
 <style>
-  .nf { min-height: 70dvh; display: grid; place-content: center; justify-items: start; gap: 22px; padding-top: 40px; padding-bottom: 80px; }
-  .code { margin: 0; font-size: clamp(5rem, 16vw, 11rem); line-height: 0.9; color: var(--accent); letter-spacing: -0.04em; }
+  .nf { min-height: 70dvh; display: grid; place-content: center; justify-items: start; gap: 18px; padding-top: 40px; padding-bottom: 80px; }
+  .code { margin: 0; font-size: clamp(5rem, 16vw, 11rem); font-weight: 650; line-height: 0.9; color: var(--accent); letter-spacing: -0.04em; }
   h1 { margin: 0; font-size: clamp(1.8rem, 4vw, 2.8rem); letter-spacing: -0.035em; font-weight: 650; }
+  .tr { margin: 0; color: var(--ink-2); font-size: 19px; }
+  .ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
 </style>

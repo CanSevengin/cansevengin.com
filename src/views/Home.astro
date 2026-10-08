@@ -1,0 +1,510 @@
+---
+import Base from '../layouts/Base.astro';
+import Globe from '../components/Globe.astro';
+import Cover from '../components/Cover.astro';
+import Icon from '../components/Icon.astro';
+import Photo from '../components/Photo.astro';
+import { getPosts, formatDate, readingTime, SITE, UI, lp, postUrl, slugOf, type Lang } from '../site';
+import { CATEGORIES, CATEGORY_ORDER } from '../lib/categories';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const u = UI[lang];
+const all = await getPosts(lang);
+const posts = all.slice(0, 8);
+const count = (k: string) => all.filter((p) => p.data.category === k).length;
+
+const T = {
+  en: {
+    h1a: 'Selling across borders.', h1b: 'Building with AI.',
+    lede: 'I’m Can. I work on international sales at Babyjem and spend my spare time building with AI. Here I write about work, tech, fatherhood and life.',
+    cta: 'Read the Notes', about: 'About me',
+    capK: 'One origin.', capT: 'Routes everywhere.',
+    statementLabel: 'Statement',
+    statement: 'I’ve spent my career on how products get sold. These days I’m also a dad, a tinkerer and a curious buyer of gadgets. This is where I keep notes on all of it.',
+    portraitAlt: 'Can Sevengin at his desk with a laptop, an AI visual on the screen behind him',
+    pcK: 'Hi, I’m Can.', pcT: 'International sales at Babyjem by day. Building with AI the rest of the time.', pcBtn: 'More About Me',
+    nowH: 'Now.', nowDate: 'Updated October 2026', nowLink: 'See what I’m building',
+    now: [
+      { k: 'Work', t: 'International sales at Babyjem, a Turkish mother and baby brand sold in 65+ countries. Distributors, marketplaces, trade fairs and new markets.', photo: 'fair' },
+      { k: 'Building', t: 'Ghostline: a Claude agent that keeps a personal site alive, in your voice. This site is its first user.', href: '/build/', photo: 'aiHands' },
+      { k: 'At home', t: 'Dad. The fatherhood notes here are what I’m learning, checked against research, not guesswork.', photo: 'babyHand' },
+      { k: 'Based in', t: 'Istanbul. Travelling a few times a year for fairs and customer visits.', photo: 'istanbulDay' },
+    ],
+    topicsH: 'Something for everyone.', topicsS: 'Pick a topic. Some notes are about work, some are about life.',
+    bandK: 'From Istanbul', bandT: 'to the rest of the world.', bandS: 'Distributors, marketplaces and trade fairs, one country at a time.',
+    latest: 'Latest notes.', prev: 'Previous notes', next: 'Next notes',
+    empty: 'The first notes land here soon.',
+    closeH: 'Say hi.', closeP: 'Thoughts on something I wrote, or just want to talk shop? My inbox is open.', write: 'Write to Me',
+  },
+  tr: {
+    h1a: 'Sınırların ötesine satış.', h1b: 'Yapay zekayla üretim.',
+    lede: 'Ben Can. Babyjem’de uluslararası satış tarafında çalışıyorum, boş zamanlarımda yapay zekayla bir şeyler geliştiriyorum. Burada iş, teknoloji, babalık ve hayat üzerine yazıyorum.',
+    cta: 'Notları Oku', about: 'Hakkımda',
+    capK: 'Tek bir çıkış noktası.', capT: 'Her yöne rotalar.',
+    statementLabel: 'Kısaca',
+    statement: 'Kariyerim boyunca ürünlerin nasıl satıldığıyla uğraştım. Artık bir babayım, kurcalamayı seven biriyim ve yeni cihazlara meraklı bir alıcıyım. Hepsine dair notlarımı burada tutuyorum.',
+    portraitAlt: 'Can Sevengin masasında dizüstü bilgisayarıyla, arkasındaki ekranda bir yapay zeka görseli',
+    pcK: 'Merhaba, ben Can.', pcT: 'Gündüzleri Babyjem’de uluslararası satış. Geri kalan zamanda yapay zekayla üretmek.', pcBtn: 'Beni Daha Yakından Tanı',
+    nowH: 'Şimdi.', nowDate: 'Ekim 2026’da güncellendi', nowLink: 'Neler geliştirdiğime bak',
+    now: [
+      { k: 'İş', t: 'Babyjem’de uluslararası satış: 65’ten fazla ülkede satılan bir Türk anne ve bebek markası. Distribütörler, pazaryerleri, fuarlar ve yeni pazarlar.', photo: 'fair' },
+      { k: 'Geliştiriyorum', t: 'Ghostline: kişisel bir siteyi senin sesinle canlı tutan bir Claude ajanı. Bu site ilk kullanıcısı.', href: '/build/', photo: 'aiHands' },
+      { k: 'Evde', t: 'Babayım. Buradaki babalık notları, tahmine değil araştırmaya dayanarak öğrendiklerim.', photo: 'babyHand' },
+      { k: 'Yaşadığım yer', t: 'İstanbul. Yılda birkaç kez fuarlar ve müşteri ziyaretleri için yoldayım.', photo: 'istanbulDay' },
+    ],
+    topicsH: 'Herkese bir şey var.', topicsS: 'Bir konu seç. Notların bir kısmı iş, bir kısmı hayat üzerine.',
+    bandK: 'İstanbul’dan', bandT: 'dünyanın geri kalanına.', bandS: 'Distribütörler, pazaryerleri ve fuarlar, her seferinde bir ülke.',
+    latest: 'Son notlar.', prev: 'Önceki notlar', next: 'Sonraki notlar',
+    empty: 'İlk notlar çok yakında burada.',
+    closeH: 'Bir merhaba yaz.', closeP: 'Yazdığım bir şey hakkında düşüncen mi var, ya da sadece sohbet mi etmek istiyorsun? Gelen kutum açık.', write: 'Bana Yaz',
+  },
+} as const;
+const t = T[lang];
+const words = t.statement.split(' ');
+---
+<Base lang={lang}>
+  <!-- 1. Hero: pinned. Headline recedes, globe rises and fills the screen -->
+  <section class="hero" data-hero>
+    <div class="hero-stage">
+      <div class="hero-copy" data-hero-copy>
+        <h1>
+          <span class="h-line">{t.h1a}</span>
+          <span class="h-line grad">{t.h1b}</span>
+        </h1>
+        <p class="lede">{t.lede}</p>
+        <div class="ctas">
+          <a href={lp(lang, '/blog/')} class="btn btn-primary">{t.cta} <Icon name="arrow-right" /></a>
+          <a href={lp(lang, '/about/')} class="link-cta">{t.about} <Icon name="caret-right" size={14} /></a>
+        </div>
+      </div>
+      <div class="hero-globe" data-hero-globe>
+        <Globe />
+      </div>
+      <div class="hero-caption" data-hero-caption aria-hidden="true">
+        <p class="cap-k">{t.capK}</p>
+        <p class="cap-t">{t.capT}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Statement: words light up as you scroll -->
+  <section class="t-light statement-sec" aria-label={t.statementLabel}>
+    <div class="container statement-wrap">
+      <p class="statement" data-words>
+        {words.map((w) => <span class="w">{w} </span>)}
+      </p>
+    </div>
+  </section>
+
+  <!-- 3. Portrait: card expands to full bleed -->
+  <section class="portrait-wrap" data-portrait>
+    <div class="portrait-stage">
+      <figure class="portrait" data-portrait-frame>
+        <picture>
+          <source srcset="/can-sevengin.webp" type="image/webp" />
+          <img src="/can-sevengin.jpg" alt={t.portraitAlt} width="1086" height="1448" loading="lazy" decoding="async" />
+        </picture>
+        <div class="portrait-shade" aria-hidden="true"></div>
+      </figure>
+      <div class="portrait-copy" data-portrait-copy>
+        <p class="pc-k">{t.pcK}</p>
+        <p class="pc-t">{t.pcT}</p>
+        <a href={lp(lang, '/about/')} class="btn btn-glass">{t.pcBtn} <Icon name="arrow-right" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Now -->
+  <section class="t-gray now-sec">
+   <div class="container now">
+    <div class="now-head" data-rise>
+      <h2 class="sec-h">{t.nowH}</h2>
+      <p class="now-date">{t.nowDate}</p>
+    </div>
+    <dl class="now-list">
+      {t.now.map((n, i) => (
+        <div class:list={['now-item', { linked: 'href' in n }]} data-rise style={`--i:${i}`}>
+          <Photo name={n.photo} ratio={16 / 9} max={1200} sizes="(max-width: 760px) 92vw, 600px" class="now-ph" />
+          <div class="now-txt">
+            <dt>{n.k}</dt>
+            <dd>{n.t}</dd>
+            {'href' in n && <a class="now-link" href={lp(lang, n.href)}>{t.nowLink} <Icon name="arrow-right" size={15} /></a>}
+          </div>
+        </div>
+      ))}
+    </dl>
+   </div>
+  </section>
+
+  <!-- 5. Topics: one door per category -->
+  <section class="container focus">
+    <div class="topics-head">
+      <h2 class="sec-h" data-rise>{t.topicsH}</h2>
+      <p class="topics-s" data-rise style="--i:1">{t.topicsS}</p>
+    </div>
+    <div class="topics">
+      {CATEGORY_ORDER.map((k, i) => {
+        const c = CATEGORIES[k];
+        const n = count(k);
+        return (
+          <a href={lp(lang, `/blog/topic/${c[lang].slug}/`)} class:list={['tile', 'topic', `topic-${i}`]} data-tilt data-rise style={`--i:${i % 3}`}>
+            <Photo name={c.photo} sizes="(max-width: 860px) 92vw, 620px" max={1600} class="tile-art" />
+            <div class="tile-body">
+              <p class="tile-k"><Icon name={c.icon} size={18} /> {c[lang].name}</p>
+              <h3>{c[lang].blurb}</h3>
+              <p class="topic-n">{n} {n === 1 ? u.note : u.notes} <Icon name="arrow-right" size={15} /></p>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- 6. Full-bleed photo band: image settles as you scroll -->
+  <section class="band" data-band>
+    <div class="band-stage">
+      <div class="band-frame" data-band-frame>
+        <Photo name="ship" sizes="100vw" class="band-ph" />
+        <div class="band-shade" aria-hidden="true"></div>
+      </div>
+      <div class="container band-copy" data-band-copy>
+        <p class="band-k">{t.bandK}</p>
+        <p class="band-t">{t.bandT}</p>
+        <p class="band-s">{t.bandS}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Writing rail -->
+  <section class="writing t-light">
+    <div class="container w-head">
+      <h2 class="sec-h" data-rise>{t.latest}</h2>
+      <div class="rail-ctrl">
+        <button type="button" class="rail-btn" data-rail="-1" aria-label={t.prev}><Icon name="caret-left" size={18} /></button>
+        <button type="button" class="rail-btn" data-rail="1" aria-label={t.next}><Icon name="caret-right" size={18} /></button>
+      </div>
+    </div>
+    {posts.length === 0 ? (
+      <div class="container"><p class="empty">{t.empty}</p></div>
+    ) : (
+      <ul class="rail" data-rail-track>
+        {posts.map((p) => (
+          <li>
+            <a href={postUrl(p)} class="card">
+              <Cover slug={slugOf(p)} class="card-art" light />
+              <div class="card-body">
+                <p class="card-cat">{CATEGORIES[p.data.category][lang].name}</p>
+                <h3>{p.data.title}</h3>
+                <p class="card-meta">{formatDate(p.data.date, lang)} · {readingTime(p.body)} {u.min}{p.data.draft && <span class="draft">{u.draft}</span>}</p>
+              </div>
+            </a>
+          </li>
+        ))}
+        <li class="rail-end">
+          <a href={lp(lang, '/blog/')} class="card card-all">
+            <span>{u.allNotes}</span>
+            <Icon name="arrow-right" size={22} />
+          </a>
+        </li>
+      </ul>
+    )}
+  </section>
+
+  <!-- 8. Close -->
+  <section class="close-sec">
+   <Photo name="istanbulNight" sizes="100vw" class="close-ph" />
+   <div class="close-shade" aria-hidden="true"></div>
+   <div class="container close">
+    <h2 data-rise>{t.closeH}</h2>
+    <p data-rise style="--i:1">{t.closeP}</p>
+    <div class="ctas center" data-rise style="--i:2">
+      <a href={`mailto:${SITE.email}`} class="btn btn-primary">{t.write} <Icon name="arrow-right" /></a>
+      <button type="button" class="btn copy" data-copy={SITE.email} data-ok={u.copied} data-fail={u.copyFail} aria-live="polite">
+        <Icon name="copy" size={16} /><span>{SITE.email}</span>
+      </button>
+    </div>
+   </div>
+  </section>
+</Base>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  const mm = gsap.matchMedia();
+
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    // Hero entrance
+    gsap.from('.h-line, .lede, .hero-copy .ctas', {
+      y: 40, opacity: 0, filter: 'blur(8px)', duration: 1.4, ease: 'expo.out', stagger: 0.12, delay: 0.1,
+    });
+    gsap.from('.hero-globe canvas', { opacity: 0, scale: 0.85, y: 80, duration: 2, ease: 'expo.out', delay: 0.35 });
+
+    // Hero scroll story: copy recedes, globe rises and grows, caption appears
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: '[data-hero]', start: 'top top', end: 'bottom bottom', scrub: 0.6 },
+    });
+    tl.to('[data-hero-copy]', { y: -120, scale: 0.92, opacity: 0, filter: 'blur(12px)', ease: 'none', duration: 0.35 }, 0)
+      .fromTo('[data-hero-globe]', { y: '16vh', scale: 0.82 }, { y: '-8vh', scale: 1.25, ease: 'none', duration: 0.6 }, 0)
+      .fromTo('[data-hero-caption] .cap-k', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.18 }, 0.42)
+      .fromTo('[data-hero-caption] .cap-t', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.18 }, 0.5)
+      .to('[data-hero-caption]', { opacity: 0, y: -40, duration: 0.15 }, 0.85)
+      .to('[data-hero-globe]', { opacity: 0.25, scale: 1.45, duration: 0.25 }, 0.8);
+
+    // Statement: words light up one by one
+    gsap.fromTo('[data-words] .w', { opacity: 0.16 }, {
+      opacity: 1, ease: 'none', stagger: 0.05,
+      scrollTrigger: { trigger: '[data-words]', start: 'top 80%', end: 'bottom 45%', scrub: true },
+    });
+
+    // Portrait: rounded card expands to full bleed, copy slides in
+    const pt = gsap.timeline({
+      scrollTrigger: { trigger: '[data-portrait]', start: 'top top', end: 'bottom bottom', scrub: 0.6 },
+    });
+    pt.fromTo('[data-portrait-frame]', { clipPath: 'inset(14% 26% 14% 26% round 32px)' }, { clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'none', duration: 0.55 }, 0)
+      .fromTo('[data-portrait-frame] img', { scale: 1.25 }, { scale: 1, ease: 'none', duration: 0.55 }, 0)
+      .fromTo('.portrait-shade', { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.35)
+      .fromTo('[data-portrait-copy] > *', { opacity: 0, y: 50 }, { opacity: 1, y: 0, stagger: 0.06, duration: 0.25 }, 0.5);
+
+    // Generic rise-in
+    gsap.utils.toArray<HTMLElement>('[data-rise]').forEach((el) => {
+      const i = +(getComputedStyle(el).getPropertyValue('--i') || 0);
+      gsap.from(el, {
+        y: 60, opacity: 0, duration: 1.2, ease: 'expo.out', delay: i * 0.08,
+        scrollTrigger: { trigger: el, start: 'top 88%' },
+      });
+    });
+
+    // Parallax inside photo tiles and Now cards
+    gsap.utils.toArray<HTMLElement>('.tile-art img, .now-ph img').forEach((img) => {
+      gsap.fromTo(img, { yPercent: -5, scale: 1.12 }, { yPercent: 5, scale: 1.12, ease: 'none', scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } });
+    });
+
+    // Photo band: inset card opens to full bleed, then the copy rises
+    const bt = gsap.timeline({ scrollTrigger: { trigger: '[data-band]', start: 'top top', end: 'bottom bottom', scrub: 0.6 } });
+    bt.fromTo('[data-band-frame]', { clipPath: 'inset(10% 8% 10% 8% round 36px)' }, { clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'none', duration: 0.5 }, 0)
+      .fromTo('[data-band-frame] img', { scale: 1.2 }, { scale: 1, ease: 'none', duration: 0.6 }, 0)
+      .fromTo('[data-band-copy] > *', { opacity: 0, y: 60 }, { opacity: 1, y: 0, stagger: 0.07, duration: 0.25 }, 0.35);
+
+    // Close: slow zoom on the city
+    gsap.fromTo('.close-ph img', { scale: 1.15 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '.close-sec', start: 'top bottom', end: 'bottom bottom', scrub: true } });
+  });
+
+  // 3D tilt on tiles (pointer feedback), fine pointers only
+  if (matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches) {
+    document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((el) => {
+      const rx = gsap.quickTo(el, 'rotationX', { duration: 0.6, ease: 'power3' });
+      const ry = gsap.quickTo(el, 'rotationY', { duration: 0.6, ease: 'power3' });
+      el.addEventListener('pointermove', (e) => {
+        const r = el.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
+        rx(-py * 6); ry(px * 8);
+        el.style.setProperty('--gx', `${(px + 0.5) * 100}%`);
+        el.style.setProperty('--gy', `${(py + 0.5) * 100}%`);
+      });
+      el.addEventListener('pointerleave', () => { rx(0); ry(0); });
+    });
+  }
+
+  // Rail arrows
+  const track = document.querySelector<HTMLElement>('[data-rail-track]');
+  document.querySelectorAll<HTMLButtonElement>('[data-rail]').forEach((b) => {
+    b.addEventListener('click', () => track?.scrollBy({ left: +b.dataset.rail! * track.clientWidth * 0.8, behavior: 'smooth' }));
+  });
+
+  // Copy email
+  for (const b of document.querySelectorAll<HTMLButtonElement>('[data-copy]')) {
+    b.addEventListener('click', async () => {
+      const span = b.querySelector('span')!, orig = span.textContent;
+      try { await navigator.clipboard.writeText(b.dataset.copy!); span.textContent = b.dataset.ok!; }
+      catch { span.textContent = b.dataset.fail!; }
+      b.classList.add('done');
+      setTimeout(() => { span.textContent = orig; b.classList.remove('done'); }, 1800);
+    });
+  }
+</script>
+
+<style>
+  /* ---------- Hero ---------- */
+  .hero { position: relative; height: 260vh; }
+  .hero-stage { position: sticky; top: 0; height: 100dvh; overflow: hidden; display: grid; place-items: center; }
+  .hero-stage::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(60% 50% at 50% 100%, rgb(200 240 49 / 0.10), transparent 70%);
+  }
+  .hero-copy { position: relative; z-index: 2; text-align: center; padding: 0 20px; margin-top: -18vh; will-change: transform, opacity, filter; }
+  h1 { margin: 0; font-weight: 650; letter-spacing: -0.035em; line-height: 1.04; font-size: clamp(2.7rem, 7.2vw, 6.2rem); }
+  .h-line { display: block; }
+  .grad {
+    background: linear-gradient(92deg, #c8f031 10%, #e9ff9e 50%, #8ee0b5 95%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    padding-bottom: 0.08em;
+  }
+  .lede { margin: 26px auto 0; max-width: 36rem; font-size: clamp(18px, 1.7vw, 22px); line-height: 1.4; color: var(--ink-2); letter-spacing: -0.01em; }
+  .ctas { display: flex; gap: 22px; margin-top: 34px; justify-content: center; align-items: center; flex-wrap: wrap; }
+  .link-cta { display: inline-flex; align-items: center; gap: 4px; color: var(--accent); text-decoration: none; font-size: 17px; }
+  .link-cta:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .hero-globe {
+    position: absolute; z-index: 1; left: 50%; top: 40%;
+    width: min(1100px, 125vw); margin-left: calc(min(1100px, 125vw) / -2);
+    transform-origin: 50% 40%; will-change: transform;
+  }
+  .hero-caption { position: absolute; z-index: 3; inset: auto 0 14vh; text-align: center; pointer-events: none; }
+  .hero-caption p { margin: 0; font-weight: 650; letter-spacing: -0.035em; line-height: 1.05; font-size: clamp(2.2rem, 5.5vw, 4.6rem); opacity: 0; }
+  .cap-t { color: var(--accent); }
+  @media (max-width: 700px) {
+    .hero-copy { margin-top: -30vh; }
+    .hero-globe { top: 46%; }
+  }
+
+  /* ---------- Statement ---------- */
+  .statement-sec { padding: 20vh 0 22vh; }
+  .statement-sec .statement { color: var(--ink); }
+  .statement {
+    margin: 0 auto; max-width: 22ch; text-align: left;
+    font-size: clamp(2rem, 4.6vw, 4rem); line-height: 1.12; font-weight: 650; letter-spacing: -0.035em;
+  }
+
+  /* ---------- Portrait ---------- */
+  .portrait-wrap { position: relative; height: 240vh; }
+  .portrait-stage { position: sticky; top: 0; height: 100dvh; overflow: hidden; }
+  .portrait { position: absolute; inset: 0; margin: 0; clip-path: inset(14% 26% 14% 26% round 32px); will-change: clip-path; }
+  .portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; will-change: transform; }
+  .portrait-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgb(7 8 10 / .82) 0%, rgb(7 8 10 / .35) 45%, transparent 70%); opacity: 0; }
+  .portrait-copy { position: absolute; left: max(24px, calc((100vw - var(--max)) / 2 + 24px)); bottom: 14vh; max-width: 30rem; z-index: 2; }
+  .pc-k { margin: 0; font-size: clamp(2.6rem, 6vw, 5rem); font-weight: 650; letter-spacing: -0.04em; line-height: 1; }
+  .pc-t { margin: 16px 0 26px; font-size: clamp(19px, 2vw, 24px); line-height: 1.3; color: var(--ink-2); letter-spacing: -0.015em; }
+  @media (prefers-reduced-motion: reduce) {
+    .hero { height: auto; }
+    .hero-stage { position: relative; min-height: 100dvh; }
+    .hero-caption { display: none; }
+    .portrait-wrap { height: auto; }
+    .portrait-stage { position: relative; height: 90dvh; }
+    .portrait { clip-path: none; }
+    .portrait-shade { opacity: 1; }
+  }
+  @media (max-width: 700px) {
+    .portrait-shade { background: linear-gradient(0deg, rgb(7 8 10 / .9) 0%, rgb(7 8 10 / .3) 50%, transparent 75%); }
+    .portrait-copy { bottom: 8vh; right: 20px; }
+  }
+
+  /* ---------- Now (light gray surface, photo cards) ---------- */
+  .now-sec { padding: 16vh 0 18vh; }
+  .now-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .now-date { margin: 0; color: var(--ink-3); font-size: 15px; }
+  .now-list { margin: 40px 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .now-item { border-radius: 28px; background: var(--bg-1); overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 1px 2px rgb(0 0 0 / .04), 0 12px 40px -18px rgb(0 0 0 / .18); transition: transform .6s var(--ease), box-shadow .6s var(--ease); }
+  .now-item:hover { transform: translateY(-4px); box-shadow: 0 1px 2px rgb(0 0 0 / .04), 0 24px 60px -20px rgb(0 0 0 / .25); }
+  .now-item :global(.now-ph) { aspect-ratio: 16 / 9; }
+  .now-txt { padding: 26px 30px 32px; }
+  .now-item dt { color: var(--accent); font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+  .now-item dd { margin: 10px 0 0; font-size: clamp(19px, 1.8vw, 23px); line-height: 1.32; letter-spacing: -0.02em; font-weight: 600; color: var(--ink); }
+  .now-item.linked { box-shadow: 0 0 0 2px #c8f031, 0 12px 40px -18px rgb(0 0 0 / .18); }
+  .now-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; color: var(--accent); text-decoration: none; font-size: 15px; font-weight: 600; }
+  .now-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+  @media (max-width: 760px) { .now-list { grid-template-columns: 1fr; } }
+
+  /* ---------- Focus tiles ---------- */
+  .focus { padding-top: 18vh; }
+  .sec-h { margin: 0; font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 650; letter-spacing: -0.04em; line-height: 1.05; }
+  .topics-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; }
+  .topics-s { margin: 0; max-width: 26rem; color: var(--ink-2); font-size: clamp(17px, 1.6vw, 20px); }
+  .topics { margin-top: 48px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; perspective: 1400px; }
+  .topic { grid-column: span 2; text-decoration: none; color: var(--ink); }
+  .topic-0, .topic-1 { grid-column: span 3; min-height: 460px; }
+  .topic-n { margin: 14px 0 0; display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600; color: rgb(255 255 255 / .78); }
+  .topic:hover .topic-n { color: #c8f031; }
+  .topic :global(.tile-art img) { transition: transform 1.2s var(--ease); }
+  @media (max-width: 960px) { .topics { grid-template-columns: 1fr 1fr; } .topic, .topic-0, .topic-1 { grid-column: span 1; min-height: 340px; } .topic-4 { grid-column: span 2; } }
+  @media (max-width: 600px) { .topics { grid-template-columns: 1fr; } .topic-4 { grid-column: span 1; } }
+  .tile {
+    position: relative; overflow: hidden; border-radius: 28px; background: var(--bg-1);
+    min-height: 300px; transform-style: preserve-3d; isolation: isolate;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / .06);
+  }
+  .tile::after {
+    content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity .4s;
+    background: radial-gradient(500px circle at var(--gx, 50%) var(--gy, 50%), rgb(255 255 255 / .10), transparent 45%);
+  }
+  .tile:hover::after { opacity: 1; }
+
+  .tile :global(.tile-art) { position: absolute; inset: 0; z-index: 0; }
+  .tile :global(.tile-art img) { will-change: transform; }
+  .tile-body {
+    position: absolute; z-index: 1; inset: auto 0 0 0; padding: 28px 30px 30px;
+    background: linear-gradient(0deg, rgb(7 8 10 / .92) 25%, rgb(7 8 10 / 0));
+  }
+  .tile-k { margin: 0 0 10px; display: inline-flex; align-items: center; gap: 8px; color: var(--accent); font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+  .tile h3 { margin: 0; font-size: clamp(1.4rem, 2.2vw, 1.9rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.12; max-width: 20ch; }
+  .topic-0 h3, .topic-1 h3 { font-size: clamp(1.6rem, 2.6vw, 2.2rem); }
+
+  /* ---------- Writing rail ---------- */
+  /* ---------- Photo band ---------- */
+  .band { position: relative; height: 230vh; }
+  .band-stage { position: sticky; top: 0; height: 100dvh; overflow: hidden; display: flex; align-items: flex-end; }
+  .band-frame { position: absolute; inset: 0; clip-path: inset(10% 8% 10% 8% round 36px); will-change: clip-path; }
+  .band-frame :global(.band-ph) { position: absolute; inset: 0; }
+  .band-frame :global(img) { will-change: transform; }
+  .band-shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgb(7 8 10 / .78) 0%, rgb(7 8 10 / .15) 55%, transparent 75%); }
+  .band-copy { position: relative; z-index: 2; padding-bottom: 14vh; }
+  .band-k, .band-t { margin: 0; font-size: clamp(2.6rem, 7vw, 6rem); font-weight: 650; letter-spacing: -0.035em; line-height: 1; }
+  .band-t { color: #c8f031; }
+  .band-s { margin: 22px 0 0; max-width: 30rem; font-size: clamp(18px, 1.8vw, 22px); color: rgb(255 255 255 / .82); }
+  @media (prefers-reduced-motion: reduce) {
+    .band { height: auto; }
+    .band-stage { position: relative; height: 90dvh; }
+    .band-frame { clip-path: none; }
+  }
+
+  .writing { padding: 18vh 0 16vh; }
+  .w-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; }
+  .rail-ctrl { display: flex; gap: 10px; }
+  .rail-btn {
+    width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center;
+    background: var(--bg-2); color: var(--ink); transition: background-color .2s, transform .2s;
+  }
+  .rail-btn:hover { background: var(--bg-3); }
+  .rail-btn:active { transform: scale(.94); }
+  .rail {
+    list-style: none; margin: 40px 0 0; padding: 0 max(24px, calc((100vw - var(--max)) / 2 + 24px)) 20px;
+    display: grid; grid-auto-flow: column; grid-auto-columns: min(380px, 78vw); gap: 20px;
+    overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: max(24px, calc((100vw - var(--max)) / 2 + 24px));
+    scrollbar-width: none; overscroll-behavior-x: contain;
+  }
+  .rail::-webkit-scrollbar { display: none; }
+  .rail li { scroll-snap-align: start; }
+  .card {
+    display: flex; flex-direction: column; height: 100%; border-radius: 26px; overflow: hidden; text-decoration: none;
+    background: var(--bg-1);
+    transition: transform .5s var(--ease);
+  }
+  .card:hover { transform: scale(1.02); }
+  .card :global(.card-art) { aspect-ratio: 4 / 3; }
+  .card-body { padding: 22px 24px 28px; }
+  .card-cat { margin: 0 0 2px; font-size: 14px; font-weight: 600; color: var(--accent); }
+  .card-meta { margin: 14px 0 0; font-size: 14px; font-variant-numeric: tabular-nums; color: var(--ink-3); display: flex; align-items: center; gap: 10px; }
+  .card h3 { margin: 6px 0 0; font-size: 1.35rem; line-height: 1.2; letter-spacing: -0.025em; font-weight: 700; }
+  .draft { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); border: 1px solid rgb(200 240 49 / .5); border-radius: 6px; padding: 1px 6px; }
+  .card-all { align-items: center; justify-content: center; gap: 12px; min-height: 260px; font-size: 1.3rem; font-weight: 700; letter-spacing: -0.02em; color: var(--accent); }
+  .empty { margin: 32px 0 0; color: var(--ink-2); }
+  .empty a { color: var(--accent); }
+
+  /* ---------- Close ---------- */
+  .close-sec { position: relative; overflow: hidden; isolation: isolate; }
+  .close-sec :global(.close-ph) { position: absolute; inset: 0; z-index: -2; }
+  .close-sec :global(.close-ph img) { will-change: transform; }
+  .close-shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgb(7 8 10 / .85) 0%, rgb(7 8 10 / .45) 45%, rgb(7 8 10 / .8) 100%); }
+  .close { padding-top: 26vh; padding-bottom: 24vh; text-align: center; }
+  .close h2 { margin: 0 auto; max-width: 16ch; font-size: clamp(2.4rem, 6vw, 5rem); font-weight: 650; letter-spacing: -0.035em; line-height: 1.02; }
+  .close > p { margin: 20px auto 0; max-width: 32rem; font-size: clamp(19px, 2vw, 24px); color: rgb(255 255 255 / .82); }
+  .close .copy { background: rgb(7 8 10 / .35); border-color: rgb(255 255 255 / .3); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  .copy { font-size: 15px; }
+  .copy.done { border-color: var(--accent); color: var(--accent); }
+  .btn-glass {
+    background: rgb(255 255 255 / .12); border-color: rgb(255 255 255 / .18);
+    backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%);
+  }
+  .btn-glass:hover { background: rgb(255 255 255 / .2); }
+</style>

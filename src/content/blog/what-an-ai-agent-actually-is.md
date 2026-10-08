@@ -3,6 +3,7 @@ title: "What an AI agent actually is (and when you don't need one)"
 description: "A plain-language definition, a simple ladder from prompt to agent, and how to tell which rung your problem belongs on."
 date: 2026-10-08T09:00:00+03:00
 tags: [AI, agents]
+category: ai
 draft: false
 ---
 

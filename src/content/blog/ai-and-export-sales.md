@@ -3,6 +3,7 @@ title: "What AI changes for export teams, and what it doesn't"
 description: "Market research, outreach and multilingual work got dramatically faster. Trust, relationships and judgement did not."
 date: 2026-10-08T08:00:00+03:00
 tags: [export, international sales, AI]
+category: work
 draft: false
 ---
 

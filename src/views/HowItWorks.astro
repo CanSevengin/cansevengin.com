@@ -1,0 +1,236 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import * as si from 'simple-icons';
+import { lp, type Lang } from '../site';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const T = {
+  en: {
+    title: 'How This Site Works',
+    desc: 'cansevengin.com was built in one morning with Claude, and a Claude agent now researches, writes, checks and publishes new notes twice a week, in English and Turkish. Here is the whole setup.',
+    h1: 'How this site works.',
+    lede: 'One person, one morning, and Claude. Here’s the whole setup, including the parts that now run on their own.',
+    prodA: 'This site is the first user of', prodB: ', the publishing agent I’m building on Claude.',
+    note: 'Notes on this site are researched and drafted by Claude in my voice, then published automatically. I read every one, and I edit or remove anything that doesn’t sound like me.',
+    dayH: 'The day it was built.',
+    day: [
+      { t: 'Morning', h: 'I wanted a personal email address.', d: 'Asked Claude where to get one. It suggested a domain on Cloudflare and mail on iCloud+, and walked me through both.' },
+      { t: '+30 min', h: 'Mail live on cansevengin.com.', d: 'Domain registered, iCloud+ custom domain connected, DNS records checked.' },
+      { t: '+1 hour', h: '“Can we build a site on this?”', d: 'Claude designed and coded the site, wrote the first five notes, and showed me screenshots to react to.' },
+      { t: '+2 hours', h: 'Redesigns, until it felt right.', d: 'Dark tech look, a live globe, then Apple-style scroll effects, my photo, a new logo and a CV pulled from my LinkedIn.' },
+      { t: '+3 hours', h: 'Deployed and indexed.', d: 'Claude pushed the code to GitHub, set up Vercel, added the DNS records in Cloudflare and registered the site with Google Search Console.' },
+      { t: 'Afternoon', h: 'Topics, photos and Turkish.', d: 'Light sections, stock photos, five topics from AI to fatherhood, and a full Turkish version of the site and every note.' },
+      { t: 'Since then', h: 'It runs on its own.', d: 'Twice a week, a Claude agent researches, writes, checks and publishes a new note in English and Turkish. I read them after they go live. That agent is now becoming a product: Ghostline.' },
+    ],
+    agentH: 'The publishing agent.', agentS: 'Every Monday and Thursday at 08:49 Istanbul time, a Claude agent wakes up in the cloud and does this:',
+    pipeline: [
+      { i: 'magnifying-glass', h: 'Research', d: 'Picks the next topic in rotation (AI, phones and gadgets, work, fatherhood or life), searches the last 1-2 weeks of news, and picks one question people actually ask.' },
+      { i: 'pen-nib', h: 'Write', d: 'Drafts a 600-900 word note in my voice, then writes a natural Turkish version, not a word-for-word translation.' },
+      { i: 'check-circle', h: 'Check', d: 'Verifies facts against sources, removes anything that sounds like a pitch, and runs a full build of the site.' },
+      { i: 'rocket-launch', h: 'Publish', d: 'Commits to GitHub. Vercel deploys it in under a minute, with fresh share images, sitemap and llms.txt.' },
+      { i: 'broadcast', h: 'Announce', d: 'Pings Bing and other engines via IndexNow. Google finds it through the sitemap.' },
+      { i: 'chat-circle-text', h: 'Report', d: 'Sends me a short summary and the links. If I want changes, or want it gone, I just reply.' },
+    ],
+    whoH: 'Who does what.', claude: ['Design, code and redesigns', 'Domain, DNS, deploys and SEO', 'Research, writing, translation and fact checks', 'Publishing on schedule'],
+    me: 'Me', mine: ['What the site is for, and how it should feel', 'Taste: “nah, make it cooler”', 'My background, views and voice', 'Reading, editing, removing'],
+    rulesH: 'Rules the agent follows.',
+    rules: [
+      'No invented facts, numbers, quotes or stories. Every claim is checked against a source, and sources are listed.',
+      'Nothing for sale. No services, no funnels, no pitches.',
+      'Nothing about Babyjem’s customers, distributors, prices or internal matters.',
+      'Fatherhood notes are research-based and never share details about my family.',
+      'No politically contested topics.',
+      'I can edit or remove any note at any time.',
+    ],
+    stackH: 'The stack.',
+    stack: ['Claude: design, code, writing, publishing', 'Astro: the site framework', 'Vercel: hosting and deploys', 'GitHub: code and history', 'Cloudflare: domain and DNS', 'iCloud+: email on the domain', 'Google Search Console', 'GSAP: scroll effects'],
+    cost: 'Running cost: the domain, plus the iCloud+ plan I already had. Everything else is on free tiers.',
+  },
+  tr: {
+    title: 'Bu Site Nasıl Çalışıyor',
+    desc: 'cansevengin.com bir sabahta Claude ile kuruldu. Artık bir Claude ajanı haftada iki kez İngilizce ve Türkçe yeni notları araştırıp yazıyor, kontrol ediyor ve yayınlıyor. Kurulumun tamamı burada.',
+    h1: 'Bu site nasıl çalışıyor.',
+    lede: 'Bir kişi, bir sabah ve Claude. Artık kendi kendine çalışan kısımlar dahil, kurulumun tamamı burada.',
+    prodA: 'Bu site,', prodB: '’ın ilk kullanıcısı: Claude üzerine kurduğum yayın ajanı.',
+    note: 'Bu sitedeki notlar Claude tarafından benim üslubumla araştırılıp yazılıyor, sonra otomatik olarak yayınlanıyor. Hepsini okuyorum, bana benzemeyen her şeyi düzenliyor ya da kaldırıyorum.',
+    dayH: 'Kurulduğu gün.',
+    day: [
+      { t: 'Sabah', h: 'Kişisel bir e-posta adresi istedim.', d: 'Claude’a nereden alabileceğimi sordum. Cloudflare’de bir alan adı ve iCloud+ üzerinde e-posta önerdi, ikisinde de adım adım yol gösterdi.' },
+      { t: '+30 dk', h: 'cansevengin.com’da e-posta çalışıyor.', d: 'Alan adı alındı, iCloud+ özel alan adı bağlandı, DNS kayıtları kontrol edildi.' },
+      { t: '+1 saat', h: '“Bunun üzerine bir site kurabilir miyiz?”', d: 'Claude siteyi tasarlayıp kodladı, ilk beş notu yazdı ve tepki vermem için ekran görüntüleri gösterdi.' },
+      { t: '+2 saat', h: 'İçime sinene kadar yeniden tasarım.', d: 'Koyu teknolojik bir görünüm, canlı bir dünya küresi, sonra Apple tarzı kaydırma efektleri, fotoğrafım, yeni bir logo ve LinkedIn’imden çıkarılan bir CV.' },
+      { t: '+3 saat', h: 'Yayında ve dizinde.', d: 'Claude kodu GitHub’a gönderdi, Vercel’i kurdu, Cloudflare’e DNS kayıtlarını ekledi ve siteyi Google Search Console’a kaydetti.' },
+      { t: 'Öğleden sonra', h: 'Konular, fotoğraflar ve Türkçe.', d: 'Açık renkli bölümler, stok fotoğraflar, yapay zekadan babalığa beş konu ve sitenin, her notun tam Türkçe versiyonu.' },
+      { t: 'O günden beri', h: 'Kendi kendine çalışıyor.', d: 'Haftada iki kez bir Claude ajanı yeni bir notu İngilizce ve Türkçe olarak araştırıyor, yazıyor, kontrol ediyor ve yayınlıyor. Ben yayına çıktıktan sonra okuyorum. Bu ajan artık bir ürüne dönüşüyor: Ghostline.' },
+    ],
+    agentH: 'Yayın ajanı.', agentS: 'Her pazartesi ve perşembe İstanbul saatiyle 08:49’da bulutta bir Claude ajanı uyanıyor ve şunları yapıyor:',
+    pipeline: [
+      { i: 'magnifying-glass', h: 'Araştırır', d: 'Sıradaki konuyu seçer (yapay zeka, telefon ve teknoloji, iş, babalık ya da hayat), son 1-2 haftanın haberlerini tarar ve insanların gerçekten sorduğu bir soruyu bulur.' },
+      { i: 'pen-nib', h: 'Yazar', d: 'Benim üslubumla 600-900 kelimelik bir not yazar, sonra kelimesi kelimesine çeviri değil, doğal bir Türkçe versiyonunu hazırlar.' },
+      { i: 'check-circle', h: 'Kontrol eder', d: 'Bilgileri kaynaklarla doğrular, satış diline benzeyen her şeyi çıkarır ve sitenin tam derlemesini çalıştırır.' },
+      { i: 'rocket-launch', h: 'Yayınlar', d: 'GitHub’a gönderir. Vercel bir dakikadan kısa sürede yayına alır, paylaşım görselleri, site haritası ve llms.txt güncellenir.' },
+      { i: 'broadcast', h: 'Duyurur', d: 'IndexNow ile Bing ve diğer arama motorlarına haber verir. Google site haritası üzerinden bulur.' },
+      { i: 'chat-circle-text', h: 'Rapor verir', d: 'Bana kısa bir özet ve linkleri gönderir. Değişiklik istersem ya da kaldırılmasını istersem yanıt vermem yeterli.' },
+    ],
+    whoH: 'Kim ne yapıyor.', claude: ['Tasarım, kod ve yeniden tasarımlar', 'Alan adı, DNS, yayın ve SEO', 'Araştırma, yazım, çeviri ve doğrulama', 'Zamanında yayın'],
+    me: 'Ben', mine: ['Sitenin ne için olduğu ve nasıl hissettirmesi gerektiği', 'Zevk: “olmamış, daha havalı yap”', 'Geçmişim, görüşlerim ve üslubum', 'Okumak, düzenlemek, kaldırmak'],
+    rulesH: 'Ajanın uyduğu kurallar.',
+    rules: [
+      'Uydurma bilgi, rakam, alıntı ya da hikaye yok. Her iddia bir kaynakla kontrol edilir ve kaynaklar listelenir.',
+      'Satılık bir şey yok. Hizmet yok, satış hunisi yok, tanıtım yok.',
+      'Babyjem’in müşterileri, distribütörleri, fiyatları ya da iç işleri hakkında hiçbir şey yok.',
+      'Babalık notları araştırmaya dayanır ve ailem hakkında hiçbir detay paylaşmaz.',
+      'Siyasi olarak tartışmalı konular yok.',
+      'Her notu istediğim zaman düzenleyebilir ya da kaldırabilirim.',
+    ],
+    stackH: 'Kullanılan araçlar.',
+    stack: ['Claude: tasarım, kod, yazım, yayın', 'Astro: site altyapısı', 'Vercel: barındırma ve yayın', 'GitHub: kod ve geçmiş', 'Cloudflare: alan adı ve DNS', 'iCloud+: alan adında e-posta', 'Google Search Console', 'GSAP: kaydırma efektleri'],
+    cost: 'Aylık maliyet: alan adı, bir de zaten kullandığım iCloud+ planı. Geri kalan her şey ücretsiz planlarda.',
+  },
+}[lang];
+
+const icons = [si.siClaude, si.siAstro, si.siVercel, si.siGithub, si.siCloudflare, si.siIcloud, si.siGooglesearchconsole, si.siGreensock];
+const stack = icons.map((icon, i) => [icon, T.stack[i]] as const).filter(([icon]) => icon) as unknown as [{ path: string }, string][];
+---
+<Base lang={lang} title={T.title} description={T.desc}>
+  <section class="container hero">
+    <h1 data-reveal>{T.h1}</h1>
+    <p class="lede" data-reveal style="--i:1">{T.lede}</p>
+    <a class="prod" href={lp(lang, '/build/')} data-reveal style="--i:2"><span>{T.prodA} <strong>Ghostline</strong>{T.prodB}</span><Icon name="arrow-right" size={18} /></a>
+    <div class="note" data-reveal style="--i:2">
+      <Icon name="info" size={20} />
+      <p>{T.note}</p>
+    </div>
+  </section>
+
+  <section class="t-light lsec">
+   <div class="container">
+    <h2 data-reveal>{T.dayH}</h2>
+    <ol class="day">
+      {T.day.map((s, i) => (
+        <li data-reveal style={`--i:${i % 3}`}>
+          <span class="t">{s.t}</span>
+          <div>
+            <h3>{s.h}</h3>
+            <p>{s.d}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+   </div>
+  </section>
+
+  <section class="container block">
+    <h2 data-reveal>{T.agentH}</h2>
+    <p class="sub" data-reveal>{T.agentS}</p>
+    <ol class="flow">
+      {T.pipeline.map((s, i) => (
+        <li data-reveal style={`--i:${i % 3}`}>
+          <span class="n">{i + 1}</span>
+          <Icon name={s.i} size={26} class="flow-ic" />
+          <h3>{s.h}</h3>
+          <p>{s.d}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="t-gray lsec">
+  <div class="container split">
+    <div data-reveal>
+      <h2>{T.whoH}</h2>
+      <div class="roles">
+        <div class="role">
+          <p class="role-k">Claude</p>
+          <ul>{T.claude.map((x) => <li>{x}</li>)}</ul>
+        </div>
+        <div class="role me">
+          <p class="role-k">{T.me}</p>
+          <ul>{T.mine.map((x) => <li>{x}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+    <div data-reveal style="--i:1">
+      <h2>{T.rulesH}</h2>
+      <ul class="rules">
+        {T.rules.map((r) => <li><Icon name="check" size={18} class="r-ic" /><span>{r}</span></li>)}
+      </ul>
+    </div>
+  </div>
+  </section>
+
+  <section class="container block">
+    <h2 data-reveal>{T.stackH}</h2>
+    <ul class="stack">
+      {stack.map(([icon, label], i) => (
+        <li data-reveal style={`--i:${i % 4}`}>
+          <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d={icon.path} fill="currentColor" /></svg>
+          <span>{label}</span>
+        </li>
+      ))}
+    </ul>
+    <p class="cost" data-reveal>{T.cost}</p>
+  </section>
+</Base>
+
+<style>
+  .hero { padding-top: 88px; }
+  h1 { margin: 0; font-size: clamp(3rem, 8vw, 6.2rem); font-weight: 650; letter-spacing: -0.04em; line-height: 0.98; max-width: 12ch; }
+  .lede { margin: 26px 0 0; max-width: 38rem; font-size: clamp(19px, 2vw, 24px); line-height: 1.35; color: var(--ink-2); letter-spacing: -0.015em; }
+  .prod { margin-top: 32px; max-width: 44rem; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 22px; border-radius: 20px; background: var(--bg-1); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .08); color: var(--ink); text-decoration: none; font-size: 16.5px; transition: box-shadow .3s; }
+  .prod:hover { box-shadow: inset 0 0 0 1px rgb(200 240 49 / .5); }
+  .prod strong { color: var(--accent); }
+  .prod :global(svg) { color: var(--accent); flex: none; }
+  .note { margin-top: 14px; max-width: 44rem; display: flex; gap: 14px; align-items: flex-start; padding: 20px 22px; border-radius: 20px; background: var(--accent-soft); box-shadow: inset 0 0 0 1px rgb(200 240 49 / .25); color: var(--ink); }
+  .note :global(svg) { color: var(--accent); flex: none; margin-top: 2px; }
+  .note p { margin: 0; font-size: 16.5px; line-height: 1.5; }
+
+  .block { padding-top: 16vh; padding-bottom: 4vh; }
+  .hero.container { padding-bottom: 14vh; }
+  .lsec { padding: 16vh 0; }
+  .lsec h2 { margin: 0; font-size: clamp(2rem, 4.6vw, 3.6rem); font-weight: 650; letter-spacing: -0.04em; line-height: 1.04; }
+  .t-gray .role { background: #fff; box-shadow: 0 1px 2px rgb(0 0 0 / .04), 0 10px 30px -16px rgb(0 0 0 / .16); }
+  .t-gray .role.me { background: #f1fbd0; box-shadow: inset 0 0 0 1px #c8f031; }
+  .block h2 { margin: 0; font-size: clamp(2rem, 4.6vw, 3.6rem); font-weight: 650; letter-spacing: -0.04em; line-height: 1.04; }
+  .sub { margin: 16px 0 0; color: var(--ink-2); font-size: 19px; max-width: 40rem; }
+
+  .day { list-style: none; margin: 44px 0 0; padding: 0; display: grid; gap: 0; }
+  .day li { display: grid; grid-template-columns: 150px 1fr; gap: 28px; padding: 26px 0; border-top: 1px solid var(--line); }
+  .day .t { font: 600 14px/1.4 var(--sans); font-variant-numeric: tabular-nums; color: var(--accent); padding-top: 6px; letter-spacing: 0; }
+  .day h3 { margin: 0; font-size: clamp(1.3rem, 2.2vw, 1.75rem); font-weight: 700; letter-spacing: -0.03em; }
+  .day p { margin: 8px 0 0; color: var(--ink-2); max-width: 46rem; }
+  @media (max-width: 640px) { .day li { grid-template-columns: 1fr; gap: 6px; } }
+
+  .flow { list-style: none; margin: 44px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; counter-reset: s; }
+  .flow li { position: relative; padding: 28px 26px 30px; border-radius: 24px; background: var(--bg-1); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .06); overflow: hidden; }
+  .flow li::after { content: ''; position: absolute; inset: auto -40% -60% auto; width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(circle, rgb(200 240 49 / .10), transparent 70%); pointer-events: none; }
+  .n { position: absolute; top: 18px; right: 22px; font: 600 64px/1 var(--sans); letter-spacing: -0.04em; color: rgb(255 255 255 / .05); }
+  .flow :global(.flow-ic) { color: var(--accent); }
+  .flow h3 { margin: 16px 0 8px; font-size: 1.35rem; font-weight: 700; letter-spacing: -0.025em; }
+  .flow p { margin: 0; color: var(--ink-2); font-size: 15.5px; line-height: 1.5; }
+  @media (max-width: 900px) { .flow { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .flow { grid-template-columns: 1fr; } }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+  @media (max-width: 900px) { .split { grid-template-columns: 1fr; } }
+  .roles { margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .role { padding: 24px; border-radius: 22px; background: var(--bg-1); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .06); }
+  .role.me { background: var(--accent-soft); box-shadow: inset 0 0 0 1px rgb(200 240 49 / .25); }
+  .role-k { margin: 0 0 12px; font-weight: 700; font-size: 1.2rem; letter-spacing: -0.02em; }
+  .role.me .role-k { color: var(--accent); }
+  .role ul { margin: 0; padding-left: 1.1em; color: var(--ink-2); font-size: 15.5px; display: grid; gap: 8px; }
+  .role li::marker { color: var(--accent); }
+  .rules { list-style: none; margin: 32px 0 0; padding: 0; display: grid; gap: 14px; }
+  .rules li { display: flex; gap: 12px; align-items: flex-start; font-size: 17px; line-height: 1.45; }
+  .rules :global(.r-ic) { color: var(--accent); flex: none; margin-top: 3px; }
+
+  .stack { list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .stack li { display: flex; align-items: center; gap: 14px; padding: 18px 20px; border-radius: 18px; background: var(--bg-1); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .06); color: var(--ink-2); font-size: 15px; line-height: 1.3; }
+  .stack svg { color: var(--ink); flex: none; }
+  @media (max-width: 900px) { .stack { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .stack { grid-template-columns: 1fr; } }
+  .cost { margin: 28px 0 120px; color: var(--ink-3); font-size: 15px; }
+</style>

@@ -3,6 +3,7 @@ title: "The boring AI wins"
 description: "Why your company's first automation should be embarrassingly simple, and how to find the one worth building."
 date: 2026-10-08T10:00:00+03:00
 tags: [AI, automation, SMEs]
+category: ai
 draft: false
 ---
 

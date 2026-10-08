@@ -3,6 +3,7 @@ title: "n8n, Zapier or code? How I choose for small teams"
 description: "A practical way to pick an automation stack based on who will maintain it, not on feature lists."
 date: 2026-10-08T07:00:00+03:00
 tags: [automation, n8n, tools]
+category: ai
 draft: false
 ---
 

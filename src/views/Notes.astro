@@ -1,0 +1,73 @@
+---
+import Base from '../layouts/Base.astro';
+import PostList from '../components/PostList.astro';
+import Icon from '../components/Icon.astro';
+import { getPosts, lp, type Lang } from '../site';
+import { CATEGORIES, CATEGORY_ORDER, type CategoryKey } from '../lib/categories';
+
+interface Props { lang: Lang; category?: CategoryKey }
+const { lang, category } = Astro.props;
+const posts = await getPosts(lang, category);
+const T = {
+  en: {
+    title: 'Notes on AI, Tech, Work, Fatherhood and Life',
+    desc: 'Can Sevengin’s notes on AI and automation, new phones and gadgets, international sales and e-commerce, fatherhood and everyday life. New notes twice a week.',
+    h1: 'Notes', lede: 'AI, phones and gadgets, work, fatherhood and life. Pick a topic or read them all. New notes twice a week.',
+    all: 'All', topics: 'Topics',
+  },
+  tr: {
+    title: 'Yapay Zeka, Teknoloji, İş, Babalık ve Hayat Üzerine Notlar',
+    desc: 'Can Sevengin’in yapay zeka ve otomasyon, yeni telefonlar ve cihazlar, uluslararası satış ve e-ticaret, babalık ve gündelik hayat üzerine notları. Haftada iki yeni not.',
+    h1: 'Notlar', lede: 'Yapay zeka, telefonlar ve cihazlar, iş, babalık ve hayat. Bir konu seç ya da hepsini oku. Haftada iki yeni not.',
+    all: 'Tümü', topics: 'Konular',
+  },
+}[lang];
+const cat = category ? CATEGORIES[category] : null;
+const title = cat ? `${cat[lang].name}: ${lang === 'tr' ? 'Notlar' : 'Notes'}` : T.title;
+const description = cat ? `${cat[lang].blurb} ${lang === 'tr' ? 'Can Sevengin’in notları.' : 'Notes by Can Sevengin.'}` : T.desc;
+const alt = cat ? lp(lang === 'en' ? 'tr' : 'en', `/blog/topic/${cat[lang === 'en' ? 'tr' : 'en'].slug}/`) : undefined;
+---
+<Base lang={lang} title={title} description={description} alt={alt}>
+  <section class="t-light"><div class="container top">
+    {cat ? (
+      <>
+        <p class="kicker" data-reveal><a href={lp(lang, '/blog/')}>{T.h1}</a> / {T.topics}</p>
+        <h1 data-reveal>{cat[lang].name}</h1>
+        <p class="lede" data-reveal style="--i:1">{cat[lang].blurb}</p>
+      </>
+    ) : (
+      <>
+        <h1 data-reveal>{T.h1}</h1>
+        <p class="lede" data-reveal style="--i:1">{T.lede}</p>
+      </>
+    )}
+    <nav class="chips" aria-label={T.topics} data-reveal style="--i:2">
+      <a href={lp(lang, '/blog/')} aria-current={!category ? 'page' : undefined}>{T.all}</a>
+      {CATEGORY_ORDER.map((k) => (
+        <a href={lp(lang, `/blog/topic/${CATEGORIES[k][lang].slug}/`)} aria-current={category === k ? 'page' : undefined}>
+          <Icon name={CATEGORIES[k].icon} size={16} />{CATEGORIES[k][lang].name}
+        </a>
+      ))}
+    </nav>
+    <PostList posts={posts} lang={lang} />
+  </div></section>
+</Base>
+
+<style>
+  .top { padding-top: 88px; padding-bottom: 120px; }
+  .kicker { margin: 0 0 14px; color: var(--ink-3); font-weight: 600; font-size: 15px; }
+  .kicker a { color: var(--accent); text-decoration: none; }
+  h1 { margin: 0; font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 650; letter-spacing: -0.04em; line-height: 0.98; }
+  .lede { margin: 22px 0 0; max-width: 38rem; color: var(--ink-2); font-size: 19px; }
+  .chips { margin: 36px 0 44px; display: flex; flex-wrap: wrap; gap: 10px; }
+  .chips a { display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 18px; border-radius: 999px; background: var(--bg-1); color: var(--ink); text-decoration: none; font-size: 15px; font-weight: 500; transition: background-color .2s, color .2s; }
+  .chips a :global(svg) { color: var(--accent); }
+  .chips a:hover { background: var(--bg-2); }
+  .chips a[aria-current] { background: #1d1d1f; color: #fff; }
+  .chips a[aria-current] :global(svg) { color: #c8f031; }
+  @media (max-width: 640px) {
+    .chips { flex-wrap: nowrap; overflow-x: auto; margin-inline: -16px; padding-inline: 16px; scrollbar-width: none; }
+    .chips::-webkit-scrollbar { display: none; }
+    .chips a { flex: none; }
+  }
+</style>

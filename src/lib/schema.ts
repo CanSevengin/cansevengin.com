@@ -35,7 +35,7 @@ export const website = {
   url: `${SITE_URL}/`,
   name: 'Can Sevengin',
   description: SITE.description,
-  inLanguage: 'en',
+  inLanguage: ['en', 'tr'],
   publisher: { '@id': PERSON_ID },
   author: { '@id': PERSON_ID },
 };
@@ -44,8 +44,9 @@ export function graph(...nodes: object[]) {
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': nodes });
 }
 
-export function blogPosting(p: { slug: string; title: string; description: string; date: Date; updated?: Date; tags: string[]; words: number }) {
-  const url = `${SITE_URL}/blog/${p.slug}/`;
+export function blogPosting(p: { slug: string; title: string; description: string; date: Date; updated?: Date; tags: string[]; words: number; lang?: 'en' | 'tr'; section?: string }) {
+  const pre = p.lang === 'tr' ? '/tr' : '';
+  const url = `${SITE_URL}${pre}/blog/${p.slug}/`;
   return {
     '@type': 'BlogPosting',
     '@id': `${url}#article`,
@@ -53,7 +54,7 @@ export function blogPosting(p: { slug: string; title: string; description: strin
     description: p.description,
     url,
     mainEntityOfPage: url,
-    image: `${SITE_URL}/og/${p.slug}.png`,
+    image: `${SITE_URL}/og${pre}/${p.slug}.png`,
     datePublished: p.date.toISOString(),
     dateModified: (p.updated ?? p.date).toISOString(),
     author: { '@id': PERSON_ID },
@@ -61,7 +62,8 @@ export function blogPosting(p: { slug: string; title: string; description: strin
     isPartOf: { '@id': WEBSITE_ID },
     keywords: p.tags.join(', '),
     wordCount: p.words,
-    inLanguage: 'en',
+    articleSection: p.section,
+    inLanguage: p.lang ?? 'en',
   };
 }
 

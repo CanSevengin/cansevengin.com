@@ -9,6 +9,10 @@ const blog = defineCollection({
     description: z.string(),
     date: z.coerce.date(),
     tags: z.array(z.string()).default([]),
+    // ai | tech | work | fatherhood | life (see src/lib/categories.ts)
+    category: z.enum(['ai', 'tech', 'work', 'fatherhood', 'life']).default('ai'),
+    // English notes live in src/content/blog/, Turkish ones in src/content/blog/tr/ with the same file name
+    lang: z.enum(['en', 'tr']).default('en'),
     // draft: true posts are visible in `npm run dev` and preview deploys, hidden in production
     draft: z.boolean().default(false),
   }),

@@ -11,6 +11,10 @@ export const PHOTOS = {
   fair: { id: 'photo-1775314054195-85f31de0c944', alt: 'A busy trade fair hall with booths and visitors', by: 'Euronewsweek Media' },
   aiHands: { id: 'photo-1694903089438-bf28d4697d9a', alt: 'A robot hand and a human hand reaching toward the letters AI', by: 'Igor Omilaev' },
   laptopWarm: { id: 'photo-1625297671662-f073f2a91528', alt: 'A laptop on a warm wooden table', by: 'Justin Morgan' },
+  phoneDark: { id: 'photo-1592750475338-74b7b21085ab', alt: 'A grey smartphone with a triple camera on a dark background', by: 'Filip Baotić' },
+  dadReading: { id: 'photo-1504151932400-72d4384f04b3', alt: 'A parent reading a picture book to a baby', by: 'Picsea' },
+  babyHand: { id: 'photo-1552819289-824d37ca69d2', alt: 'A baby holding an adult hand, close up', by: 'Hu Chen' },
+  coffeeBook: { id: 'photo-1543233604-3baca4d35513', alt: 'A cup of latte resting on a book', by: 'Yoshiko Evanka' },
 } as const;
 
 export type PhotoKey = keyof typeof PHOTOS;

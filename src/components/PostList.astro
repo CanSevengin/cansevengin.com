@@ -1,25 +1,28 @@
 ---
 import Cover from './Cover.astro';
 import Icon from './Icon.astro';
-import { formatDate, readingTime } from '../site';
-const { posts } = Astro.props;
+import { formatDate, readingTime, postUrl, slugOf, UI, type Lang } from '../site';
+import { CATEGORIES } from '../lib/categories';
+const { posts, lang = 'en' } = Astro.props as { posts: any[]; lang?: Lang };
+const u = UI[lang];
 ---
 {posts.length === 0 && (
   <div class="empty">
     <Icon name="pen-nib" size={22} class="ic" />
-    <p>The first essays are in review and land here soon. Follow along via <a href="/rss.xml">RSS</a>.</p>
+    <p>{lang === 'tr' ? 'Bu konuda ilk notlar çok yakında burada.' : 'The first notes on this topic land here soon.'}</p>
   </div>
 )}
 <ul class="grid">
   {posts.map((p, i) => (
     <li class:list={[{ wide: i === 0 }]} data-reveal style={`--i:${i % 3}`}>
-      <a href={`/blog/${p.id}/`} class="card">
-        <Cover slug={p.id} class="art" light />
+      <a href={postUrl(p)} class="card">
+        <Cover slug={slugOf(p)} class="art" light />
         <div class="body">
           <p class="meta">
-            <span>{formatDate(p.data.date)}</span>
-            <span>{readingTime(p.body)} min read</span>
-            {p.data.draft && <span class="draft">Draft</span>}
+            <span class="cat">{CATEGORIES[p.data.category as keyof typeof CATEGORIES][lang].name}</span>
+            <span>{formatDate(p.data.date, lang)}</span>
+            <span>{readingTime(p.body)} {u.minRead}</span>
+            {p.data.draft && <span class="draft">{u.draft}</span>}
           </p>
           <h2>{p.data.title}</h2>
           <p class="d">{p.data.description}</p>
@@ -49,6 +52,7 @@ const { posts } = Astro.props;
   .card:hover :global(svg) { transform: scale(1.04); }
   .body { padding: 22px 24px 26px; }
   .meta { margin: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; font: 500 14px/1.4 var(--sans); font-variant-numeric: tabular-nums; color: var(--ink-3); }
+  .cat { color: var(--accent); font-weight: 600; }
   .draft { font: 600 11px/1.2 var(--sans); text-transform: uppercase; letter-spacing: .04em; color: var(--accent); border: 1px solid rgb(200 240 49 / .5); border-radius: 6px; padding: 2px 6px; }
   h2 { margin: 12px 0 10px; font-size: 1.4rem; line-height: 1.2; letter-spacing: -0.03em; font-weight: 600; transition: color .2s; }
   .card:hover h2 { color: var(--accent); }

@@ -1,20 +1,4 @@
 ---
-import Base from '../../layouts/Base.astro';
-import PostList from '../../components/PostList.astro';
-import { getPosts } from '../../site';
-
-const posts = await getPosts();
+import Notes from '../../views/Notes.astro';
 ---
-<Base title="Notes on AI, E-commerce and International Sales" description="Can Sevengin’s notes on AI in everyday work, automation, e-commerce, Amazon and marketplaces, and selling across borders. New notes twice a week.">
-  <section class="t-light"><div class="container top">
-    <h1 data-reveal>Notes</h1>
-    <p class="lede" data-reveal style="--i:1">What I’m learning about AI, automation, work and selling across borders. New notes twice a week.</p>
-    <PostList posts={posts} />
-  </div></section>
-</Base>
-
-<style>
-  .top { padding-top: 88px; padding-bottom: 120px; }
-  h1 { margin: 0; font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 650; letter-spacing: -0.04em; line-height: 0.95; }
-  .lede { margin: 22px 0 56px; max-width: 36rem; color: var(--ink-2); font-size: 18px; }
-</style>
+<Notes lang="en" />

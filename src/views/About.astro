@@ -1,0 +1,175 @@
+---
+import Base from '../layouts/Base.astro';
+import Cover from '../components/Cover.astro';
+import Icon from '../components/Icon.astro';
+import Photo from '../components/Photo.astro';
+import { SITE, lp, type Lang } from '../site';
+import { PERSON_ID } from '../lib/schema';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const T = {
+  en: {
+    title: 'About Can Sevengin',
+    desc: 'Can Sevengin is an International Sales Assistant Manager at Babyjem in Istanbul, with a background in e-commerce, Amazon marketplaces, digital growth at Getir and AI automation.',
+    h1a: 'Sales by trade.', h1b: 'Builder by habit.',
+    p1: 'I’m Can Sevengin, based in Istanbul. My work sits where three things meet: selling physical products internationally, the e-commerce and marketing machinery behind it, and the AI tools that are changing how small teams operate.',
+    p2: 'My e-commerce story started at university with dropshipping, which turned into cross-border Amazon stores in the US, Mexico, the UAE and Japan. Since then I’ve worked on digital growth at Getir and led e-commerce at HHP Eurasia. Today I work on international sales at Babyjem, growing distributors and new markets, and I keep building with AI on the side.',
+    p3: 'Outside work I’m a dad, so you’ll find notes on fatherhood here too, next to AI, new phones and whatever I’m curious about this month. This site is my everyday space. Nothing for sale here.',
+    hi: 'Say Hi', read: 'Read the Notes', portrait: 'Portrait of Can Sevengin',
+    city: 'Istanbul. Where I live, work and write.',
+    path: 'The path so far', edu: 'Education',
+    timeline: [
+      { y: 'Oct 2026 - now', r: 'Founder (side project)', o: 'Ghostline', d: 'A self-running personal publishing agent built on Claude. This site is its first user.' },
+      { y: 'Aug 2026 - now', r: 'International Sales Assistant Manager', o: 'Babyjem', d: 'Export, distributor development, international e-commerce and new market entry for a Turkish mother and baby brand sold in 65+ countries.' },
+      { y: 'Jan - Jun 2026', r: 'AI deep dive', o: 'Self-directed', d: 'Six months fully nerding out on AI: building agents, automations and small tools every day, breaking most of them, and learning what actually works.' },
+      { y: '2022 - 2026', r: 'E-Commerce Lead', o: 'HHP Eurasia', d: 'Led e-commerce operations and growth: marketplaces, listings, pricing and promotions, and the end-to-end online customer journey, working across sales, marketing, operations and logistics.' },
+      { y: '2020 - 2022', r: 'Digital Growth Specialist', o: 'Getir', d: 'Data-driven acquisition, engagement and retention campaigns across channels, with a lot of testing, analysis and optimization along the way.' },
+      { y: '2016 - 2020', r: 'Founder, E-Commerce & Marketing Director', o: 'Solare Digital', d: 'Started with dropshipping while at university and grew it into cross-border Amazon operations in the US, Mexico, the UAE and Japan, from product research to listings, pricing and suppliers.' },
+      { y: '2016', r: 'Lifeguard', o: 'Kalahari Resorts & Conventions, USA', d: 'A Work and Travel summer: an international team, guests from everywhere, and calm under pressure.' },
+      { y: '2014 - 2016', r: 'Marketing Intern', o: 'Xeno Arts Digital', d: 'Where it began: SEO, market research, content and analytics inside a creative agency.' },
+    ],
+    education: [
+      { y: '2024 - 2027', s: 'Istanbul University', d: 'E-Commerce (in progress)' },
+      { y: '2014 - 2019', s: 'Anadolu University', d: 'BA, Business Administration' },
+    ],
+  },
+  tr: {
+    title: 'Can Sevengin Hakkında',
+    desc: 'Can Sevengin, İstanbul’da Babyjem’de Uluslararası Satış Müdür Yardımcısı. E-ticaret, Amazon pazaryerleri, Getir’de dijital büyüme ve yapay zeka otomasyonu geçmişi var.',
+    h1a: 'Mesleğim satış.', h1b: 'Huyum üretmek.',
+    p1: 'Ben Can Sevengin, İstanbul’da yaşıyorum. İşim üç şeyin kesiştiği yerde: fiziksel ürünleri uluslararası pazarlarda satmak, bunun arkasındaki e-ticaret ve pazarlama mekanizması, ve küçük ekiplerin çalışma şeklini değiştiren yapay zeka araçları.',
+    p2: 'E-ticaret hikayem üniversitede dropshipping ile başladı, sonra ABD, Meksika, BAE ve Japonya’da sınır ötesi Amazon mağazalarına dönüştü. Sonrasında Getir’de dijital büyüme üzerine çalıştım, HHP Eurasia’da e-ticareti yönettim. Bugün Babyjem’de uluslararası satış tarafındayım: distribütörleri ve yeni pazarları büyütüyorum, bir yandan da yapay zekayla bir şeyler geliştirmeye devam ediyorum.',
+    p3: 'İş dışında bir babayım, bu yüzden burada yapay zeka ve yeni telefonların yanında babalık üzerine notlar da bulacaksın, bir de o ay neyi merak ediyorsam onu. Bu site benim gündelik alanım. Burada satılık bir şey yok.',
+    hi: 'Bana Yaz', read: 'Notları Oku', portrait: 'Can Sevengin portresi',
+    city: 'İstanbul. Yaşadığım, çalıştığım ve yazdığım yer.',
+    path: 'Bugüne kadarki yol', edu: 'Eğitim',
+    timeline: [
+      { y: 'Eki 2026 - şimdi', r: 'Kurucu (yan proje)', o: 'Ghostline', d: 'Claude üzerine kurulu, kendi kendine çalışan kişisel yayın ajanı. Bu site ilk kullanıcısı.' },
+      { y: 'Ağu 2026 - şimdi', r: 'Uluslararası Satış Müdür Yardımcısı', o: 'Babyjem', d: '65’ten fazla ülkede satılan bir Türk anne ve bebek markası için ihracat, distribütör geliştirme, uluslararası e-ticaret ve yeni pazarlara giriş.' },
+      { y: 'Oca - Haz 2026', r: 'Yapay zeka dönemi', o: 'Kendi başıma', d: 'Altı ay boyunca kafayı tamamen yapay zekayla bozdum: her gün ajanlar, otomasyonlar ve küçük araçlar yaptım, çoğunu bozdum ve gerçekten neyin işe yaradığını öğrendim.' },
+      { y: '2022 - 2026', r: 'E-Ticaret Yöneticisi', o: 'HHP Eurasia', d: 'E-ticaret operasyonlarını ve büyümeyi yönettim: pazaryerleri, ürün ilanları, fiyatlama ve kampanyalar, uçtan uca online müşteri yolculuğu. Satış, pazarlama, operasyon ve lojistikle birlikte çalıştım.' },
+      { y: '2020 - 2022', r: 'Dijital Büyüme Uzmanı', o: 'Getir', d: 'Kanallar arasında veriye dayalı kullanıcı kazanımı, etkileşim ve elde tutma kampanyaları. Bolca test, analiz ve optimizasyon.' },
+      { y: '2016 - 2020', r: 'Kurucu, E-Ticaret ve Pazarlama Direktörü', o: 'Solare Digital', d: 'Üniversitedeyken dropshipping ile başladım ve bunu ABD, Meksika, BAE ve Japonya’da sınır ötesi Amazon operasyonlarına dönüştürdüm: ürün araştırmasından ilanlara, fiyatlamadan tedarikçilere kadar.' },
+      { y: '2016', r: 'Cankurtaran', o: 'Kalahari Resorts & Conventions, ABD', d: 'Bir Work and Travel yazı: uluslararası bir ekip, her yerden misafirler ve baskı altında sakin kalmak.' },
+      { y: '2014 - 2016', r: 'Pazarlama Stajyeri', o: 'Xeno Arts Digital', d: 'Her şeyin başladığı yer: bir kreatif ajansta SEO, pazar araştırması, içerik ve analitik.' },
+    ],
+    education: [
+      { y: '2024 - 2027', s: 'İstanbul Üniversitesi', d: 'E-Ticaret (devam ediyor)' },
+      { y: '2014 - 2019', s: 'Anadolu Üniversitesi', d: 'Lisans, İşletme' },
+    ],
+  },
+}[lang];
+const url = `https://cansevengin.com${lp(lang, '/about/')}`;
+---
+<Base
+  lang={lang}
+  title={T.title}
+  description={T.desc}
+  type="profile"
+  schema={[{ '@type': 'ProfilePage', '@id': `${url}#profile`, url, name: T.title, inLanguage: lang, mainEntity: { '@id': PERSON_ID }, dateModified: new Date().toISOString() }]}
+>
+  <section class="container intro">
+    <div class="copy">
+      <h1 data-reveal>{T.h1a}<br /><span class="accent">{T.h1b}</span></h1>
+      <div class="text" data-reveal style="--i:1">
+        <p>{T.p1}</p>
+        <p>{T.p2}</p>
+        <p>{T.p3}</p>
+      </div>
+      <div class="ctas" data-reveal style="--i:2">
+        <a class="btn btn-primary" href={`mailto:${SITE.email}`}>{T.hi} <Icon name="arrow-right" /></a>
+        <a class="btn" href={lp(lang, '/blog/')}>{T.read}</a>
+      </div>
+    </div>
+    <figure class="visual" data-reveal style="--i:1">
+      <picture>
+        <source srcset="/can-sevengin.webp" type="image/webp" />
+        <img src="/can-sevengin.jpg" alt={T.portrait} width="1086" height="1448" fetchpriority="high" decoding="async" />
+      </picture>
+      <Cover slug="can-sevengin-about" kind={1} class="vis-art" />
+    </figure>
+  </section>
+
+  <section class="container city" data-reveal>
+    <Photo name="maidenTower" sizes="(max-width: 1240px) 94vw, 1192px" max={2200} class="city-ph" />
+    <p class="city-cap">{T.city}</p>
+  </section>
+
+  <section class="t-light path-sec">
+  <div class="container path">
+    <h2 data-reveal>{T.path}</h2>
+    <ol class="tl">
+      {T.timeline.map((t, i) => (
+        <li data-reveal style={`--i:${i % 3}`}>
+          <span class="y">{t.y}</span>
+          <span class="node" aria-hidden="true"></span>
+          <div class="item">
+            <h3>{t.r} <span>{t.o}</span></h3>
+            <p>{t.d}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+    <h2 class="edu-h" data-reveal>{T.edu}</h2>
+    <ul class="edu-list">
+      {T.education.map((e) => (
+        <li data-reveal>
+          <Icon name="graduation-cap" size={20} class="edu-ic" />
+          <div>
+            <p class="edu-s">{e.s}</p>
+            <p class="edu-d">{e.d} <span>{e.y}</span></p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+  </section>
+</Base>
+
+<style>
+  .intro { display: grid; grid-template-columns: 1.15fr 1fr; gap: 64px; align-items: center; padding-top: 72px; }
+  h1 { margin: 0; font-size: clamp(2.6rem, 5.6vw, 4.8rem); line-height: 1.02; letter-spacing: -0.035em; font-weight: 650; }
+  .text { margin-top: 30px; max-width: 38rem; color: var(--ink-2); font-size: 17.5px; line-height: 1.7; }
+  .text p { margin: 0; }
+  .text p + p { margin-top: 1.1em; }
+  .ctas { display: flex; gap: 12px; margin-top: 34px; flex-wrap: wrap; }
+  .visual { position: relative; margin: 0; }
+  .visual picture { position: relative; z-index: 1; display: block; border-radius: 20px; overflow: hidden; border: 1px solid var(--line); aspect-ratio: 4 / 5; }
+  .visual img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+  .visual :global(.vis-art) { position: absolute; z-index: 0; inset: 28px -28px -28px 28px; border-radius: 20px; border: 1px solid var(--line); opacity: .9; }
+  @media (max-width: 900px) { .visual :global(.vis-art) { inset: 16px -12px -16px 16px; } }
+  @media (max-width: 900px) { .intro { grid-template-columns: 1fr; gap: 40px; } .visual { max-width: 420px; } }
+
+  .city { padding-top: 120px; padding-bottom: 120px; position: relative; }
+  .city :global(.city-ph) { aspect-ratio: 21 / 9; border-radius: 28px; }
+  .city-cap { position: absolute; left: 56px; bottom: 156px; margin: 0; font-size: clamp(1.4rem, 3vw, 2.6rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.05; max-width: 16ch; color: #fff; text-shadow: 0 2px 30px rgb(0 0 0 / .4); }
+  @media (max-width: 700px) { .city { padding-top: 72px; padding-bottom: 72px; } .city :global(.city-ph) { aspect-ratio: 4 / 3; border-radius: 20px; } .city-cap { left: 36px; bottom: 100px; } }
+  .path { padding-top: 120px; padding-bottom: 120px; }
+  .path h2 { margin: 0 0 48px; font-size: clamp(2rem, 3.6vw, 3rem); letter-spacing: -0.035em; font-weight: 650; }
+  .tl { list-style: none; margin: 0; padding: 0; position: relative; }
+  .tl::before { content: ''; position: absolute; left: 170px; top: 8px; bottom: 8px; width: 1px; background: linear-gradient(var(--accent), var(--line) 40%); }
+  .tl li { display: grid; grid-template-columns: 150px 40px 1fr; align-items: start; padding-bottom: 40px; }
+  .y { font: 500 14px/1.4 var(--sans); font-variant-numeric: tabular-nums; color: var(--ink-3); padding-top: 5px; text-align: right; padding-right: 0; }
+  .node { justify-self: center; margin-top: 7px; width: 11px; height: 11px; border-radius: 50%; background: var(--bg); border: 1.5px solid var(--ink-3); position: relative; left: 0; }
+  .tl li:first-child .node { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 5px var(--accent-soft); }
+  .item h3 { margin: 0; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; }
+  .item h3 span { color: var(--ink-3); font-weight: 500; margin-left: 8px; }
+  .item p { margin: 8px 0 0; color: var(--ink-2); max-width: 58ch; }
+  .edu-h { margin: 72px 0 24px !important; font-size: clamp(1.6rem, 2.6vw, 2.2rem) !important; }
+  .edu-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .edu-list li { display: flex; gap: 16px; align-items: flex-start; padding: 24px 26px; border-radius: 22px; background: var(--bg-1); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .06); }
+  .edu-list :global(.edu-ic) { color: var(--accent); flex: none; margin-top: 2px; }
+  .edu-s { margin: 0; font-weight: 600; font-size: 1.15rem; letter-spacing: -0.02em; }
+  .edu-d { margin: 4px 0 0; color: var(--ink-2); }
+  .edu-d span { color: var(--ink-3); margin-left: 8px; font-size: 14px; }
+  @media (max-width: 700px) { .edu-list { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) {
+    .tl::before { left: 5px; }
+    .tl li { grid-template-columns: 22px 1fr; grid-template-areas: 'node y' 'node item'; }
+    .y { grid-area: y; text-align: left; padding-top: 2px; }
+    .node { grid-area: node; justify-self: start; margin-top: 4px; }
+    .item { grid-area: item; margin-top: 6px; }
+  }
+</style>

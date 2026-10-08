@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import Icon from '../components/Icon.astro';
 import Logo from '../components/Logo.astro';
-import { SITE } from '../site';
+import { SITE, UI, lp, altPath, type Lang } from '../site';
 import { graph, person, website } from '../lib/schema';
 
 interface Props {
@@ -12,21 +12,30 @@ interface Props {
   image?: string;
   article?: { published: Date; modified?: Date; tags?: string[] };
   schema?: object[];
+  lang?: Lang;
+  /** Path of this page in the other language, when it differs from the default mapping (or false if none exists). */
+  alt?: string | false;
 }
-const { title, description = SITE.description, type = 'website', image = '/og.jpg', article, schema = [] } = Astro.props;
+const { title, description = SITE.description, type = 'website', image = '/og.jpg', article, schema = [], lang = 'en', alt } = Astro.props;
+const t = UI[lang];
+const other: Lang = lang === 'en' ? 'tr' : 'en';
 const ogImage = new URL(image, Astro.site);
 const jsonLd = graph(person, website, ...schema);
 const fullTitle = title ? `${title} | ${SITE.name}` : SITE.title;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const path = Astro.url.pathname;
+const otherPath = alt === false ? lp(other, '/') : (alt ?? altPath(path, other));
+const enPath = lang === 'en' ? path : otherPath;
+const trPath = lang === 'tr' ? path : otherPath;
+const hasPair = alt !== false;
 const nav = [
-  { href: '/blog/', label: 'Notes' },
-  { href: '/about/', label: 'About' },
-  { href: '/build/', label: 'Ghostline' },
+  { href: lp(lang, '/blog/'), label: t.nav.notes },
+  { href: lp(lang, '/about/'), label: t.nav.about },
+  { href: lp(lang, '/build/'), label: t.nav.build },
 ];
 ---
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -43,7 +52,11 @@ const nav = [
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={title ?? SITE.name} />
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale" content={lang === 'tr' ? 'tr_TR' : 'en_US'} />
+    {hasPair && <meta property="og:locale:alternate" content={lang === 'tr' ? 'en_US' : 'tr_TR'} />}
+    {hasPair && <link rel="alternate" hreflang="en" href={new URL(enPath, Astro.site)} />}
+    {hasPair && <link rel="alternate" hreflang="tr" href={new URL(trPath, Astro.site)} />}
+    {hasPair && <link rel="alternate" hreflang="x-default" href={new URL(enPath, Astro.site)} />}
     {article && <meta property="article:published_time" content={article.published.toISOString()} />}
     {article && <meta property="article:modified_time" content={(article.modified ?? article.published).toISOString()} />}
     {article && <meta property="article:author" content="https://cansevengin.com/about/" />}
@@ -62,16 +75,16 @@ const nav = [
     <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
     <script type="application/ld+json" set:html={jsonLd} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="alternate" type="application/rss+xml" title={SITE.name} href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title={SITE.name} href={lp(lang, '/rss.xml')} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <script is:inline>document.documentElement.classList.add('js')</script>
   </head>
   <body>
-    <a class="skip" href="#main">Skip to content</a>
+    <a class="skip" href="#main">{t.skip}</a>
 
     <header class="nav">
       <div class="container nav-in">
-        <a href="/" class="brand" aria-label="Can Sevengin, home" translate="no">
+        <a href={lp(lang, '/')} class="brand" aria-label={t.home} translate="no">
           <Logo size={32} class="logo" />
           <span class="word">Can<span>Sevengin</span></span>
         </a>
@@ -79,7 +92,8 @@ const nav = [
           {nav.map((n) => (
             <a href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a>
           ))}
-          <a href={`mailto:${SITE.email}`}>Say Hi</a>
+          <a href={`mailto:${SITE.email}`} class="nav-hi">{t.nav.hi}</a>
+          <a href={otherPath} class="lang" hreflang={other} lang={other} aria-label={t.switchLabel} title={t.switchLabel}><Icon name="translate" size={15} />{other.toUpperCase()}</a>
         </nav>
       </div>
     </header>
@@ -92,11 +106,12 @@ const nav = [
         <div class="foot-links">
           <a href={`mailto:${SITE.email}`}><Icon name="envelope-simple" size={16} />{SITE.email}</a>
           {SITE.linkedin && <a href={SITE.linkedin} rel="me noopener" target="_blank"><Icon name="linkedin-logo" size={16} />LinkedIn</a>}
-          <a href="/build/"><Icon name="lightning" size={16} />Ghostline</a>
-          <a href="/how-it-works/"><Icon name="gear-six" size={16} />Built with Claude</a>
-          <a href="/rss.xml"><Icon name="rss" size={16} />RSS</a>
+          <a href={lp(lang, '/build/')}><Icon name="lightning" size={16} />Ghostline</a>
+          <a href={lp(lang, '/how-it-works/')}><Icon name="gear-six" size={16} />{t.foot.built}</a>
+          <a href={lp(lang, '/rss.xml')}><Icon name="rss" size={16} />RSS</a>
+          <a href={otherPath} hreflang={other} lang={other}><Icon name="translate" size={16} />{t.switchTo}</a>
         </div>
-        <p class="foot-c">© {new Date().getFullYear()} Can Sevengin. Written in Istanbul. Stock photos from <a href="https://unsplash.com/?utm_source=cansevengin&utm_medium=referral" rel="noopener" target="_blank">Unsplash</a>.</p>
+        <p class="foot-c">© {new Date().getFullYear()} Can Sevengin. {t.foot.written} {t.foot.photos} <a href="https://unsplash.com/?utm_source=cansevengin&utm_medium=referral" rel="noopener" target="_blank">Unsplash</a>.</p>
       </div>
     </footer>
 
@@ -154,10 +169,13 @@ const nav = [
   }
   nav a:not(.btn):hover { color: var(--ink); background: var(--bg-2); }
   nav a[aria-current] { color: var(--ink); }
+  nav a.lang { display: inline-flex; align-items: center; gap: 5px; margin-left: 4px; font-weight: 600; font-size: 13px; letter-spacing: .02em; box-shadow: inset 0 0 0 1px var(--line-2, #2c3138); }
+  .nav.on-light nav a.lang { box-shadow: inset 0 0 0 1px rgb(0 0 0 / .14); }
   .nav-cta { --h: 34px; margin-left: 8px; padding: 0 16px; font-size: 14px; }
   @media (max-width: 560px) {
     .word { display: none; }
-    nav a[href='/build/'] { display: none; }
+    nav a[href$='/build/'] { display: none; }
+    nav a.nav-hi { display: none; }
     nav a:not(.btn) { padding: 8px 10px; }
   }
 

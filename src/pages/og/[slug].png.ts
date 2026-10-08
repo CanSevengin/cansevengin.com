@@ -1,12 +1,12 @@
 // Per-post Open Graph images (1200x630), rendered at build time.
 import type { APIRoute } from 'astro';
 import { Resvg } from '@resvg/resvg-js';
-import { getPosts } from '../../site';
+import { getPosts, slugOf } from '../../site';
 import { coverSvg } from '../../lib/cover';
 
 export async function getStaticPaths() {
   const posts = await getPosts();
-  return posts.map((p) => ({ params: { slug: p.id }, props: { title: p.data.title } }));
+  return posts.map((p) => ({ params: { slug: slugOf(p) }, props: { title: p.data.title } }));
 }
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');

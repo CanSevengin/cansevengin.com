@@ -1,10 +1,10 @@
 ---
-import Post from '../../views/Post.astro';
-import { getPosts, slugOf } from '../../site';
+import Post from '../../../views/Post.astro';
+import { getPosts, slugOf } from '../../../site';
 
 export async function getStaticPaths() {
-  const posts = await getPosts('en');
-  const others = new Set((await getPosts('tr')).map(slugOf));
+  const posts = await getPosts('tr');
+  const others = new Set((await getPosts('en')).map(slugOf));
   return posts.map((post, i) => ({
     params: { slug: slugOf(post) },
     props: { post, next: posts[i + 1] ?? posts[0] ?? null, hasAlt: others.has(slugOf(post)) },
@@ -12,4 +12,4 @@ export async function getStaticPaths() {
 }
 const { post, next, hasAlt } = Astro.props;
 ---
-<Post lang="en" post={post} next={next} hasAlt={hasAlt} />
+<Post lang="tr" post={post} next={next} hasAlt={hasAlt} />
