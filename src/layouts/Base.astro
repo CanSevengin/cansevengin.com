@@ -106,6 +106,20 @@ const nav = [
         for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
       }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
       els.forEach((el) => io.observe(el));
+
+      // Nav turns light while it sits over a light section (Apple-style)
+      const nav = document.querySelector<HTMLElement>('.nav');
+      const lights = [...document.querySelectorAll<HTMLElement>('.t-light, .t-gray')];
+      let ticking = false;
+      const check = () => {
+        ticking = false;
+        const on = lights.some((el) => { const r = el.getBoundingClientRect(); return r.top <= 28 && r.bottom >= 28; });
+        nav?.classList.toggle('on-light', on);
+      };
+      if (nav && lights.length) {
+        addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(check); } }, { passive: true });
+        check();
+      }
     </script>
   </body>
 </html>
@@ -117,6 +131,11 @@ const nav = [
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-bottom: 1px solid var(--line);
+  }
+  .nav { transition: background-color .35s var(--ease), border-color .35s var(--ease); }
+  .nav.on-light {
+    --ink: #1d1d1f; --ink-2: #424245; --ink-3: #86868b; --bg-2: rgb(0 0 0 / .06); --line: rgb(0 0 0 / .08);
+    background: rgb(255 255 255 / .72); color: var(--ink);
   }
   .nav-in { height: 56px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; }
