@@ -2,9 +2,9 @@ import { getCollection } from 'astro:content';
 
 export const SITE = {
   name: 'Can Sevengin',
-  title: 'Can Sevengin | Selling across borders, built with AI',
+  title: 'Can Sevengin | Selling across borders, building with AI',
   description:
-    'Notes on AI, automation, e-commerce and international trade from Can Sevengin, Istanbul.',
+    'Can Sevengin’s personal site and notes: international sales at Babyjem, AI, automation and life in Istanbul.',
   email: 'hello@cansevengin.com',
   // Add the full profile URL to show a LinkedIn link in the header/footer.
   linkedin: 'https://www.linkedin.com/in/can-sevengin-3884a516a/',

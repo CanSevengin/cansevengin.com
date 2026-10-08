@@ -52,9 +52,9 @@ const nextPost = next && next.id !== post.id ? next : null;
       <div class="prose body">
         <Content />
         <div class="end">
-          <p>Thoughts, pushback or a project in mind? I read every email.</p>
+          <p>Thoughts or pushback? I’d like to hear them.</p>
           <div class="end-ctas">
-            <a class="btn btn-primary" href={`mailto:${SITE.email}?subject=${encodeURIComponent('Re: ' + title)}`}>Email Me <Icon name="arrow-right" /></a>
+            <a class="btn btn-primary" href={`mailto:${SITE.email}?subject=${encodeURIComponent('Re: ' + title)}`}>Write to Me <Icon name="arrow-right" /></a>
             <button type="button" class="btn" data-share aria-live="polite"><Icon name="link" size={16} /><span>Copy Link</span></button>
           </div>
         </div>
