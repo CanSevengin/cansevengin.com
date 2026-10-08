@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Cover from '../components/Cover.astro';
 import Icon from '../components/Icon.astro';
+import Photo from '../components/Photo.astro';
 import { SITE } from '../site';
 import { PERSON_ID } from '../lib/schema';
 
@@ -55,7 +56,13 @@ const education = [
     </figure>
   </section>
 
-  <section class="container path">
+  <section class="container city" data-reveal>
+    <Photo name="maidenTower" sizes="(max-width: 1240px) 94vw, 1192px" max={2200} class="city-ph" />
+    <p class="city-cap">Istanbul. Where I live, work and write.</p>
+  </section>
+
+  <section class="t-light path-sec">
+  <div class="container path">
     <h2 data-reveal>The path so far</h2>
     <ol class="tl">
       {timeline.map((t, i) => (
@@ -81,6 +88,7 @@ const education = [
         </li>
       ))}
     </ul>
+  </div>
   </section>
 </Base>
 
@@ -98,7 +106,11 @@ const education = [
   @media (max-width: 900px) { .visual :global(.vis-art) { inset: 16px -12px -16px 16px; } }
   @media (max-width: 900px) { .intro { grid-template-columns: 1fr; gap: 40px; } .visual { max-width: 420px; } }
 
-  .path { padding-top: 140px; padding-bottom: 120px; }
+  .city { padding-top: 120px; padding-bottom: 120px; position: relative; }
+  .city :global(.city-ph) { aspect-ratio: 21 / 9; border-radius: 28px; }
+  .city-cap { position: absolute; left: 56px; bottom: 156px; margin: 0; font-size: clamp(1.4rem, 3vw, 2.6rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.05; max-width: 16ch; color: #fff; text-shadow: 0 2px 30px rgb(0 0 0 / .4); }
+  @media (max-width: 700px) { .city { padding-top: 72px; padding-bottom: 72px; } .city :global(.city-ph) { aspect-ratio: 4 / 3; border-radius: 20px; } .city-cap { left: 36px; bottom: 100px; } }
+  .path { padding-top: 120px; padding-bottom: 120px; }
   .path h2 { margin: 0 0 48px; font-size: clamp(2rem, 3.6vw, 3rem); letter-spacing: -0.035em; font-weight: 600; }
   .tl { list-style: none; margin: 0; padding: 0; position: relative; }
   .tl::before { content: ''; position: absolute; left: 170px; top: 8px; bottom: 8px; width: 1px; background: linear-gradient(var(--accent), var(--line) 40%); }

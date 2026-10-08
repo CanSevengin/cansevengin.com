@@ -6,11 +6,11 @@ import { getPosts } from '../../site';
 const posts = await getPosts();
 ---
 <Base title="Notes on AI, E-commerce and International Sales" description="Can Sevengin’s notes on AI in everyday work, automation, e-commerce, Amazon and marketplaces, and selling across borders. New notes twice a week.">
-  <section class="container top">
+  <section class="t-light"><div class="container top">
     <h1 data-reveal>Notes</h1>
     <p class="lede" data-reveal style="--i:1">What I’m learning about AI, automation, work and selling across borders. New notes twice a week.</p>
     <PostList posts={posts} />
-  </section>
+  </div></section>
 </Base>
 
 <style>

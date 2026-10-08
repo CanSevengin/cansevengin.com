@@ -46,9 +46,11 @@ const steps = [
     </div>
   </section>
 
-  <section class="container block">
-    <h2 data-reveal>The problem.</h2>
-    <p class="big" data-reveal>People with the most useful knowledge, the export manager, the operator, the founder, are the ones with no time to write. Their expertise stays in their heads and their inboxes, and their online presence stays a stale LinkedIn profile.</p>
+  <section class="t-light lsec">
+    <div class="container">
+      <h2 data-reveal>The problem.</h2>
+      <p class="big" data-reveal>People with the most useful knowledge, the export manager, the operator, the founder, are the ones with no time to write. Their expertise stays in their heads and their inboxes, and their online presence stays a stale LinkedIn profile.</p>
+    </div>
   </section>
 
   <section class="container block">
@@ -65,7 +67,8 @@ const steps = [
     <a class="more" href="/how-it-works/" data-reveal>See exactly how it works <Icon name="arrow-right" size={16} /></a>
   </section>
 
-  <section class="container block">
+  <section class="t-gray lsec">
+   <div class="container">
     <h2 data-reveal>What it does, every run.</h2>
     <ol class="steps">
       {steps.map(([icon, h, d], i) => (
@@ -78,6 +81,7 @@ const steps = [
         </li>
       ))}
     </ol>
+   </div>
   </section>
 
   <section class="container block two">
@@ -100,7 +104,8 @@ const steps = [
     </div>
   </section>
 
-  <section class="container block">
+  <section class="t-light lsec">
+   <div class="container">
     <h2 data-reveal>Where it’s going.</h2>
     <ol class="road">
       <li data-reveal><span class="tag now">Now</span><div><h3>v0: live on this site</h3><p>Runs as a scheduled Claude agent, twice a week, since 8 October 2026.</p></div></li>
@@ -108,6 +113,7 @@ const steps = [
       <li data-reveal style="--i:2"><span class="tag">Next</span><div><h3>v1: anyone can onboard</h3><p>A hosted version on the Claude API: an onboarding interview that builds your profile from your CV and LinkedIn, voice calibration from your own writing, and approve-or-auto publishing.</p></div></li>
       <li data-reveal><span class="tag">Later</span><div><h3>v2: beyond the blog</h3><p>LinkedIn drafts from each note, multi-language notes for cross-border professionals, and a simple results dashboard.</p></div></li>
     </ol>
+   </div>
   </section>
 
   <section class="container close">
@@ -128,7 +134,13 @@ const steps = [
   .ctas { display: flex; gap: 14px; margin-top: 34px; flex-wrap: wrap; }
   .ctas.center { justify-content: center; }
 
-  .block { padding-top: 16vh; }
+  .block { padding-top: 16vh; padding-bottom: 16vh; }
+  .lsec { padding: 16vh 0; }
+  .lsec h2 { margin: 0; font-size: clamp(2rem, 4.6vw, 3.6rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1.04; }
+  .t-light .big { color: var(--ink); }
+  .t-gray .steps li { background: #fff; box-shadow: 0 1px 2px rgb(0 0 0 / .04), 0 10px 30px -16px rgb(0 0 0 / .16); }
+  .t-light .tag { background: var(--bg-1); }
+  .t-light .tag.now { background: #c8f031; color: #0b0d05; }
   .block h2, .close h2 { margin: 0; font-size: clamp(2rem, 4.6vw, 3.6rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1.04; }
   .big { margin: 24px 0 0; max-width: 30ch; font-size: clamp(1.5rem, 3vw, 2.4rem); line-height: 1.22; letter-spacing: -0.03em; font-weight: 600; color: var(--ink-2); }
   .sub { margin: 16px 0 0; color: var(--ink-2); font-size: 19px; max-width: 42rem; }
@@ -160,7 +172,7 @@ const steps = [
   .road p { margin: 6px 0 0; color: var(--ink-2); max-width: 46rem; }
   @media (max-width: 560px) { .road li { grid-template-columns: 1fr; gap: 10px; } }
 
-  .close { padding-top: 20vh; padding-bottom: 18vh; text-align: center; }
+  .close { padding-top: 18vh; padding-bottom: 18vh; text-align: center; }
   .close h2 { margin: 0 auto; max-width: 16ch; }
   .close p { margin: 18px auto 0; max-width: 32rem; color: var(--ink-2); font-size: 19px; }
 </style>

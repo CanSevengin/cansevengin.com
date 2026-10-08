@@ -54,7 +54,8 @@ const stack = [
     </div>
   </section>
 
-  <section class="container block">
+  <section class="t-light lsec">
+   <div class="container">
     <h2 data-reveal>The day it was built.</h2>
     <ol class="day">
       {day.map((s, i) => (
@@ -67,6 +68,7 @@ const stack = [
         </li>
       ))}
     </ol>
+   </div>
   </section>
 
   <section class="container block">
@@ -84,7 +86,8 @@ const stack = [
     </ol>
   </section>
 
-  <section class="container block split">
+  <section class="t-gray lsec">
+  <div class="container split">
     <div data-reveal>
       <h2>Who does what.</h2>
       <div class="roles">
@@ -114,6 +117,7 @@ const stack = [
         {rules.map((r) => <li><Icon name="check" size={18} class="r-ic" /><span>{r}</span></li>)}
       </ul>
     </div>
+  </div>
   </section>
 
   <section class="container block">
@@ -142,7 +146,12 @@ const stack = [
   .note :global(svg) { color: var(--accent); flex: none; margin-top: 2px; }
   .note p { margin: 0; font-size: 16.5px; line-height: 1.5; }
 
-  .block { padding-top: 18vh; }
+  .block { padding-top: 16vh; padding-bottom: 4vh; }
+  .hero.container { padding-bottom: 14vh; }
+  .lsec { padding: 16vh 0; }
+  .lsec h2 { margin: 0; font-size: clamp(2rem, 4.6vw, 3.6rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1.04; }
+  .t-gray .role { background: #fff; box-shadow: 0 1px 2px rgb(0 0 0 / .04), 0 10px 30px -16px rgb(0 0 0 / .16); }
+  .t-gray .role.me { background: #f1fbd0; box-shadow: inset 0 0 0 1px #c8f031; }
   .block h2 { margin: 0; font-size: clamp(2rem, 4.6vw, 3.6rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1.04; }
   .sub { margin: 16px 0 0; color: var(--ink-2); font-size: 19px; max-width: 40rem; }
 

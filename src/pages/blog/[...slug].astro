@@ -37,7 +37,7 @@ const nextPost = next && next.id !== post.id ? next : null;
 >
   <div class="progress" aria-hidden="true"></div>
 
-  <article>
+  <article class="t-light art">
     <header class="container ph">
       <a href="/blog/" class="back"><Icon name="arrow-left" size={16} />All Writing</a>
       <p class="meta" data-reveal>
@@ -113,11 +113,12 @@ const nextPost = next && next.id !== post.id ? next : null;
   }
   @keyframes grow { to { transform: scaleX(1); } }
 
+  .art { padding-bottom: 1px; }
   .ph { padding-top: 64px; padding-bottom: 44px; }
   .back { display: inline-flex; align-items: center; gap: 8px; color: var(--ink-3); text-decoration: none; font-size: 14px; margin-bottom: 36px; }
   .back:hover { color: var(--accent); }
   .meta { margin: 0; display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; font: 13px var(--mono); color: var(--ink-3); }
-  .draft { font: 500 10.5px var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--accent); border: 1px solid rgb(200 240 49 / .5); border-radius: 6px; padding: 3px 7px; }
+  .draft { font: 500 10.5px var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--accent); border: 1px solid currentColor; border-radius: 6px; padding: 3px 7px; }
   h1 { margin: 18px 0 0; max-width: 20ch; font-size: clamp(2.3rem, 5.4vw, 4.4rem); line-height: 1.02; letter-spacing: -0.045em; font-weight: 600; }
   .dek { margin: 22px 0 0; max-width: 40rem; font-size: clamp(18px, 1.6vw, 21px); color: var(--ink-2); }
   .container :global(.hero-art) { aspect-ratio: 21 / 8; border-radius: 18px; border: 1px solid var(--line); }
