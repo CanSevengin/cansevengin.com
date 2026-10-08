@@ -3,7 +3,7 @@ title: "The boring AI wins"
 description: "Why your company's first automation should be embarrassingly simple, and how to find the one worth building."
 date: 2026-10-08T10:00:00+03:00
 tags: [AI, automation, SMEs]
-draft: true
+draft: false
 ---
 
 Every week someone shows me an AI demo that makes the room go quiet. An agent that researches a market, writes a strategy, books meetings and reports back. It is impressive. It is also, in most small companies, the wrong place to start.

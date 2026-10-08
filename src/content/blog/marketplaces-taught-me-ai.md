@@ -3,7 +3,7 @@ title: "What marketplaces taught me about working with AI"
 description: "Years of selling on Trendyol, Hepsiburada and N11 turned out to be good training for the AI era."
 date: 2026-10-08T06:00:00+03:00
 tags: [e-commerce, marketplaces, AI]
-draft: true
+draft: false
 ---
 
 Before I worked with language models, I spent years running stores on marketplaces like Trendyol, Hepsiburada and N11, and selling cross-border into other platforms. I didn't expect that experience to be relevant to AI. It turned out to be some of the best preparation I had.

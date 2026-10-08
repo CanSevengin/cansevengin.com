@@ -3,7 +3,7 @@ title: "What an AI agent actually is (and when you don't need one)"
 description: "A plain-language definition, a simple ladder from prompt to agent, and how to tell which rung your problem belongs on."
 date: 2026-10-08T09:00:00+03:00
 tags: [AI, agents]
-draft: true
+draft: false
 ---
 
 "Agent" has become the word everybody uses and few people define. Vendors call almost anything an agent now: a chatbot, a scheduled script, a form with a language model behind it. That makes it hard for business owners to know what they are buying, or whether they need it at all.
