@@ -67,6 +67,7 @@ const nextPost = next && next.id !== post.id ? next : null;
       <div class="prose body">
         <Content />
         <div class="end">
+          <p class="ai-note"><Icon name="sparkle" size={16} /> Researched and drafted with Claude, in my voice. <a href="/how-it-works/">How this site works</a></p>
           <p>Thoughts or pushback? I’d like to hear them.</p>
           <div class="end-ctas">
             <a class="btn btn-primary" href={`mailto:${SITE.email}?subject=${encodeURIComponent('Re: ' + title)}`}>Write to Me <Icon name="arrow-right" /></a>
@@ -132,6 +133,9 @@ const nextPost = next && next.id !== post.id ? next : null;
 
   .end { margin-top: 64px !important; padding-top: 32px; border-top: 1px solid var(--line); }
   .end p { margin: 0; color: var(--ink); font-size: 18px; }
+  .end .ai-note { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 18px; font-size: 14.5px; color: var(--ink-3); }
+  .end .ai-note :global(svg) { color: var(--accent); }
+  .end .ai-note a { color: var(--ink-2); }
   .end-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
 
   .next {

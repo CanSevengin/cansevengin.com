@@ -22,6 +22,7 @@ const path = Astro.url.pathname;
 const nav = [
   { href: '/blog/', label: 'Notes' },
   { href: '/about/', label: 'About' },
+  { href: '/how-it-works/', label: 'How It Works' },
 ];
 ---
 <!doctype html>
@@ -90,6 +91,7 @@ const nav = [
         <div class="foot-links">
           <a href={`mailto:${SITE.email}`}><Icon name="envelope-simple" size={16} />{SITE.email}</a>
           {SITE.linkedin && <a href={SITE.linkedin} rel="me noopener" target="_blank"><Icon name="linkedin-logo" size={16} />LinkedIn</a>}
+          <a href="/how-it-works/"><Icon name="gear-six" size={16} />Built with Claude</a>
           <a href="/rss.xml"><Icon name="rss" size={16} />RSS</a>
         </div>
         <p class="foot-c">© {new Date().getFullYear()} Can Sevengin. Written in Istanbul.</p>
@@ -132,6 +134,7 @@ const nav = [
   .nav-cta { --h: 34px; margin-left: 8px; padding: 0 16px; font-size: 14px; }
   @media (max-width: 560px) {
     .word { display: none; }
+    nav a[href='/how-it-works/'] { display: none; }
     nav a:not(.btn) { padding: 8px 10px; }
   }
 

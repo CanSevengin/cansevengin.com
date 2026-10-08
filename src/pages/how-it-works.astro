@@ -1,0 +1,180 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import * as si from 'simple-icons';
+
+const day = [
+  { t: 'Morning', h: 'I wanted a personal email address.', d: 'Asked Claude where to get one. It suggested a domain on Cloudflare and mail on iCloud+, and walked me through both.' },
+  { t: '+30 min', h: 'Mail live on cansevengin.com.', d: 'Domain registered, iCloud+ custom domain connected, DNS records checked.' },
+  { t: '+1 hour', h: '“Can we build a site on this?”', d: 'Claude designed and coded the site, wrote the first five notes, and showed me screenshots to react to.' },
+  { t: '+2 hours', h: 'Redesigns, until it felt right.', d: 'Dark tech look, a live globe, then Apple-style scroll effects, my photo, a new logo and a CV pulled from my LinkedIn.' },
+  { t: '+3 hours', h: 'Deployed and indexed.', d: 'Claude pushed the code to GitHub, set up Vercel, added the DNS records in Cloudflare and registered the site with Google Search Console.' },
+  { t: 'Since then', h: 'It runs on its own.', d: 'Twice a week, a Claude agent researches, writes, checks and publishes a new note. I read them after they go live.' },
+];
+
+const pipeline = [
+  { i: 'magnifying-glass', h: 'Research', d: 'Searches the last 1-2 weeks of news in AI, automation, e-commerce and cross-border trade, and picks one question people actually ask.' },
+  { i: 'pen-nib', h: 'Write', d: 'Drafts a 600-900 word note in my voice, based on my background and the way I think about these topics.' },
+  { i: 'check-circle', h: 'Check', d: 'Verifies facts against sources, removes anything that sounds like a pitch, and runs a full build of the site.' },
+  { i: 'rocket-launch', h: 'Publish', d: 'Commits to GitHub. Vercel deploys it in under a minute, with a fresh share image, sitemap and llms.txt.' },
+  { i: 'broadcast', h: 'Announce', d: 'Pings Bing and other engines via IndexNow. Google finds it through the sitemap.' },
+  { i: 'chat-circle-text', h: 'Report', d: 'Sends me a short summary and the link. If I want changes, or want it gone, I just reply.' },
+];
+
+const rules = [
+  'No invented facts, numbers, quotes or stories. Every claim is checked against a source, and sources are listed.',
+  'Nothing for sale. No services, no funnels, no pitches.',
+  'Nothing about Babyjem’s customers, distributors, prices or internal matters.',
+  'No politically contested topics.',
+  'I can edit or remove any note at any time.',
+];
+
+const stack = [
+  [si.siClaude, 'Claude: design, code, writing, publishing'],
+  [si.siAstro, 'Astro: the site framework'],
+  [si.siVercel, 'Vercel: hosting and deploys'],
+  [si.siGithub, 'GitHub: code and history'],
+  [si.siCloudflare, 'Cloudflare: domain and DNS'],
+  [si.siIcloud, 'iCloud+: email on the domain'],
+  [si.siGooglesearchconsole, 'Google Search Console'],
+  [si.siGreensock, 'GSAP: scroll effects'],
+].filter(([icon]) => icon) as [{ path: string; title: string }, string][];
+---
+<Base
+  title="How This Site Works"
+  description="cansevengin.com was built in one morning with Claude, and a Claude agent now researches, writes, checks and publishes new notes twice a week. Here is the whole setup."
+>
+  <section class="container hero">
+    <h1 data-reveal>How this site works.</h1>
+    <p class="lede" data-reveal style="--i:1">One person, one morning, and Claude. Here’s the whole setup, including the parts that now run on their own.</p>
+    <div class="note" data-reveal style="--i:2">
+      <Icon name="info" size={20} />
+      <p>Notes on this site are researched and drafted by Claude in my voice, then published automatically. I read every one, and I edit or remove anything that doesn’t sound like me.</p>
+    </div>
+  </section>
+
+  <section class="container block">
+    <h2 data-reveal>The day it was built.</h2>
+    <ol class="day">
+      {day.map((s, i) => (
+        <li data-reveal style={`--i:${i % 3}`}>
+          <span class="t">{s.t}</span>
+          <div>
+            <h3>{s.h}</h3>
+            <p>{s.d}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="container block">
+    <h2 data-reveal>The publishing agent.</h2>
+    <p class="sub" data-reveal>Every Monday and Thursday at 08:49 Istanbul time, a Claude agent wakes up in the cloud and does this:</p>
+    <ol class="flow">
+      {pipeline.map((s, i) => (
+        <li data-reveal style={`--i:${i % 3}`}>
+          <span class="n">{i + 1}</span>
+          <Icon name={s.i} size={26} class="flow-ic" />
+          <h3>{s.h}</h3>
+          <p>{s.d}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="container block split">
+    <div data-reveal>
+      <h2>Who does what.</h2>
+      <div class="roles">
+        <div class="role">
+          <p class="role-k">Claude</p>
+          <ul>
+            <li>Design, code and redesigns</li>
+            <li>Domain, DNS, deploys and SEO</li>
+            <li>Research, writing and fact checks</li>
+            <li>Publishing on schedule</li>
+          </ul>
+        </div>
+        <div class="role me">
+          <p class="role-k">Me</p>
+          <ul>
+            <li>What the site is for, and how it should feel</li>
+            <li>Taste: “nah, make it cooler”</li>
+            <li>My background, views and voice</li>
+            <li>Reading, editing, removing</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div data-reveal style="--i:1">
+      <h2>Rules the agent follows.</h2>
+      <ul class="rules">
+        {rules.map((r) => <li><Icon name="check" size={18} class="r-ic" /><span>{r}</span></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="container block">
+    <h2 data-reveal>The stack.</h2>
+    <ul class="stack">
+      {stack.map(([icon, label], i) => (
+        <li data-reveal style={`--i:${i % 4}`}>
+          <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d={icon.path} fill="currentColor" /></svg>
+          <span>{label}</span>
+        </li>
+      ))}
+    </ul>
+    <p class="cost" data-reveal>Running cost: the domain, plus the iCloud+ plan I already had. Everything else is on free tiers.</p>
+  </section>
+</Base>
+
+<style>
+  .hero { padding-top: 88px; }
+  h1 { margin: 0; font-size: clamp(3rem, 8vw, 6.2rem); font-weight: 700; letter-spacing: -0.05em; line-height: 0.98; max-width: 12ch; }
+  .lede { margin: 26px 0 0; max-width: 38rem; font-size: clamp(19px, 2vw, 24px); line-height: 1.35; color: var(--ink-2); letter-spacing: -0.015em; }
+  .note { margin-top: 36px; max-width: 44rem; display: flex; gap: 14px; align-items: flex-start; padding: 20px 22px; border-radius: 20px; background: var(--accent-soft); box-shadow: inset 0 0 0 1px rgb(200 240 49 / .25); color: var(--ink); }
+  .note :global(svg) { color: var(--accent); flex: none; margin-top: 2px; }
+  .note p { margin: 0; font-size: 16.5px; line-height: 1.5; }
+
+  .block { padding-top: 18vh; }
+  .block h2 { margin: 0; font-size: clamp(2rem, 4.6vw, 3.6rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1.04; }
+  .sub { margin: 16px 0 0; color: var(--ink-2); font-size: 19px; max-width: 40rem; }
+
+  .day { list-style: none; margin: 44px 0 0; padding: 0; display: grid; gap: 0; }
+  .day li { display: grid; grid-template-columns: 150px 1fr; gap: 28px; padding: 26px 0; border-top: 1px solid var(--line); }
+  .day .t { font: 500 14px var(--mono); color: var(--accent); padding-top: 6px; letter-spacing: 0; }
+  .day h3 { margin: 0; font-size: clamp(1.3rem, 2.2vw, 1.75rem); font-weight: 700; letter-spacing: -0.03em; }
+  .day p { margin: 8px 0 0; color: var(--ink-2); max-width: 46rem; }
+  @media (max-width: 640px) { .day li { grid-template-columns: 1fr; gap: 6px; } }
+
+  .flow { list-style: none; margin: 44px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; counter-reset: s; }
+  .flow li { position: relative; padding: 28px 26px 30px; border-radius: 24px; background: var(--bg-1); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .06); overflow: hidden; }
+  .flow li::after { content: ''; position: absolute; inset: auto -40% -60% auto; width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(circle, rgb(200 240 49 / .10), transparent 70%); pointer-events: none; }
+  .n { position: absolute; top: 18px; right: 22px; font: 600 64px/1 var(--sans); letter-spacing: -0.05em; color: rgb(255 255 255 / .05); }
+  .flow :global(.flow-ic) { color: var(--accent); }
+  .flow h3 { margin: 16px 0 8px; font-size: 1.35rem; font-weight: 700; letter-spacing: -0.025em; }
+  .flow p { margin: 0; color: var(--ink-2); font-size: 15.5px; line-height: 1.5; }
+  @media (max-width: 900px) { .flow { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .flow { grid-template-columns: 1fr; } }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+  @media (max-width: 900px) { .split { grid-template-columns: 1fr; } }
+  .roles { margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .role { padding: 24px; border-radius: 22px; background: var(--bg-1); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .06); }
+  .role.me { background: var(--accent-soft); box-shadow: inset 0 0 0 1px rgb(200 240 49 / .25); }
+  .role-k { margin: 0 0 12px; font-weight: 700; font-size: 1.2rem; letter-spacing: -0.02em; }
+  .role.me .role-k { color: var(--accent); }
+  .role ul { margin: 0; padding-left: 1.1em; color: var(--ink-2); font-size: 15.5px; display: grid; gap: 8px; }
+  .role li::marker { color: var(--accent); }
+  .rules { list-style: none; margin: 32px 0 0; padding: 0; display: grid; gap: 14px; }
+  .rules li { display: flex; gap: 12px; align-items: flex-start; font-size: 17px; line-height: 1.45; }
+  .rules :global(.r-ic) { color: var(--accent); flex: none; margin-top: 3px; }
+
+  .stack { list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .stack li { display: flex; align-items: center; gap: 14px; padding: 18px 20px; border-radius: 18px; background: var(--bg-1); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .06); color: var(--ink-2); font-size: 15px; line-height: 1.3; }
+  .stack svg { color: var(--ink); flex: none; }
+  @media (max-width: 900px) { .stack { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .stack { grid-template-columns: 1fr; } }
+  .cost { margin: 28px 0 120px; color: var(--ink-3); font-size: 15px; }
+</style>

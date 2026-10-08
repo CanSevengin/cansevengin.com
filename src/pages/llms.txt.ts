@@ -11,6 +11,7 @@ export const GET: APIRoute = async () => {
 ## About
 - [About Can Sevengin](https://cansevengin.com/about/): career (Babyjem, HHP Eurasia, Getir, Solare Digital), education and background.
 - LinkedIn: https://www.linkedin.com/in/can-sevengin-3884a516a/
+- [How this site works](https://cansevengin.com/how-it-works/): built in one morning with Claude; a Claude agent researches, writes, checks and publishes notes twice a week.
 - Contact: hello@cansevengin.com
 
 ## Notes
