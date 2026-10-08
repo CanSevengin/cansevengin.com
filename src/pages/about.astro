@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Cover from '../components/Cover.astro';
 import Icon from '../components/Icon.astro';
 import { SITE } from '../site';
+import { PERSON_ID } from '../lib/schema';
 
 const timeline = [
   { y: 'Aug 2026 - now', r: 'International Sales Assistant Manager', o: 'Babyjem', d: 'Export, distributor development, international e-commerce and new market entry for a Turkish mother and baby brand sold in 65+ countries.' },
@@ -18,7 +19,12 @@ const education = [
   { y: '2014 - 2019', s: 'Anadolu University', d: 'BA, Business Administration' },
 ];
 ---
-<Base title="About" description="Can Sevengin: international sales, e-commerce and AI automation, based in Istanbul.">
+<Base
+  title="About Can Sevengin"
+  description="Can Sevengin is an International Sales Assistant Manager at Babyjem in Istanbul, with a background in e-commerce, Amazon marketplaces, digital growth at Getir and AI automation."
+  type="profile"
+  schema={[{ '@type': 'ProfilePage', '@id': 'https://cansevengin.com/about/#profile', url: 'https://cansevengin.com/about/', name: 'About Can Sevengin', mainEntity: { '@id': PERSON_ID }, dateModified: new Date().toISOString() }]}
+>
   <section class="container intro">
     <div class="copy">
       <h1 data-reveal>Sales by trade.<br /><span class="accent">Builder by habit.</span></h1>

@@ -3,6 +3,7 @@ import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Cover from '../../components/Cover.astro';
 import Icon from '../../components/Icon.astro';
+import { blogPosting, breadcrumbs } from '../../lib/schema';
 import { getPosts, formatDate, readingTime, SITE } from '../../site';
 
 export async function getStaticPaths() {
@@ -19,7 +20,21 @@ const { title, description, date, tags, draft } = post.data;
 const toc = headings.filter((h) => h.depth === 2);
 const nextPost = next && next.id !== post.id ? next : null;
 ---
-<Base title={title} description={description} type="article">
+<Base
+  title={title}
+  description={description}
+  type="article"
+  image={`/og/${post.id}.png`}
+  article={{ published: date, tags }}
+  schema={[
+    blogPosting({ slug: post.id, title, description, date, tags, words: (post.body ?? '').split(/\s+/).length }),
+    breadcrumbs([
+      { name: 'Home', url: 'https://cansevengin.com/' },
+      { name: 'Notes', url: 'https://cansevengin.com/blog/' },
+      { name: title, url: `https://cansevengin.com/blog/${post.id}/` },
+    ]),
+  ]}
+>
   <div class="progress" aria-hidden="true"></div>
 
   <article>
