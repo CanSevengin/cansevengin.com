@@ -9,7 +9,7 @@ const day = [
   { t: '+1 hour', h: '“Can we build a site on this?”', d: 'Claude designed and coded the site, wrote the first five notes, and showed me screenshots to react to.' },
   { t: '+2 hours', h: 'Redesigns, until it felt right.', d: 'Dark tech look, a live globe, then Apple-style scroll effects, my photo, a new logo and a CV pulled from my LinkedIn.' },
   { t: '+3 hours', h: 'Deployed and indexed.', d: 'Claude pushed the code to GitHub, set up Vercel, added the DNS records in Cloudflare and registered the site with Google Search Console.' },
-  { t: 'Since then', h: 'It runs on its own.', d: 'Twice a week, a Claude agent researches, writes, checks and publishes a new note. I read them after they go live.' },
+  { t: 'Since then', h: 'It runs on its own.', d: 'Twice a week, a Claude agent researches, writes, checks and publishes a new note. I read them after they go live. That agent is now becoming a product: Ghostline.' },
 ];
 
 const pipeline = [
@@ -47,6 +47,7 @@ const stack = [
   <section class="container hero">
     <h1 data-reveal>How this site works.</h1>
     <p class="lede" data-reveal style="--i:1">One person, one morning, and Claude. Here’s the whole setup, including the parts that now run on their own.</p>
+    <a class="prod" href="/build/" data-reveal style="--i:2"><span>This site is the first user of <strong>Ghostline</strong>, the publishing agent I’m building on Claude.</span><Icon name="arrow-right" size={18} /></a>
     <div class="note" data-reveal style="--i:2">
       <Icon name="info" size={20} />
       <p>Notes on this site are researched and drafted by Claude in my voice, then published automatically. I read every one, and I edit or remove anything that doesn’t sound like me.</p>
@@ -133,7 +134,11 @@ const stack = [
   .hero { padding-top: 88px; }
   h1 { margin: 0; font-size: clamp(3rem, 8vw, 6.2rem); font-weight: 700; letter-spacing: -0.05em; line-height: 0.98; max-width: 12ch; }
   .lede { margin: 26px 0 0; max-width: 38rem; font-size: clamp(19px, 2vw, 24px); line-height: 1.35; color: var(--ink-2); letter-spacing: -0.015em; }
-  .note { margin-top: 36px; max-width: 44rem; display: flex; gap: 14px; align-items: flex-start; padding: 20px 22px; border-radius: 20px; background: var(--accent-soft); box-shadow: inset 0 0 0 1px rgb(200 240 49 / .25); color: var(--ink); }
+  .prod { margin-top: 32px; max-width: 44rem; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 22px; border-radius: 20px; background: var(--bg-1); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .08); color: var(--ink); text-decoration: none; font-size: 16.5px; transition: box-shadow .3s; }
+  .prod:hover { box-shadow: inset 0 0 0 1px rgb(200 240 49 / .5); }
+  .prod strong { color: var(--accent); }
+  .prod :global(svg) { color: var(--accent); flex: none; }
+  .note { margin-top: 14px; max-width: 44rem; display: flex; gap: 14px; align-items: flex-start; padding: 20px 22px; border-radius: 20px; background: var(--accent-soft); box-shadow: inset 0 0 0 1px rgb(200 240 49 / .25); color: var(--ink); }
   .note :global(svg) { color: var(--accent); flex: none; margin-top: 2px; }
   .note p { margin: 0; font-size: 16.5px; line-height: 1.5; }
 
