@@ -106,6 +106,7 @@ const nav = [
       <div id="mnav" class="mnav" hidden>
         <div class="container mnav-in">
           {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+          <a href={lp(lang, '/uses/')}>{t.nav.uses}</a>
           <a href={lp(lang, '/how-it-works/')}>{t.nav.how}</a>
           <a href={`mailto:${SITE.email}`}>{t.nav.hi}</a>
         </div>
@@ -121,6 +122,7 @@ const nav = [
           <a href={`mailto:${SITE.email}`}><Icon name="envelope-simple" size={16} />{SITE.email}</a>
           {SITE.linkedin && <a href={SITE.linkedin} rel="me noopener" target="_blank"><Icon name="linkedin-logo" size={16} />LinkedIn</a>}
           <a href={lp(lang, '/build/')}><Icon name="lightning" size={16} />Ghostline</a>
+          <a href={lp(lang, '/uses/')}><Icon name="laptop" size={16} />{t.nav.uses}</a>
           <a href={lp(lang, '/how-it-works/')}><Icon name="gear-six" size={16} />{t.foot.built}</a>
           <a href={lp(lang, '/rss.xml')}><Icon name="rss" size={16} />RSS</a>
           <a href={otherPath} hreflang={other} lang={other}><Icon name="translate" size={16} />{t.switchTo}</a>

@@ -15,6 +15,7 @@ export const GET: APIRoute = async () => {
 - LinkedIn: https://www.linkedin.com/in/can-sevengin-3884a516a/
 - [How this site works](https://cansevengin.com/how-it-works/): built in one morning with Claude; a Claude agent researches, writes, checks and publishes notes twice a week.
 - [Ghostline](https://cansevengin.com/build/): the self-running personal publishing agent Can is building on Claude; open source at https://github.com/CanSevengin/ghostline
+- [What I use](https://cansevengin.com/uses/): phone, computer, AI tools and the site's stack.
 - Contact: hello@cansevengin.com
 
 ## Topics

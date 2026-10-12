@@ -56,7 +56,7 @@ export function readingTime(body = '') {
 export const UI = {
   en: {
     skip: 'Skip to content',
-    nav: { notes: 'Notes', about: 'About', build: 'Ghostline', hi: 'Say Hi', search: 'Search notes', menu: 'Menu', how: 'How this site works' },
+    nav: { notes: 'Notes', about: 'About', build: 'Ghostline', hi: 'Say Hi', search: 'Search notes', menu: 'Menu', how: 'How this site works', uses: 'What I use' },
     home: 'Can Sevengin, home',
     switchTo: 'Türkçe',
     switchLabel: 'Bu sayfayı Türkçe oku',
@@ -72,7 +72,7 @@ export const UI = {
   },
   tr: {
     skip: 'İçeriğe geç',
-    nav: { notes: 'Notlar', about: 'Hakkımda', build: 'Ghostline', hi: 'Bana Yaz', search: 'Notlarda ara', menu: 'Menü', how: 'Bu site nasıl çalışıyor' },
+    nav: { notes: 'Notlar', about: 'Hakkımda', build: 'Ghostline', hi: 'Bana Yaz', search: 'Notlarda ara', menu: 'Menü', how: 'Bu site nasıl çalışıyor', uses: 'Neler kullanıyorum' },
     home: 'Can Sevengin, ana sayfa',
     switchTo: 'English',
     switchLabel: 'Read this page in English',

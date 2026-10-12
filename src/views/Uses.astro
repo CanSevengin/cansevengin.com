@@ -1,0 +1,104 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import * as si from 'simple-icons';
+import { lp, type Lang } from '../site';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+type Item = { name: string; note: string; icon?: { path: string }; ph?: string; tag?: string; href?: string };
+const T = {
+  en: {
+    title: 'What I Use', desc: 'The phone, computer and AI tools Can Sevengin uses every day, plus what this site runs on.',
+    h1: 'What I use.', lede: 'The gear and tools I actually use day to day. No affiliate links, nothing sponsored.',
+    updated: 'Updated October 2026', next: 'Next', how: 'How this site was built',
+    groups: [
+      { h: 'Devices', items: [
+        { name: 'iPhone 17 Pro Max', note: '256 GB. My everyday phone for work, travel and everything in between.', icon: si.siApple },
+        { name: 'MacBook Pro (M5)', note: 'My main computer: work, side projects and this site.', icon: si.siApple },
+        { name: 'iPhone Duo', note: '1 TB. The one I’m planning to switch to next.', icon: si.siApple, tag: 'Next' },
+      ] },
+      { h: 'AI tools', items: [
+        { name: 'Claude', note: 'The one I build with. This site, its publishing agent and Ghostline all run on Claude.', icon: si.siClaude },
+        { name: 'ChatGPT', note: 'OpenAI’s assistant, part of my everyday AI toolkit.', ph: 'chat-circle-dots' },
+        { name: 'Perplexity', note: 'AI search that shows its sources.', icon: si.siPerplexity },
+      ] },
+      { h: 'This site', items: [
+        { name: 'Astro', note: 'The framework the site is built on.', icon: si.siAstro },
+        { name: 'Vercel', note: 'Hosting, deploys, image optimization and privacy-friendly analytics.', icon: si.siVercel },
+        { name: 'Cloudflare', note: 'Domain and DNS.', icon: si.siCloudflare },
+        { name: 'iCloud+', note: 'Email on my own domain.', icon: si.siIcloud },
+        { name: 'GitHub', note: 'Code and full history, including every note the agent publishes.', icon: si.siGithub },
+      ] },
+    ] as { h: string; items: Item[] }[],
+  },
+  tr: {
+    title: 'Neler Kullanıyorum', desc: 'Can Sevengin’in her gün kullandığı telefon, bilgisayar ve yapay zeka araçları, bir de bu sitenin altyapısı.',
+    h1: 'Neler kullanıyorum.', lede: 'Gün içinde gerçekten kullandığım cihazlar ve araçlar. Satış ortaklığı linki yok, sponsorlu hiçbir şey yok.',
+    updated: 'Ekim 2026’da güncellendi', next: 'Sırada', how: 'Bu site nasıl yapıldı',
+    groups: [
+      { h: 'Cihazlar', items: [
+        { name: 'iPhone 17 Pro Max', note: '256 GB. İşte, yolda ve arada kalan her şeyde günlük telefonum.', icon: si.siApple },
+        { name: 'MacBook Pro (M5)', note: 'Ana bilgisayarım: iş, yan projeler ve bu site.', icon: si.siApple },
+        { name: 'iPhone Duo', note: '1 TB. Sıradaki telefonum olmasını planlıyorum.', icon: si.siApple, tag: 'Sırada' },
+      ] },
+      { h: 'Yapay zeka araçları', items: [
+        { name: 'Claude', note: 'Bir şeyler geliştirirken kullandığım araç. Bu site, yayın ajanı ve Ghostline Claude üzerinde çalışıyor.', icon: si.siClaude },
+        { name: 'ChatGPT', note: 'OpenAI’ın asistanı, günlük yapay zeka araçlarımdan biri.', ph: 'chat-circle-dots' },
+        { name: 'Perplexity', note: 'Kaynaklarını gösteren yapay zeka araması.', icon: si.siPerplexity },
+      ] },
+      { h: 'Bu site', items: [
+        { name: 'Astro', note: 'Sitenin üzerine kurulduğu altyapı.', icon: si.siAstro },
+        { name: 'Vercel', note: 'Barındırma, yayın, görsel optimizasyonu ve çerezsiz ziyaretçi istatistikleri.', icon: si.siVercel },
+        { name: 'Cloudflare', note: 'Alan adı ve DNS.', icon: si.siCloudflare },
+        { name: 'iCloud+', note: 'Kendi alan adımda e-posta.', icon: si.siIcloud },
+        { name: 'GitHub', note: 'Kodlar ve tüm geçmiş, ajanın yayınladığı her not dahil.', icon: si.siGithub },
+      ] },
+    ] as { h: string; items: Item[] }[],
+  },
+}[lang];
+---
+<Base lang={lang} title={T.title} description={T.desc}>
+  <section class="t-light"><div class="container wrap">
+    <h1 data-reveal>{T.h1}</h1>
+    <p class="lede" data-reveal style="--i:1">{T.lede}</p>
+    <p class="upd" data-reveal style="--i:1">{T.updated}</p>
+    {T.groups.map((g) => (
+      <section class="group" data-reveal>
+        <h2>{g.h}</h2>
+        <ul>
+          {g.items.map((it) => (
+            <li>
+              <span class="ic">
+                {it.icon ? <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d={it.icon.path} fill="currentColor" /></svg> : <Icon name={it.ph!} size={22} />}
+              </span>
+              <div class="txt">
+                <p class="n">{it.name}{it.tag && <span class="tag">{it.tag}</span>}</p>
+                <p class="d">{it.note}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+    <a class="more" href={lp(lang, '/how-it-works/')}>{T.how} <Icon name="arrow-right" size={16} /></a>
+  </div></section>
+</Base>
+
+<style>
+  .wrap { padding-top: 88px; padding-bottom: 140px; max-width: 860px; }
+  h1 { margin: 0; font-size: clamp(3rem, 8vw, 5.6rem); font-weight: 650; letter-spacing: -0.04em; line-height: .98; }
+  .lede { margin: 22px 0 0; max-width: 36rem; color: var(--ink-2); font-size: 19px; }
+  .upd { margin: 10px 0 0; color: var(--ink-3); font-size: 14px; }
+  .group { margin-top: 64px; }
+  .group h2 { margin: 0 0 14px; font-size: 14px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); }
+  ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  li { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 18px; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .ic { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; background: var(--bg-1); color: var(--ink); }
+  .n { margin: 0; font-size: 1.2rem; font-weight: 650; letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .d { margin: 4px 0 0; color: var(--ink-2); font-size: 16px; line-height: 1.5; }
+  .tag { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: #c8f031; color: #0b0d05; letter-spacing: 0; }
+  .more { display: inline-flex; align-items: center; gap: 8px; margin-top: 48px; color: var(--accent); text-decoration: none; font-weight: 600; }
+  .more:hover { text-decoration: underline; text-underline-offset: 4px; }
+</style>
