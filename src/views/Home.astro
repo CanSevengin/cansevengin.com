@@ -23,7 +23,7 @@ const T = {
     lede: 'I’m Can. I work on international sales at Babyjem and spend my spare time building with AI. Here I write about work, tech, fatherhood and life.',
     cta: 'Read the Notes', about: 'About me',
     capK: 'One origin.', capT: 'Routes everywhere.',
-    statementLabel: 'Statement', siteLabel: 'About this site',
+    statementLabel: 'Statement',
     statement: 'I’ve spent my career on how products get sold. These days I’m also a dad, a tinkerer and a curious buyer of gadgets. This is where I keep notes on all of it.',
     portraitAlt: 'Can Sevengin at his desk with a laptop, an AI visual on the screen behind him',
     pcK: 'Hi, I’m Can.', pcT: 'International sales at Babyjem by day. Building with AI the rest of the time.', pcBtn: 'More About Me',
@@ -45,7 +45,7 @@ const T = {
     lede: 'Ben Can. Babyjem’de uluslararası satış tarafında çalışıyorum, boş zamanlarımda yapay zekayla bir şeyler geliştiriyorum. Burada iş, teknoloji, babalık ve hayat üzerine yazıyorum.',
     cta: 'Notları Oku', about: 'Hakkımda',
     capK: 'Başlangıç noktası tek.', capT: 'Rotalar her yöne.',
-    statementLabel: 'Kısaca', siteLabel: 'Bu site hakkında',
+    statementLabel: 'Kısaca',
     statement: 'Kariyerim boyunca hep ürünlerin nasıl satıldığıyla uğraştım. Şimdi bir de babayım, bir şeyleri kurcalamayı seviyorum, yeni çıkan cihazları da kaçırmıyorum. Hepsiyle ilgili notlarımı burada tutuyorum.',
     portraitAlt: 'Can Sevengin masasında dizüstü bilgisayarıyla, arkasındaki ekranda bir yapay zeka görseli',
     pcK: 'Merhaba, ben Can.', pcT: 'Gündüzleri Babyjem’de uluslararası satıştayım, kalan vaktimde yapay zekayla bir şeyler üretiyorum.', pcBtn: 'Hakkımda Daha Fazlası',
@@ -64,22 +64,6 @@ const T = {
   },
 } as const;
 const t = T[lang];
-const topicCount = new Set(all.map((p) => p.data.category)).size;
-const facts = lang === 'tr'
-  ? [
-      { k: 'Notlar', v: `${topicCount} konuda ${all.length} not` },
-      { k: 'Diller', v: 'Türkçe ve English' },
-      { k: 'Yeni not', v: 'Her pazartesi ve perşembe' },
-      { k: 'Yapım', v: 'Claude ile, benim zevkimle', href: lp(lang, '/how-it-works/') },
-      { k: 'Yayında', v: 'Ekim 2026’dan beri' },
-    ]
-  : [
-      { k: 'Notes', v: `${all.length} notes in ${topicCount} topics` },
-      { k: 'Languages', v: 'English and Türkçe' },
-      { k: 'New notes', v: 'Every Monday and Thursday' },
-      { k: 'Made with', v: 'Claude, plus my taste', href: lp(lang, '/how-it-works/') },
-      { k: 'Online since', v: 'October 2026' },
-    ];
 const words = t.statement.split(' ');
 ---
 <Base lang={lang}>
@@ -98,22 +82,6 @@ const words = t.statement.split(' ');
             <a href={lp(lang, '/about/')} class="link-cta">{t.about} <Icon name="caret-right" size={14} /></a>
           </div>
         </div>
-        <aside class="site-card" data-mark aria-label={t.siteLabel}>
-          <div class="sc-stage">
-            <svg class="sc-mark" viewBox="0 0 64 64" aria-hidden="true">
-              <path class="sc-ghost" d="M30.2 22.8 A13 13 0 1 0 21 45 C 31 45, 52 48.5, 52 39.5 C 52 31, 37.5 33.5, 37.5 25.5 C 37.5 17.5, 49 17, 52.5 21.5" />
-              <path class="sc-line" pathLength="1" d="M30.2 22.8 A13 13 0 1 0 21 45 C 31 45, 52 48.5, 52 39.5 C 52 31, 37.5 33.5, 37.5 25.5 C 37.5 17.5, 49 17, 52.5 21.5" />
-              <path class="sc-comet" pathLength="1" d="M30.2 22.8 A13 13 0 1 0 21 45 C 31 45, 52 48.5, 52 39.5 C 52 31, 37.5 33.5, 37.5 25.5 C 37.5 17.5, 49 17, 52.5 21.5" />
-              <circle class="sc-dot" r="3.4" />
-            </svg>
-            <p class="sc-sig">Can Sevengin<span>cansevengin.com</span></p>
-          </div>
-          <dl class="sc-facts">
-            {facts.map((f) => (
-              <div><dt>{f.k}</dt><dd>{f.href ? <a href={f.href}>{f.v}</a> : f.v}</dd></div>
-            ))}
-          </dl>
-        </aside>
       </div>
       <div class="hero-globe" data-hero-globe>
         <Globe />
@@ -274,7 +242,7 @@ const words = t.statement.split(' ');
 
   mm.add('(prefers-reduced-motion: no-preference)', () => {
     // Hero entrance
-    gsap.from('.h-line, .lede, .hero-ctas, .site-card', {
+    gsap.from('.h-line, .lede, .hero-ctas', {
       y: 40, opacity: 0, filter: 'blur(8px)', duration: 1.4, ease: 'expo.out', stagger: 0.12, delay: 0.1,
     });
     gsap.from('.hero-globe canvas', { opacity: 0, scale: 0.85, y: 80, duration: 2, ease: 'expo.out', delay: 0.35 });
@@ -284,7 +252,7 @@ const words = t.statement.split(' ');
       scrollTrigger: { trigger: '[data-hero]', start: 'top top', end: 'bottom bottom', scrub: 0.6 },
     });
     tl.to('[data-hero-copy]', { y: -120, scale: 0.92, opacity: 0, filter: 'blur(12px)', ease: 'none', duration: 0.35 }, 0)
-      .fromTo('[data-hero-globe]', { y: '30vh', scale: 0.82 }, { y: '-8vh', scale: 1.25, ease: 'none', duration: 0.6 }, 0)
+      .fromTo('[data-hero-globe]', { y: '16vh', scale: 0.82 }, { y: '-8vh', scale: 1.25, ease: 'none', duration: 0.6 }, 0)
       .fromTo('[data-hero-caption] .cap-k', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.18 }, 0.42)
       .fromTo('[data-hero-caption] .cap-t', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.18 }, 0.5)
       .to('[data-hero-caption]', { opacity: 0, y: -40, duration: 0.15 }, 0.85)
@@ -371,67 +339,20 @@ const words = t.statement.split(' ');
     content: ''; position: absolute; inset: 0; pointer-events: none;
     background: radial-gradient(60% 50% at 50% 100%, rgb(200 240 49 / 0.10), transparent 70%);
   }
-  .hero-copy { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: clamp(28px, 5vw, 72px); align-items: center; margin-top: -14vh; will-change: transform, opacity, filter; }
-  h1 { margin: 0; font-weight: 650; letter-spacing: -0.035em; line-height: 1.02; font-size: clamp(2.5rem, 5.6vw, 5.2rem); }
+  .hero-copy { position: relative; z-index: 2; text-align: center; margin-top: -18vh; will-change: transform, opacity, filter; }
+  h1 { margin: 0; font-weight: 650; letter-spacing: -0.035em; line-height: 1.02; font-size: clamp(2.7rem, 7.2vw, 6.2rem); }
   .h-line { display: block; }
   .grad {
     background: linear-gradient(92deg, #c8f031 10%, #e9ff9e 50%, #8ee0b5 95%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
     padding-bottom: 0.08em;
   }
-  .lede { margin: 24px 0 0; max-width: 34rem; font-size: clamp(17px, 1.5vw, 21px); line-height: 1.45; color: var(--ink-2); letter-spacing: -0.01em; }
-  .hero-ctas { display: flex; gap: 22px; margin-top: 30px; align-items: center; flex-wrap: wrap; }
+  .lede { margin: 24px auto 0; max-width: 36rem; font-size: clamp(17px, 1.5vw, 21px); line-height: 1.45; color: var(--ink-2); letter-spacing: -0.01em; }
+  .hero-ctas { display: flex; gap: 22px; margin-top: 30px; justify-content: center; align-items: center; flex-wrap: wrap; }
   .ctas { display: flex; gap: 14px; margin-top: 34px; justify-content: center; align-items: center; flex-wrap: wrap; }
   .link-cta { display: inline-flex; align-items: center; gap: 4px; color: var(--accent); text-decoration: none; font-size: 17px; }
   .link-cta:hover { text-decoration: underline; text-underline-offset: 4px; }
 
-  /* Site card: the animated mark plus what this site is */
-  .site-card {
-    border-radius: 28px; padding: 14px; display: grid; gap: 14px;
-    background: rgb(13 15 18 / .62); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .08), 0 30px 80px -30px rgb(0 0 0 / .8);
-    backdrop-filter: blur(22px) saturate(140%); -webkit-backdrop-filter: blur(22px) saturate(140%);
-  }
-  .sc-stage { position: relative; border-radius: 18px; aspect-ratio: 16 / 10; display: grid; place-items: center; overflow: hidden;
-    background: radial-gradient(70% 80% at 70% 30%, rgb(200 240 49 / .12), transparent 60%), #0a0b0d; }
-  .sc-mark { width: 52%; overflow: visible; }
-  .sc-ghost { fill: none; stroke: rgb(255 255 255 / .06); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
-  .sc-line { fill: none; stroke: #f1f3f5; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
-  .sc-comet { fill: none; stroke: #c8f031; stroke-width: 5; stroke-linecap: round; stroke-dasharray: .14 1; stroke-dashoffset: -1.2; opacity: .9; filter: drop-shadow(0 0 3px rgb(200 240 49 / .7)); }
-  .sc-dot { fill: #c8f031; offset-path: path('M30.2 22.8 A13 13 0 1 0 21 45 C 31 45, 52 48.5, 52 39.5 C 52 31, 37.5 33.5, 37.5 25.5 C 37.5 17.5, 49 17, 52.5 21.5'); offset-distance: 100%; offset-rotate: 0deg; filter: drop-shadow(0 0 4px rgb(200 240 49 / .8)); }
-  .sc-sig { position: absolute; left: 18px; bottom: 14px; margin: 0; font-size: 14px; font-weight: 600; letter-spacing: -0.01em; display: grid; }
-  .sc-sig span { font-weight: 500; color: var(--ink-3); font-size: 12.5px; }
-  @media (prefers-reduced-motion: no-preference) {
-    .sc-line { animation: sc-write 1.6s cubic-bezier(.65, 0, .35, 1) .5s both; }
-    .sc-dot { animation: sc-ride 1.6s cubic-bezier(.65, 0, .35, 1) .5s both, sc-pulse 2.4s ease-in-out 2.2s infinite; }
-    .sc-comet { animation: sc-comet 3.6s cubic-bezier(.45, 0, .25, 1) 2.4s infinite; }
-    :global(.replay) .sc-line { animation-name: sc-write-2; animation-delay: 0s; }
-    :global(.replay) .sc-dot { animation-name: sc-ride-2, sc-pulse; animation-delay: 0s, 1.6s; }
-  }
-  @keyframes sc-write { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
-  @keyframes sc-write-2 { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
-  @keyframes sc-ride { from { offset-distance: 0%; } to { offset-distance: 100%; } }
-  @keyframes sc-ride-2 { from { offset-distance: 0%; } to { offset-distance: 100%; } }
-  @keyframes sc-pulse { 0%, 100% { r: 3.4; } 50% { r: 4.4; } }
-  @keyframes sc-comet { 0% { stroke-dashoffset: 1.14; opacity: 0; } 8% { opacity: .9; } 70% { stroke-dashoffset: 0; opacity: .9; } 78%, 100% { stroke-dashoffset: -.14; opacity: 0; } }
-
-  .sc-facts { margin: 0; padding: 0 6px 6px; display: grid; }
-  .sc-facts > div { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 12px; padding: 10px 0; border-top: 1px solid rgb(255 255 255 / .07); }
-  .sc-facts > div:first-child { border-top: 0; }
-  .sc-facts dt { color: var(--ink-3); font-size: 14px; }
-  .sc-facts dd { margin: 0; font-size: 15px; font-weight: 500; font-variant-numeric: tabular-nums; }
-  .sc-facts a { color: var(--accent); text-decoration: none; }
-  .sc-facts a:hover { text-decoration: underline; text-underline-offset: 3px; }
-  @media (max-width: 900px) {
-    .hero-copy { grid-template-columns: 1fr; gap: 24px; margin-top: -6vh; }
-    .site-card { grid-template-columns: 132px minmax(0, 1fr); align-items: center; padding: 10px; }
-    .sc-stage { aspect-ratio: 1; }
-    .sc-mark { width: 70%; }
-    .sc-sig { display: none; }
-    .sc-facts { padding: 0 4px 0 0; }
-    .sc-facts > div { grid-template-columns: 1fr; gap: 0; padding: 6px 0; }
-    .sc-facts > div:nth-child(n+4) { display: none; }
-    .sc-facts dt { font-size: 12.5px; } .sc-facts dd { font-size: 14px; }
-  }
   .hero-globe {
     position: absolute; z-index: 1; left: 50%; top: 40%;
     width: min(1100px, 125vw); margin-left: calc(min(1100px, 125vw) / -2);
@@ -441,7 +362,8 @@ const words = t.statement.split(' ');
   .hero-caption p { margin: 0; font-weight: 650; letter-spacing: -0.035em; line-height: 1.05; font-size: clamp(2.2rem, 5.5vw, 4.6rem); opacity: 0; }
   .cap-t { color: var(--accent); }
   @media (max-width: 700px) {
-    .hero-globe { top: 52%; }
+    .hero-copy { margin-top: -30vh; }
+    .hero-globe { top: 46%; }
   }
 
   /* ---------- Statement ---------- */
