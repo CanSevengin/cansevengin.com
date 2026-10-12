@@ -3,7 +3,7 @@ title: "How to build something on the side with a full-time job and a family"
 description: "Protect small, regular blocks of time, plan around energy instead of hours, let tools handle the boring parts, and say no early. Here's how I think about it."
 date: 2026-10-08T14:00:00+03:00
 tags: [side projects, productivity, work-life balance]
-category: life
+category: building
 draft: false
 ---
 

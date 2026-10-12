@@ -1,58 +1,58 @@
 ---
-title: "Bu yıl telefonunuzu yenilemeli misiniz? Büyük ihtimalle hayır, işte nasıl karar verirsiniz"
-description: "Son üç dört yılda alınmış bir telefonunuz varsa bu sonbaharın yeni modelleri şart değil. Dört basit kontrol, istisna olup olmadığınızı gösterir."
+title: "Bu yıl telefon değiştirmeli miyim? Çoğu kişi için cevap hayır"
+description: "Telefonun son üç dört yılda alındıysa bu sonbaharın yeni modelleri şart değil. Dört hızlı kontrolle istisna olup olmadığını kolayca anlayabilirsin."
 date: 2026-10-08T16:00:00+03:00
-tags: [telefon, iPhone, Android, yenileme, yapay zeka]
+tags: [telefon, iPhone, Android, telefon değiştirme, yapay zeka]
 category: tech
 draft: false
 lang: tr
 ---
 
-Telefonunuz üç dört yaşındaysa ve şarjı hâlâ günü çıkarıyorsa, bu sonbahar yenilemenize büyük ihtimalle gerek yok. Yeni telefonlar daha iyi, ama yoğun bir insanın günlük hayatta pek fark etmeyeceği şekillerde. Yenilemek için gerçek sebepler aslında sıkıcı olanlar: ölmek üzere olan bir batarya, artık güncelleme almayan bir telefon ya da her gün kullanacağınız tek bir özellik.
+Telefonun üç dört yaşındaysa ve şarjı hâlâ akşamı buluyorsa, bu sonbahar telefon değiştirmene büyük ihtimalle gerek yok. Yeni modeller daha iyi ama koşturan biri bu farkı gündelik hayatta pek hissetmez. Telefon değiştirmenin gerçek sebepleri sıkıcı olanlar: ömrünü doldurmuş bir batarya, artık güncelleme almayan bir telefon ya da her gün kullanacağın belirli bir özellik.
 
-Önce bu sonbahar gerçekten neler çıktı, sonra para harcamadan önce benim bakacağım dört nokta.
+Önce bu sonbahar neler çıktı, ona bakalım. Sonra parayı vermeden önce benim yapacağım dört kontrole geçelim.
 
-## Bu sonbahar neler çıktı
+## Bu sonbahar neler çıktı?
 
-Apple, iPhone 18 Pro ve iPhone 18 Pro Max'i 9 Eylül'de tanıttı. Telefonlar 18 Eylül'de Türkiye'de de satışa çıktı. Türkiye fiyatları 256 GB için iPhone 18 Pro'da 137.999 TL, Pro Max'te 149.999 TL'den başlıyor. ABD'de ise iki model de geçen yılın iPhone 17 Pro karşılıklarından 100 dolar daha pahalı.
+Apple, iPhone 18 Pro ve iPhone 18 Pro Max'i 9 Eylül'de tanıttı. İki model 18 Eylül'de Türkiye'de de satışa çıktı. Türkiye'de 256 GB iPhone 18 Pro 137.999 TL'den, Pro Max 149.999 TL'den başlıyor. ABD'de ise ikisi de iPhone 17 Pro'daki karşılıklarından 100 dolar daha pahalı.
 
-Aynı etkinlikte Apple'ın ilk katlanabilir telefonu iPhone Duo da duyuruldu. Ön siparişler 16 Ekim'de açılıyor, satış 23 Ekim'de başlıyor. ABD başlangıç fiyatı 1.999 dolar.
+Aynı etkinlikte Apple'ın ilk katlanabilir telefonu iPhone Duo da tanıtıldı. Ön siparişler 16 Ekim'de açılıyor, satış 23 Ekim'de başlıyor. ABD'de fiyatı 1.999 dolardan başlıyor.
 
-Android tarafında büyük isimler biraz daha erken geldi. Google'ın Pixel 11 serisi ağustosta tanıtıldı, ABD'de 899 dolardan başlıyor. Samsung'un Galaxy S26 FE modeli ağustos sonunda duyuruldu ve eylül başında ABD'de 699 dolardan satışa çıktı.
+Android tarafında büyük isimler biraz daha erken geldi. Google'ın Pixel 11 serisi ağustosta tanıtıldı, ABD'de 899 dolardan başlıyor. Samsung'un Galaxy S26 FE'si ağustos sonunda duyuruldu, eylül başında ABD'de 699 dolardan satışa çıktı.
 
-## 1. kontrol: Sorun gerçekten batarya mı?
+## 1. Sorun gerçekten batarya mı?
 
-Telefon yenilemek için en dürüst sebep batarya. Apple'ın kendi rakamları gerçek ama ölçülü bir ilerleme gösteriyor: iPhone 18 Pro'da 36 saate kadar video oynatma (17 Pro'da 33 saatti), Pro Max'te 45 saate kadar (önceki modelde 39 saatti). Apple, Pro Max'in bugüne kadarki en büyük iPhone bataryasına sahip olduğunu da söylüyor.
+Telefon değiştirmenin en dürüst sebebi batarya. Apple'ın kendi verileri gerçek ama sınırlı bir ilerleme gösteriyor: iPhone 18 Pro'da 36 saate kadar video oynatma (17 Pro'da 33 saatti), Pro Max'te 45 saate kadar (önceki Pro Max'te 39 saatti). Apple, Pro Max'teki bataryanın bugüne kadar bir iPhone'a konan en büyük batarya olduğunu da söylüyor.
 
-Çok daha eski bir telefondan geçiyorsanız bu fark hissedilir. Geçen yılın modelini kullanıyorsanız, üç ila altı saatlik ek video süresi haftanızı değiştirmez. Telefonunuzun tek derdi yıpranmış bir bataryaysa, batarya değişimi genelde daha ucuz çözüm. Yeni modellere bakmadan önce ayarlardan batarya sağlığını kontrol edin.
+Çok daha eski bir telefondan geçiyorsan bu fark hissedilir. Geçen yılın modelini kullanıyorsan üç ila altı saatlik ek video süresi haftanı değiştirmez. Telefonunun tek derdi yıpranmış bataryaysa, batarya değiştirmek genelde daha ucuz çözüm. Yeni modellere bakmadan önce ayarlardan batarya sağlığını kontrol et.
 
-## 2. kontrol: Kamera çektiğiniz fotoğrafları değiştirecek mi?
+## 2. Yeni kamera fotoğraflarını değiştirir mi?
 
-iPhone 18 Pro'nun öne çıkan kamera yeniliği, 48 MP ana kamerada değişken diyafram. iPhone'da bir ilk. Altı kanatlı mekanizma diyaframı otomatik ayarlıyor, isterseniz f/1.48 ile f/4.0 arasında elle de seçebiliyorsunuz.
+iPhone 18 Pro'nun en çok konuşulan kamera yeniliği, 48 MP ana kameradaki değişken diyafram. iPhone'da ilk kez var. Altı kanatlı mekanizma diyaframı kendisi ayarlıyor, istersen f/1.48 ile f/4.0 arasında elle de seçebiliyorsun.
 
-Alan derinliğini önemseyen ve daha fazla manuel kontrol isteyenler için bu gerçek bir yükseltme. Ama çoğunlukla çocukların, yemeklerin, belgelerin ve ara sıra gün batımının fotoğrafını çeken biri için otomatik mod zaten çok iyiydi. Fotoğraf ciddi bir hobiniz değilse sadece bunun için yenilemem.
+Alan derinliğiyle uğraşan, daha çok manuel kontrol isteyen biri için bu gerçek bir yenilik. Ama çoğunlukla çocukların, yemeğin, belgelerin ve arada bir gün batımının fotoğrafını çekiyorsan otomatik mod zaten çok iyiydi. Fotoğraf ciddi bir hobin değilse sadece bunun için telefon değiştirmezdim.
 
-## 3. kontrol: Yapay zeka özellikleri yeni donanım istiyor mu?
+## 3. Yapay zeka özellikleri için yeni telefon gerekiyor mu?
 
-İşin ilginç ve biraz kafa karıştırıcı kısmı burası. Bu yılın en büyük yapay zeka yeniliği iOS 27 ile gelen yeni Siri. Ama bunun için yeni telefon gerekmiyor: MacRumors'a göre Siri AI, iPhone 15 Pro ve sonrasında çalışıyor. Bu modellerden biri elinizdeyse ana yapay zeka yükseltmesini ücretsiz alıyorsunuz.
+İşin ilginç ve biraz kafa karıştırıcı kısmı burası. Bu yılın en büyük yapay zeka yeniliği iOS 27 ile gelen yeni Siri. Ama bunun için yeni telefon almana gerek yok: MacRumors'a göre Siri AI, iPhone 15 Pro ve sonrasında çalışıyor. Bu modellerden biri elindeyse en büyük yapay zeka yeniliği sana bedavaya geliyor.
 
-Google'ın Pixel 11'i ise görevleri kendi başına yürütebilen Gemini Intelligence ile geliyor. Fakat Android Central'ın aktardığına göre bu görev yürütme özelliği şimdilik yalnızca ABD'de. Benim gibi Türkiye'de yaşıyorsanız, parayı vermeden önce bunu bilmekte fayda var.
+Google'ın Pixel 11'i ise işleri kendi başına halledebilen Gemini Intelligence ile geliyor. Fakat Android Central'ın aktardığına göre bu özellik şimdilik yalnızca ABD'de çalışıyor. Benim gibi Türkiye'de yaşıyorsan parayı vermeden önce bunu bilmekte fayda var.
 
-Benim kuralım şu: Telefonu, bulunduğunuz ülkede bugün ne yaptığına göre alın, ileride gelebilecek özelliklere göre değil.
+Benim kuralım şu: Telefonu yaşadığın ülkede bugün ne yaptığına bakarak al, ileride gelebilecek özelliklere bakarak değil.
 
-## 4. kontrol: Mevcut telefonunuz daha ne kadar güncelleme alacak?
+## 4. Telefonun daha ne kadar güncelleme alacak?
 
-Çoğu insanın atladığı ama güvenlik açısından en önemli kontrol bu. 14 Eylül'de yayınlanan iOS 27, iOS 26 ile aynı iPhone'ları destekliyor: 2019'da çıkan iPhone 11 serisi ve sonrası, artı 2. nesil iPhone SE ve sonrası. Yani iPhone 11 veya daha yenisini kullanıyorsanız bu yıl hâlâ destek kapsamındasınız.
+Çoğu kişinin atladığı ama güvenlik açısından en önemli kontrol bu. 14 Eylül'de yayımlanan iOS 27, iOS 26 ile aynı modelleri destekliyor: 2019'da çıkan iPhone 11 serisi ve sonrası, bir de 2. nesil iPhone SE ve sonrası. Yani iPhone 11 ya da daha yenisini kullanıyorsan bu yıl hâlâ destek alıyorsun.
 
-Android tarafında Google, Pixel 11 için yedi yıl yazılım güncellemesi ve yedi yıl yedek parça sözü veriyor. Uzun ve yazılı bir destek taahhüdü, belirli bir telefonu seçmek için en iyi sebeplerden biri. Çünkü telefonu ne kadar süre güvenle kullanabileceğinizi o belirliyor.
+Android'de Google, Pixel 11 için yedi yıl yazılım güncellemesi ve yedi yıl yedek parça sözü veriyor. Uzun ve yazılı bir destek sözü, bir telefonu seçmek için en iyi sebeplerden biri. Çünkü telefonu ne kadar süre güvenle kullanabileceğini bu belirliyor.
 
-## Peki ya katlanabilir iPhone?
+## Katlanabilir iPhone Duo alınır mı?
 
-iPhone Duo bu sonbaharın en heyecan verici lansmanı ve benim en temkinli yaklaşacağım model. 5,4 inç dış ve 7,6 inç iç ekranı var. Ama bazı ödünlerle geliyor: 254 gramla en ağır iPhone, Face ID yerine Touch ID kullanıyor ve telefoto kamerası yok. 1.999 dolarlık, ilk nesil bir ürün. Merak ediyorsanız, katlanma izi ve dayanıklılık konusunda gerçek kullanım incelemelerini beklemenizi öneririm.
+iPhone Duo bu sonbaharın en heyecan verici lansmanı. Benim en temkinli yaklaşacağım model de bu. 5,4 inç dış, 7,6 inç iç ekranı var. Bedeli de var: 254 gramla en ağır iPhone, Face ID yerine Touch ID kullanıyor ve telefoto kamerası yok. Üstelik 1.999 dolarlık, ilk nesil bir ürün. Merak ediyorsan katlanma izi ve dayanıklılık konusunda gerçek kullanıcı yorumlarını beklemeni öneririm.
 
 ## Kısacası
 
-Bataryanız artık günü çıkarmıyorsa, telefonunuz güncelleme desteğinden düştüyse ya da yeni kameradan gerçekten faydalanacak kadar fotoğraf çekiyorsanız bu yıl yenileyin. Aksi halde telefonunuzu tutun, gerekiyorsa bataryasını değiştirin ve ücretsiz gelen iOS 27 ya da Android güncellemesinin tadını çıkarın. Çoğu zaman en iyi telefon, parasını zaten ödediğiniz telefondur.
+Bataryan artık akşamı bulmuyorsa, telefonun güncelleme desteğinden düştüyse ya da yeni kameranın hakkını verecek kadar fotoğraf çekiyorsan bu yıl değiştir. Değilse telefonunu tut, gerekiyorsa bataryasını değiştir ve bedava gelen iOS 27 ya da Android güncellemesinin keyfini çıkar. Çoğu zaman en iyi telefon, parasını zaten ödediğin telefondur.
 
 ## Kaynaklar
 

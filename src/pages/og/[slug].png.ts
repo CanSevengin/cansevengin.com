@@ -32,10 +32,9 @@ export const GET: APIRoute = ({ params, props }) => {
     ${cover}
     <defs><linearGradient id="f" x1="0" x2="1"><stop offset="0.42" stop-color="#07080a"/><stop offset="0.75" stop-color="#07080a" stop-opacity="0.2"/><stop offset="1" stop-color="#07080a" stop-opacity="0"/></linearGradient></defs>
     <rect width="1200" height="630" fill="url(#f)"/>
-    <g transform="translate(72 72) scale(1.6)">
-      <rect width="32" height="32" rx="9" fill="#14170c"/>
-      <path d="M22.6 9.4 A9.3 9.3 0 1 0 22.6 22.6" fill="none" stroke="#c8f031" stroke-width="2.6" stroke-linecap="round"/>
-      <circle cx="16" cy="16" r="2.6" fill="#c8f031"/><circle cx="22.6" cy="22.6" r="2.3" fill="#f1f3f5"/>
+    <g transform="translate(72 72) scale(.8)">
+      <rect width="64" height="64" rx="16" fill="#0f1210"/>
+      <g transform="translate(5.5 5.5) scale(.83)"><path d="M30.2 22.8 A13 13 0 1 0 21 45 C 31 45, 52 48.5, 52 39.5 C 52 31, 37.5 33.5, 37.5 25.5 C 37.5 17.5, 49 17, 52.5 21.5" fill="none" stroke="#f1f3f5" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="52.5" cy="21.5" r="4.7" fill="#c8f031"/></g>
     </g>
     <text x="146" y="110" font-family="Inter Display" font-weight="500" font-size="28" fill="#f1f3f5">Can <tspan fill="#7f8792">Sevengin</tspan></text>
     ${text}

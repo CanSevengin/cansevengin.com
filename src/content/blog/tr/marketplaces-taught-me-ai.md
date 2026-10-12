@@ -1,43 +1,43 @@
 ---
-title: "Pazaryerleri bana yapay zekayla çalışmayı nasıl öğretti"
-description: "Trendyol, Hepsiburada ve N11'de satış yaptığım yıllar, yapay zeka dönemi için aldığım en iyi eğitimlerden biri çıktı. Benzerlikleri beş başlıkta anlatıyorum."
+title: "Trendyol ve Hepsiburada'da satış yapmak bana yapay zeka hakkında ne öğretti?"
+description: "Göremediğin bir algoritmaya göre çalışmak, veriyi temiz tutmak, önce küçük partide denemek. Pazaryerinde öğrendiklerim yapay zekada da birebir işe yarıyor."
 date: 2026-10-08T06:00:00+03:00
-tags: [e-ticaret, pazaryerleri, yapay zeka]
-category: work
+tags: [e-ticaret, pazaryeri, yapay zeka]
+category: ecommerce
 lang: tr
 draft: false
 ---
 
-Dil modelleriyle çalışmaya başlamadan önce yıllarca Trendyol, Hepsiburada ve N11 gibi pazaryerlerinde mağaza yönettim, yurt dışında da başka platformlara satış yaptım. Bu deneyimin yapay zekayla bir ilgisi olacağını hiç düşünmemiştim. Meğer sahip olduğum en iyi hazırlıklardan biriymiş.
+Dil modelleriyle çalışmaya başlamadan önce yıllarca Trendyol, Hepsiburada ve N11'de mağaza yönettim, yurt dışında da başka platformlarda satış yaptım. Bu tecrübenin bir gün yapay zekayla işime yarayacağı aklımın ucundan geçmezdi. Meğer en iyi hazırlığım buymuş.
 
-Pazaryerleriyle yapay zeka sistemlerinin önemli bir ortak noktası var: onları kontrol edemezsiniz, içlerini göremezsiniz ve geri bildirimle savaşmak yerine onunla çalışmayı öğrenenleri ödüllendirirler.
+Pazaryerleriyle yapay zeka sistemlerinin önemli bir ortak noktası var. İkisini de sen yönetemezsin, içini göremezsin. İkisi de geri bildirimle kavga edeni değil, ondan ders çıkaranı kazandırır.
 
-## 1. Göremediğiniz bir sisteme göre optimize ediyorsunuz
+## 1. Göremediğin bir sisteme göre çalışıyorsun
 
-Hiçbir satıcı, bir pazaryerinin ürünleri tam olarak nasıl sıraladığını bilmez. Hipotezler kurarsınız, test edersiniz ve ne olduğunu izlersiniz: daha iyi bir başlık, daha net görseller, bir fiyat değişikliği, daha hızlı kargo. Zamanla algoritmanın neye tepki verdiğine dair bir sezgi geliştirirsiniz.
+Hiçbir satıcı pazaryerinin ürünleri tam olarak nasıl sıraladığını bilmez. Tahmin yürütürsün, dener, ne olacağına bakarsın: daha iyi bir başlık, daha net görseller, fiyat değişikliği, daha hızlı kargo. Zamanla algoritmanın neye tepki verdiğine dair bir sezgin oluşur.
 
-Yapay zeka modelleriyle çalışmak da aynı beceriyi istiyor. Bir prompt'un neden diğerinden daha iyi çalıştığını tam olarak bilmezsiniz. Test edersiniz, çıktıları karşılaştırırsınız, işe yarayanı tutar, yaramayanı bırakırsınız. Kullanım kılavuzu bekleyenler sinir oluyor. Deneme yapmaya alışkın olanlar ise kendini evinde hissediyor.
+Yapay zeka modelleriyle çalışmak da aynı beceriyi istiyor. Bir prompt'un neden ötekinden daha iyi sonuç verdiğini tam olarak bilemezsin. Dener, çıktıları karşılaştırır, işe yarayanı tutar, yaramayanı atarsın. Kullanım kılavuzu bekleyen çabuk sinirleniyor. Denemeye alışkın olan ise kendini evinde hissediyor.
 
-## 2. Her şeyi girdiler belirliyor
+## 2. Her şeyi girdi belirliyor
 
-Bir pazaryerinde sonuçlarınızın büyük kısmını ilan verilerinizin kalitesi belirler. Yanlış kategori, eksik özellikler, muğlak açıklamalar: dünyanın en iyi ürünü bile olsa dibe batar.
+Pazaryerinde sonucunun büyük kısmını ilan verisinin kalitesi belirler. Kategori yanlışsa, özellikler eksikse, açıklama muğlaksa dünyanın en iyi ürünü bile dibe gider.
 
-Yapay zekada da birebir aynı. Dağınık ürün verisi, tutarsız isimlendirme ve yarım doldurulmuş tablolar dağınık çıktı üretiyor. Veriyi temizlemek ve yapılandırmak gibi gösterişsiz işler, değerin büyük kısmının hâlâ yattığı yer. Bu ilanlar için de doğruydu, prompt'lar, ajanlar ve otomasyonlar için de doğru.
+Yapay zekada da durum aynı. Dağınık ürün verisi, tutarsız isimler, yarısı boş tablolar dağınık çıktı verir. Veriyi temizlemek ve düzene sokmak gösterişsiz bir iş ama kazancın çoğu hâlâ orada. İlanlar için böyleydi, prompt, ajan ve otomasyon için de böyle.
 
-## 3. Ölçek küçük hataları ortaya çıkarıyor
+## 3. Ölçek küçük hataları büyütüyor
 
-Birkaç ürünü elle yönetmek hataları affeder. Birkaç platformda binlerce ilanı yönetmek ise affetmez: bir şablondaki küçük bir hata aynı anda her yerde tekrarlanır.
+Birkaç ürünü elle yönetirken hata affedilir. Birkaç platformda binlerce ilanı yönetirken affedilmez: Şablondaki küçük bir hata aynı anda her yere yayılır.
 
-Yapay zekayla otomasyon kurduğunuzda da aynısı oluyor. Günde yüzlerce kez çalışan bir iş akışına kopyalanmış, birazcık yanlış bir talimat hızla büyük bir soruna dönüşüyor. Pazaryerleri bana önce küçük bir partide test etmeyi, dikkatle kontrol etmeyi, sonra ölçeklemeyi öğretti.
+Yapay zekayla otomasyon kurunca da aynısı oluyor. Azıcık yanlış bir talimat, günde yüzlerce kez çalışan bir akışa girince kısa sürede büyük bir soruna dönüşüyor. Pazaryerleri bana önce küçük bir partide denemeyi, dikkatle kontrol etmeyi, ancak ondan sonra büyütmeyi öğretti.
 
-## 4. Platform değişiyor, o yüzden bir numaraya değil bir sisteme ihtiyacınız var
+## 4. Platform değişir, numara değil sistem kalıcıdır
 
-Her satıcının, bir politika güncellemesi bir gecede bitirene kadar harika çalışan bir taktikle ilgili bir hikayesi vardır. Ayakta kalan satıcılar, temeli sağlam olanlar: iyi ürün, iyi veri, iyi hizmet.
+Her satıcının bir hikayesi vardır: Harika çalışan bir taktik, bir kural değişikliğiyle bir gecede çöpe gider. Ayakta kalan satıcılar temeli sağlam olanlardır: iyi ürün, iyi veri, iyi hizmet.
 
-Yapay zeka araçları çok daha hızlı değişiyor. Bugünün modeliyle işe yarayan belirli bir numara altı ay sonra hiçbir anlam ifade etmeyebilir. Kalıcı olan, etrafındaki sistem: net süreçler, temiz veri, önemli çıktıları kontrol eden bir insan ve sonuçları ölçme alışkanlığı.
+Yapay zeka araçları bundan da hızlı değişiyor. Bugünkü modelde işe yarayan bir numara altı ay sonra hiçbir işe yaramayabilir. Kalıcı olan etrafındaki sistem: net süreçler, temiz veri, önemli çıktılara bakan bir insan ve sonucu ölçme alışkanlığı.
 
-## 5. Kararı yine müşteri veriyor
+## 5. Son sözü yine müşteri söylüyor
 
-Algoritmalar sizi sıralar, ama sizden satın alan müşterilerdir. Yorumlar, iadeler ve tekrar eden siparişler hep ürünün ve hizmetin gerçekten iyi olup olmadığına çıkıyordu.
+Algoritma seni sıralar ama senden alışverişi müşteri yapar. Yorumlar, iadeler, tekrar gelen siparişler hep aynı yere çıkıyordu: Ürün ve hizmet gerçekten iyi mi?
 
-Yapay zeka projelerinde de ana filtrem bu. "Bu akıllıca mı?" değil, "bunu kullanan müşteri ya da çalışma arkadaşı sonunda daha iyi bir durumda mı?" Cevap evetse, teknoloji kendine yer bulur. Değilse, hiçbir otomasyon onu kurtaramaz.
+Yapay zeka projelerinde de ilk baktığım şey bu. "Zekice mi?" diye sormuyorum. "Bunu kullanan müşteri ya da iş arkadaşı sonunda daha iyi durumda mı?" diye soruyorum. Cevap evetse teknoloji kendine yer bulur. Hayırsa hiçbir otomasyon onu kurtaramaz.

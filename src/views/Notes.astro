@@ -8,6 +8,8 @@ import { CATEGORIES, CATEGORY_ORDER, type CategoryKey } from '../lib/categories'
 interface Props { lang: Lang; category?: CategoryKey }
 const { lang, category } = Astro.props;
 const posts = await getPosts(lang, category);
+const allPosts = await getPosts(lang);
+const used = CATEGORY_ORDER.filter((k) => allPosts.some((p) => p.data.category === k));
 const T = {
   en: {
     title: 'Notes on AI, Tech, Work, Fatherhood and Life',
@@ -43,7 +45,7 @@ const alt = cat ? lp(lang === 'en' ? 'tr' : 'en', `/blog/topic/${cat[lang === 'e
     )}
     <nav class="chips" aria-label={T.topics} data-reveal style="--i:2">
       <a href={lp(lang, '/blog/')} aria-current={!category ? 'page' : undefined}>{T.all}</a>
-      {CATEGORY_ORDER.map((k) => (
+      {used.map((k) => (
         <a href={lp(lang, `/blog/topic/${CATEGORIES[k][lang].slug}/`)} aria-current={category === k ? 'page' : undefined}>
           <Icon name={CATEGORIES[k].icon} size={16} />{CATEGORIES[k][lang].name}
         </a>

@@ -84,7 +84,7 @@ const nav = [
 
     <header class="nav">
       <div class="container nav-in">
-        <a href={lp(lang, '/')} class="brand" aria-label={t.home} translate="no">
+        <a href={lp(lang, '/')} class="brand" data-mark aria-label={t.home} translate="no">
           <Logo size={32} class="logo" />
           <span class="word">Can<span>Sevengin</span></span>
         </a>
@@ -122,6 +122,10 @@ const nav = [
       }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
       els.forEach((el) => io.observe(el));
 
+      // Logo writes itself again on hover
+      document.querySelectorAll<HTMLElement>('[data-mark]').forEach((el) =>
+        el.addEventListener('pointerenter', () => el.classList.toggle('replay')));
+
       // Nav turns light while it sits over a light section (Apple-style)
       const nav = document.querySelector<HTMLElement>('.nav');
       const lights = [...document.querySelectorAll<HTMLElement>('.t-light, .t-gray')];
@@ -156,8 +160,6 @@ const nav = [
   }
   .nav-in { height: 56px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; }
-  .brand :global(.logo) { transition: transform .5s var(--ease); }
-  .brand:hover :global(.logo) { transform: rotate(-90deg); }
   .word { font-size: 16px; letter-spacing: -0.02em; }
   .word span { color: var(--ink-3); margin-left: 5px; font-weight: 500; transition: color .2s; }
   .brand:hover .word span { color: var(--ink); }

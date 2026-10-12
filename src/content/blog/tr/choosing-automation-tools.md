@@ -1,58 +1,58 @@
 ---
-title: "n8n, Zapier mı yoksa kod mu? Küçük ekipler için nasıl seçiyorum"
-description: "Otomasyon altyapısını özellik listelerine göre değil, onu kimin yöneteceğine göre seçin. Küçük ekipler için Zapier, n8n ve kod arasında pratik bir seçim yolu."
+title: "n8n mi, Zapier mı, kod mu? Küçük ekipte otomasyon aracı seçimi"
+description: "Otomasyon aracını özellik listesine göre değil, bozulunca kimin tamir edeceğine göre seç. Zapier, n8n ve özel kod için küçük ekiplere pratik bir yol."
 date: 2026-10-08T07:00:00+03:00
-tags: [otomasyon, n8n, araçlar]
+tags: [otomasyon, n8n, Zapier]
 category: ai
 lang: tr
 draft: false
 ---
 
-Bana sık sık hangi otomasyon aracının "en iyisi" olduğu soruluyor. Dürüst cevap şu: araç, çoğu karşılaştırmanın atladığı tek bir sorudan daha az önemli. Bozulduğunda onu kim düzeltecek?
+Bana sık sık hangi otomasyon aracının "en iyisi" olduğunu soruyorlar. Açık konuşayım: Araç, karşılaştırmaların çoğunun atladığı bir sorudan daha az önemli. Bozulduğunda kim tamir edecek?
 
-Her otomasyon er ya da geç bozulur. Bir API değişir, bir şifrenin süresi dolar, bir tedarikçi dosyayı yeni bir formatta gönderir. Doğru altyapı, etrafınızdaki insanların kimseden yardım istemeden onarabildiği altyapıdır.
+Her otomasyon er geç bozulur. Bir API değişir, bir şifrenin süresi dolar, tedarikçi dosyayı yeni bir formatta yollar. Doğru araç, çevrendeki insanların kimseyi aramadan tamir edebildiği araçtır.
 
-## Benim gözümden üç seçenek
+## Üç seçenek, benim gözümden
 
 ### Zapier, Make ve benzerleri
 
-Görsel, bulutta çalışan ve başlaması çok hızlı. Teknik olmayan biri basit bir akışı bir öğleden sonrada kurup anlayabilir, ayrıca yaygın araçların neredeyse hepsi için hazır bağlantılar var.
+Görsel, bulutta çalışıyor, başlaması çok hızlı. Teknik olmayan biri basit bir akışı bir öğleden sonra kurup anlayabilir. Yaygın kullanılan araçların neredeyse hepsi için hazır bağlantısı var.
 
-**Ne zaman seçmeli:** akışlar basitse, hacim mütevazıysa ve onları yönetecek kişi teknik biri değilse. Abonelik ücreti genelde birinin harcadığı zamanın maliyetinden çok daha düşük kalır.
+**Ne zaman seçmeli:** Akışlar basitse, hacim düşükse ve başında duracak kişi teknik değilse. Abonelik ücreti genelde birinin harcayacağı zamandan çok daha ucuza gelir.
 
-**Dikkat edilmesi gerekenler:** her görev ya da adımla birlikte büyüyen fiyatlandırma ve bir akış onlarca adıma ulaştığında okunması zorlaşan karmaşık mantık.
+**Nelere dikkat:** Her görev ya da adımla birlikte artan fiyatlar. Bir de akış onlarca adıma çıktığında okunmaz hale gelen karmaşık mantık.
 
 ### n8n
 
-Bu da görsel, ama daha esnek. Kendi sunucunuzda barındırabilir ya da bulut sürümünü kullanabilir, görsel adımları küçük kod parçalarıyla karıştırabilir, içinde yapay zeka adımları olan daha uzun ve dallanan iş akışları kurabilirsiniz. En sık başvurduğum araç bu.
+Bu da görsel ama daha esnek. Kendi sunucuna kurabilir ya da bulut sürümünü kullanabilirsin. Görsel adımların arasına küçük kod parçaları koyabilir, içinde yapay zeka adımları olan uzun ve dallanan akışlar kurabilirsin. En sık elimin gittiği araç bu.
 
-**Ne zaman seçmeli:** iş akışları karmaşıklaşıyorsa, yapay zeka adımları ve gerçek dallanma istiyorsanız, hacim büyüyorsa ya da verinizin nerede durduğu üzerinde daha fazla kontrol istiyorsanız.
+**Ne zaman seçmeli:** Akışlar karmaşıklaşıyorsa, yapay zeka adımları ve gerçek dallanma istiyorsan, hacim büyüyorsa ya da verinin nerede durduğunu daha çok kontrol etmek istiyorsan.
 
-**Dikkat edilmesi gerekenler:** biraz teknik rahatlığı olanları ödüllendiriyor. Kendi sunucunuzda barındırıyorsanız, güncellemeleri ve yedeklemeleri birinin sahiplenmesi gerekiyor.
+**Nelere dikkat:** Biraz teknik rahatlık istiyor. Kendi sunucuna kurduysan güncellemeler ve yedekler birinin sorumluluğunda olmalı.
 
 ### Özel kod
 
-Script'ler, küçük servisler ya da tek bir iş için yazılmış bir uygulama. Maksimum kontrol sağlar ve büyük ölçekte çalıştırması genelde en ucuz seçenektir.
+Script'ler, küçük servisler ya da tek bir iş için yazılmış bir uygulama. Kontrol tamamen sende ve büyük hacimde çalıştırmanın genelde en ucuz yolu bu.
 
-**Ne zaman seçmeli:** sürecin içinde kalacak bir yazılımcınız varsa, mantık gerçekten sıra dışıysa ya da otomasyon operasyonunuzun değil ürününüzün bir parçasıysa.
+**Ne zaman seçmeli:** Uzun vadede işin içinde kalacak bir yazılımcın varsa, iş mantığı alışılmışın dışındaysa ya da otomasyon operasyonunun değil ürününün parçasıysa.
 
-**Dikkat edilmesi gerekenler:** "otobüs faktörü". Onu yazan tek kişi ayrılırsa, otomasyon bir kara kutuya dönüşür.
+**Nelere dikkat:** Yazılımcıların "otobüs faktörü" dediği şey. Kodu yazan tek kişi ayrılırsa otomasyon kimsenin içini bilmediği bir kara kutuya döner.
 
-## Varsayılan yolum
+## Benim varsayılan yolum
 
-Çoğu küçük şirkete aynı ilerleyişi öneriyorum:
+Çoğu küçük şirkete aynı sırayı öneriyorum:
 
-1. İşi görebilen en basit görsel araçla başlayın, böylece ekip otomasyonun nasıl bir şey olduğunu öğrenir.
-2. Akışlar uzadığında, ortasında yapay zeka gerektiğinde ya da fatura canınızı yakmaya başladığında n8n'e geçin.
-3. Kodu sadece gerçekten özel olan kısımlar için yazın, bunları da küçük ve dokümante edilmiş tutun.
+1. İşi görebilen en basit görsel araçla başla. Ekip otomasyonun nasıl bir şey olduğunu böyle öğrenir.
+2. Akışlar uzayınca, ortasına yapay zeka girmesi gerekince ya da fatura canını yakmaya başlayınca n8n'e geç.
+3. Kodu sadece gerçekten özel olan parçalar için yaz. Onları da küçük tut ve belgele.
 
-## Araçtan daha önemli olan kontrol listesi
+## Araçtan daha önemli bir kontrol listesi
 
-Ne seçerseniz seçin, her otomasyonun şunları olmalı:
+Hangi aracı seçersen seç, her otomasyonda şu dört şey olmalı:
 
-- **Bir sahibi**, ismiyle.
-- **Bir hata uyarısı**, kimsenin okumadığı bir log'a değil, bir insana ulaşan.
-- **Tek paragraflık bir açıklama**, ne yaptığını ve neye dokunduğunu anlatan.
-- **Manuel bir yedek plan**, otomasyon çöktüğünde işin dönmeye devam etmesi için.
+- **Bir sahibi.** İsmiyle belli olmalı.
+- **Bir hata uyarısı.** Kimsenin okumadığı bir log'a değil, bir insana gitmeli.
+- **Tek paragraflık bir açıklama.** Ne yaptığını ve neye dokunduğunu anlatmalı.
+- **Elle yapılacak bir B planı.** Otomasyon çöktüğünde iş durmamalı.
 
-Bu dört şeye sahip ekipler neredeyse her araçla iyi iş çıkarıyor. Sahip olmayanlar ise hepsinde zorlanıyor.
+Bu dördü yerinde olan ekipler neredeyse her araçla iyi iş çıkarıyor. Olmayanlar hepsinde zorlanıyor.

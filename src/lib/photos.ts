@@ -15,6 +15,12 @@ export const PHOTOS = {
   dadReading: { id: 'photo-1504151932400-72d4384f04b3', alt: 'A parent reading a picture book to a baby', by: 'Picsea' },
   babyHand: { id: 'photo-1552819289-824d37ca69d2', alt: 'A baby holding an adult hand, close up', by: 'Hu Chen' },
   coffeeBook: { id: 'photo-1543233604-3baca4d35513', alt: 'A cup of latte resting on a book', by: 'Yoshiko Evanka' },
+  phoneHand: { id: 'photo-1593789198788-8b21805d5fdb', alt: 'A hand holding a smartphone with apps on the home screen', by: 'Fujiphilm' },
+  boxes: { id: 'photo-1624137527136-66e631bdaa0e', alt: 'A stack of brown cardboard shipping boxes', by: 'Kadarius Seegars' },
+  analytics: { id: 'photo-1551288049-bebda4e38f71', alt: 'Performance analytics charts on a laptop screen', by: 'Luke Chesser' },
+  planning: { id: 'photo-1531403009284-440f080d1e12', alt: 'A person planning on a wall covered with notes', by: 'Alvaro Reyes' },
+  reading: { id: 'photo-1506880018603-83d5b814b5a6', alt: 'A person holding an open book', by: 'Blaz Photo' },
+  wing: { id: 'photo-1527605158555-853f200063e9', alt: 'An airplane wing seen through a cabin window', by: 'William Bayreuther' },
 } as const;
 
 export type PhotoKey = keyof typeof PHOTOS;

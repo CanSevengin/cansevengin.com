@@ -1,8 +1,10 @@
 ---
 import Notes from '../../../../views/Notes.astro';
 import { CATEGORIES, CATEGORY_ORDER } from '../../../../lib/categories';
-export function getStaticPaths() {
-  return CATEGORY_ORDER.map((k) => ({ params: { topic: CATEGORIES[k].tr.slug }, props: { category: k } }));
+import { getPosts } from '../../../../site';
+export async function getStaticPaths() {
+  const posts = await getPosts('tr');
+  return CATEGORY_ORDER.filter((k) => posts.some((p) => p.data.category === k)).map((k) => ({ params: { topic: CATEGORIES[k].tr.slug }, props: { category: k } }));
 }
 const { category } = Astro.props;
 ---
