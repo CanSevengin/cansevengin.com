@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
+import Subscribe from '../components/Subscribe.astro';
 import { getPosts, SITE, lp, type Lang } from '../site';
 
 interface Props { lang: Lang }
@@ -90,6 +91,7 @@ const T = {
 ---
 <Base
   lang={lang}
+  image={`/og/page/build-${lang}.png`}
   title={T.title}
   description={T.desc}
   schema={[{
@@ -176,9 +178,13 @@ const T = {
   <section class="container close">
     <h2 data-reveal>{T.closeH}</h2>
     <p data-reveal style="--i:1">{T.closeP}</p>
-    <div class="ctas center" data-reveal style="--i:2">
-      <a class="btn btn-primary" href={`mailto:${SITE.email}?subject=${encodeURIComponent(T.mailSubject)}`}>{T.early} <Icon name="arrow-right" /></a>
-    </div>
+    {SITE.buttondown ? (
+      <Subscribe lang={lang} variant="ghostline" class="wait" />
+    ) : (
+      <div class="ctas center" data-reveal style="--i:2">
+        <a class="btn btn-primary" href={`mailto:${SITE.email}?subject=${encodeURIComponent(T.mailSubject)}`}>{T.early} <Icon name="arrow-right" /></a>
+      </div>
+    )}
   </section>
 </Base>
 
@@ -231,5 +237,6 @@ const T = {
 
   .close { padding-top: 18vh; padding-bottom: 18vh; text-align: center; }
   .close h2 { margin: 0 auto; max-width: 16ch; }
+  .close :global(.wait) { max-width: 40rem; margin: 32px auto 0; text-align: left; }
   .close p { margin: 18px auto 0; max-width: 32rem; color: var(--ink-2); font-size: 19px; }
 </style>

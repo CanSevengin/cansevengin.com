@@ -1,4 +1,6 @@
 ---
+// Stock photos from Unsplash. On Vercel they go through Vercel's image optimizer (served from our own
+// domain, resized, AVIF/WebP, cached for a month); elsewhere they load straight from the Unsplash CDN.
 import { PHOTOS, photoUrl, photoSrcset, type PhotoKey } from '../lib/photos';
 interface Props {
   name: PhotoKey;
@@ -11,16 +13,25 @@ interface Props {
 }
 const { name, sizes = '100vw', ratio, max = 2200, class: cls, eager = false, position = '50% 50%' } = Astro.props;
 const p = PHOTOS[name];
-const w = Math.min(1600, max);
+const WIDTHS = [480, 800, 1200, 1600, 2200].filter((w) => w <= max);
+const onVercel = process.env.VERCEL === '1';
+const source = photoUrl(p.id, 2400, ratio ? Math.round(2400 / ratio) : undefined, 85);
+const opt = (w: number) => `/_vercel/image?url=${encodeURIComponent(source)}&w=${w}&q=72`;
+const w0 = Math.min(1600, max);
+const src = onVercel ? opt(w0) : photoUrl(p.id, w0, ratio ? Math.round(w0 / ratio) : undefined);
+const srcset = onVercel ? WIDTHS.map((w) => `${opt(w)} ${w}w`).join(', ') : photoSrcset(p.id, ratio, max);
+const fallback = photoUrl(p.id, w0, ratio ? Math.round(w0 / ratio) : undefined);
 ---
 <div class:list={['ph-img', cls]}>
   <img
-    src={photoUrl(p.id, w, ratio ? Math.round(w / ratio) : undefined)}
-    srcset={photoSrcset(p.id, ratio, max)}
+    src={src}
+    srcset={srcset}
     sizes={sizes}
     alt={p.alt}
     loading={eager ? 'eager' : 'lazy'}
     decoding="async"
+    data-fallback={fallback}
+    onerror="this.onerror=null;this.removeAttribute('srcset');this.src=this.dataset.fallback"
     style={`object-position:${position}`}
   />
 </div>

@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import { lp, type Lang } from '../site';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = {
+  en: { title: 'Search Notes', desc: 'Search every note on cansevengin.com.', h1: 'Search', ph: 'Search the notes', zero: 'No notes match that yet.', many: '[COUNT] notes for [SEARCH_TERM]', one: '[COUNT] note for [SEARCH_TERM]', more: 'Show more' },
+  tr: { title: 'Notlarda Ara', desc: 'cansevengin.com’daki tüm notlarda ara.', h1: 'Ara', ph: 'Notlarda ara', zero: 'Bununla eşleşen bir not yok.', many: '[SEARCH_TERM] için [COUNT] not', one: '[SEARCH_TERM] için [COUNT] not', more: 'Daha fazla göster' },
+}[lang];
+---
+<Base lang={lang} title={T.title} description={T.desc}>
+  <section class="t-light"><div class="container wrap">
+    <h1>{T.h1}</h1>
+    <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+    <div id="search" data-ph={T.ph} data-zero={T.zero} data-many={T.many} data-one={T.one} data-more={T.more}></div>
+    <noscript><p>JavaScript is needed for search. <a href={lp(lang, '/blog/')}>Browse all notes</a>.</p></noscript>
+  </div></section>
+</Base>
+
+<script is:inline src="/pagefind/pagefind-ui.js"></script>
+<script is:inline>
+  (function () {
+    var el = document.getElementById('search');
+    if (!el || !window.PagefindUI) return;
+    new PagefindUI({
+      element: '#search', showImages: false, showSubResults: true, resetStyles: false,
+      translations: { placeholder: el.dataset.ph, zero_results: el.dataset.zero, many_results: el.dataset.many, one_result: el.dataset.one, load_more: el.dataset.more },
+    });
+    var q = new URLSearchParams(location.search).get('q');
+    setTimeout(function () {
+      var input = el.querySelector('input');
+      if (!input) return;
+      if (q) { input.value = q; input.dispatchEvent(new Event('input', { bubbles: true })); }
+      input.focus();
+    }, 50);
+  })();
+</script>
+
+<style>
+  .wrap { padding-top: 80px; padding-bottom: 140px; min-height: 70vh; }
+  h1 { margin: 0 0 28px; font-size: clamp(3rem, 8vw, 6rem); font-weight: 650; letter-spacing: -0.04em; line-height: .98; }
+  #search {
+    --pagefind-ui-scale: 1;
+    --pagefind-ui-primary: #1d1d1f;
+    --pagefind-ui-text: #1d1d1f;
+    --pagefind-ui-background: #ffffff;
+    --pagefind-ui-border: #d2d2d7;
+    --pagefind-ui-tag: #f2f2f5;
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 14px;
+    --pagefind-ui-font: var(--sans);
+    max-width: 46rem;
+  }
+  #search :global(.pagefind-ui__result-link) { color: #1d1d1f; }
+  #search :global(mark) { background: #e6f7a8; color: inherit; }
+</style>

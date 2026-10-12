@@ -2,7 +2,8 @@
 import Base from '../layouts/Base.astro';
 import PostList from '../components/PostList.astro';
 import Icon from '../components/Icon.astro';
-import { getPosts, lp, type Lang } from '../site';
+import Subscribe from '../components/Subscribe.astro';
+import { getPosts, lp, postUrl, type Lang } from '../site';
 import { CATEGORIES, CATEGORY_ORDER, type CategoryKey } from '../lib/categories';
 
 interface Props { lang: Lang; category?: CategoryKey }
@@ -26,16 +27,20 @@ const T = {
 }[lang];
 const cat = category ? CATEGORIES[category] : null;
 const title = cat ? `${cat[lang].name}: ${lang === 'tr' ? 'Notlar' : 'Notes'}` : T.title;
-const description = cat ? `${cat[lang].blurb} ${lang === 'tr' ? 'Can Sevengin’in notları.' : 'Notes by Can Sevengin.'}` : T.desc;
+const description = cat ? (cat[lang].intro ?? cat[lang].blurb) : T.desc;
 const alt = cat ? lp(lang === 'en' ? 'tr' : 'en', `/blog/topic/${cat[lang === 'en' ? 'tr' : 'en'].slug}/`) : undefined;
 ---
-<Base lang={lang} title={title} description={description} alt={alt}>
+<Base lang={lang} title={title} description={description} alt={alt} image={cat ? `/og/page/topic-${category}-${lang}.png` : `/og/page/notes-${lang}.png`} schema={[{
+  '@type': 'CollectionPage', name: title, description, inLanguage: lang,
+  url: `https://cansevengin.com${cat ? lp(lang, `/blog/topic/${cat[lang].slug}/`) : lp(lang, '/blog/')}`,
+  mainEntity: { '@type': 'ItemList', itemListElement: posts.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: `https://cansevengin.com${postUrl(p)}`, name: p.data.title })) },
+}]}>
   <section class="t-light"><div class="container top">
     {cat ? (
       <>
         <p class="kicker" data-reveal><a href={lp(lang, '/blog/')}>{T.h1}</a> / {T.topics}</p>
         <h1 data-reveal>{cat[lang].name}</h1>
-        <p class="lede" data-reveal style="--i:1">{cat[lang].blurb}</p>
+        <p class="lede" data-reveal style="--i:1">{cat[lang].intro ?? cat[lang].blurb}</p>
       </>
     ) : (
       <>
@@ -52,11 +57,13 @@ const alt = cat ? lp(lang === 'en' ? 'tr' : 'en', `/blog/topic/${cat[lang === 'e
       ))}
     </nav>
     <PostList posts={posts} lang={lang} />
+    <Subscribe lang={lang} class="list-sub" />
   </div></section>
 </Base>
 
 <style>
   .top { padding-top: 88px; padding-bottom: 120px; }
+  .top :global(.list-sub) { margin-top: 40px; }
   .kicker { margin: 0 0 14px; color: var(--ink-3); font-weight: 600; font-size: 15px; }
   .kicker a { color: var(--accent); text-decoration: none; }
   h1 { margin: 0; font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 650; letter-spacing: -0.04em; line-height: 0.98; }

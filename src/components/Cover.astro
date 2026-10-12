@@ -1,11 +1,15 @@
 ---
-import { coverSvg } from '../lib/cover';
-interface Props { slug: string; kind?: number; class?: string; light?: boolean }
-const { slug, kind, class: cls, light = false } = Astro.props;
+// Generative cover art, served as a static SVG file (/cover/<slug>.svg) so pages stay light and the art is cached.
+interface Props { slug: string; kind?: number; class?: string; light?: boolean; eager?: boolean }
+const { slug, kind, class: cls, light = false, eager = false } = Astro.props;
+const name = `${slug}${kind !== undefined ? `--k${kind}` : ''}${light ? '--l' : ''}`;
 ---
-<div class:list={['cover', cls]} set:html={coverSvg(slug, kind, light)} />
+<div class:list={['cover', { light }, cls]}>
+  <img src={`/cover/${name}.svg`} alt="" width="800" height="500" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+</div>
 
 <style>
-  .cover { position: relative; overflow: hidden; background: var(--bg-1); }
-  .cover :global(svg) { width: 100%; height: 100%; transition: transform 1.2s var(--ease); }
+  .cover { position: relative; overflow: hidden; background: #0b0c0e; }
+  .cover.light { background: #eef4dc; }
+  .cover img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
 </style>

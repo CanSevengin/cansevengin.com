@@ -3,9 +3,10 @@ import { render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Cover from '../components/Cover.astro';
 import Icon from '../components/Icon.astro';
+import Subscribe from '../components/Subscribe.astro';
 import { blogPosting, breadcrumbs } from '../lib/schema';
 import { CATEGORIES } from '../lib/categories';
-import { formatDate, readingTime, SITE, UI, lp, slugOf, postUrl, type Lang, type Post } from '../site';
+import { getPosts, formatDate, readingTime, SITE, UI, lp, slugOf, postUrl, type Lang, type Post } from '../site';
 
 interface Props { post: Post; next: Post | null; lang: Lang; hasAlt: boolean }
 const { post, next, lang, hasAlt } = Astro.props;
@@ -16,9 +17,11 @@ const slug = slugOf(post);
 const toc = headings.filter((h) => h.depth === 2);
 const nextPost = next && next.id !== post.id ? next : null;
 const cat = CATEGORIES[category];
+const others = (await getPosts(lang)).filter((p) => p.id !== post.id);
+const related = [...others.filter((p) => p.data.category === category), ...others.filter((p) => p.data.category !== category)].slice(0, 3);
 const T = {
-  en: { back: 'All Notes', toc: 'On this page', ai: 'Researched and drafted with Claude, in my voice.', how: 'How this site works', ask: 'Thoughts or pushback? I’d like to hear them.', write: 'Write to Me', copy: 'Copy Link', copied: 'Link Copied', fail: 'Copy failed', next: 'Read next', home: 'Home', notes: 'Notes', re: 'Re: ' },
-  tr: { back: 'Tüm Notlar', toc: 'Bu sayfada', ai: 'Claude ile araştırılıp benim üslubumla yazıldı.', how: 'Bu site nasıl çalışıyor', ask: 'Bir fikrin ya da itirazın mı var? Duymak isterim.', write: 'Bana Yaz', copy: 'Linki Kopyala', copied: 'Link Kopyalandı', fail: 'Kopyalanamadı', next: 'Sıradaki not', home: 'Ana sayfa', notes: 'Notlar', re: 'Ynt: ' },
+  en: { more: `More from ${cat.en.name}`, moreAll: 'More notes', bio: 'International sales at Babyjem, building with AI on the side, dad. I write here twice a week about work, tech and life.', aboutMe: 'About me', back: 'All Notes', toc: 'On this page', ai: 'Researched and drafted with Claude, in my voice.', how: 'How this site works', ask: 'Thoughts or pushback? I’d like to hear them.', write: 'Write to Me', copy: 'Copy Link', copied: 'Link Copied', fail: 'Copy failed', next: 'Read next', home: 'Home', notes: 'Notes', re: 'Re: ' },
+  tr: { more: `${cat.tr.name} üzerine diğer notlar`, moreAll: 'Diğer notlar', bio: 'Babyjem’de uluslararası satıştayım, boş vakitlerimde yapay zekayla bir şeyler geliştiriyorum, bir de babayım. Burada haftada iki kez iş, teknoloji ve hayat üzerine yazıyorum.', aboutMe: 'Hakkımda', back: 'Tüm Notlar', toc: 'Bu sayfada', ai: 'Claude ile araştırılıp benim üslubumla yazıldı.', how: 'Bu site nasıl çalışıyor', ask: 'Bir fikrin ya da itirazın mı var? Duymak isterim.', write: 'Bana Yaz', copy: 'Linki Kopyala', copied: 'Link Kopyalandı', fail: 'Kopyalanamadı', next: 'Sıradaki not', home: 'Ana sayfa', notes: 'Notlar', re: 'Ynt: ' },
 }[lang];
 const base = 'https://cansevengin.com';
 const ogImage = lang === 'tr' ? `/og/tr/${slug}.png` : `/og/${slug}.png`;
@@ -43,10 +46,10 @@ const ogImage = lang === 'tr' ? `/og/tr/${slug}.png` : `/og/${slug}.png`;
 >
   <div class="progress" aria-hidden="true"></div>
 
-  <article class="t-light art">
+  <article class="t-light art" data-pagefind-body>
     <header class="container ph">
-      <a href={lp(lang, '/blog/')} class="back"><Icon name="arrow-left" size={16} />{T.back}</a>
-      <p class="meta" data-reveal>
+      <a href={lp(lang, '/blog/')} class="back" data-pagefind-ignore><Icon name="arrow-left" size={16} />{T.back}</a>
+      <p class="meta" data-reveal data-pagefind-ignore>
         <a class="cat" href={lp(lang, `/blog/topic/${cat[lang].slug}/`)}><Icon name={cat.icon} size={15} />{cat[lang].name}</a>
         <span>{formatDate(date, lang)}</span>
         <span>{readingTime(post.body)} {u.minRead}</span>
@@ -61,7 +64,7 @@ const ogImage = lang === 'tr' ? `/og/tr/${slug}.png` : `/og/${slug}.png`;
     </div>
 
     <div class="container layout">
-      <aside class="side">
+      <aside class="side" data-pagefind-ignore>
         {toc.length > 0 && (
           <nav aria-label={T.toc} class="toc">
             <p>{T.toc}</p>
@@ -73,7 +76,15 @@ const ogImage = lang === 'tr' ? `/og/tr/${slug}.png` : `/og/${slug}.png`;
 
       <div class="prose body">
         <Content />
-        <div class="end">
+        <div class="end" data-pagefind-ignore>
+          <div class="author">
+            <img src="/can-avatar.webp" alt="" width="64" height="64" loading="lazy" decoding="async" />
+            <div>
+              <p class="author-n">Can Sevengin</p>
+              <p class="author-b">{T.bio} <a href={lp(lang, '/about/')}>{T.aboutMe}</a></p>
+            </div>
+          </div>
+          <Subscribe lang={lang} class="post-sub" />
           <p class="ai-note"><Icon name="sparkle" size={16} /> {T.ai} <a href={lp(lang, '/how-it-works/')}>{T.how}</a></p>
           <p>{T.ask}</p>
           <div class="end-ctas">
@@ -84,17 +95,21 @@ const ogImage = lang === 'tr' ? `/og/tr/${slug}.png` : `/og/${slug}.png`;
       </div>
     </div>
 
-    {nextPost && (
-      <div class="container">
-        <a class="next" href={postUrl(nextPost)}>
-          <Cover slug={slugOf(nextPost)} class="next-art" light />
-          <span class="next-body">
-            <span class="next-k">{T.next}</span>
-            <span class="next-t">{nextPost.data.title}</span>
-          </span>
-          <Icon name="arrow-right" size={22} class="next-ic" />
-        </a>
-      </div>
+    {related.length > 0 && (
+      <section class="container related" data-pagefind-ignore>
+        <h2>{related.some((p) => p.data.category === category) ? T.more : T.moreAll}</h2>
+        <ul>
+          {related.map((p) => (
+            <li>
+              <a href={postUrl(p)}>
+                <Cover slug={slugOf(p)} class="rel-art" light />
+                <span class="rel-cat">{CATEGORIES[p.data.category][lang].name}</span>
+                <span class="rel-t">{p.data.title}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
     )}
   </article>
 </Base>
@@ -146,8 +161,24 @@ const ogImage = lang === 'tr' ? `/og/tr/${slug}.png` : `/og/${slug}.png`;
   .end .ai-note { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 18px; font-size: 14.5px; color: var(--ink-3); }
   .end .ai-note :global(svg) { color: var(--accent); }
   .end .ai-note a { color: var(--ink-2); }
+  .end :global(.post-sub) { margin-bottom: 26px; }
   .end-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
 
+  .author { display: flex; gap: 16px; align-items: flex-start; padding: 20px; margin-bottom: 22px; border-radius: 18px; background: var(--bg-1); }
+  .author img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; flex: none; }
+  .author-n { margin: 0 !important; font-weight: 650; font-size: 17px !important; color: var(--ink); }
+  .author-b { margin: 4px 0 0 !important; font-size: 15.5px !important; line-height: 1.5; color: var(--ink-2) !important; }
+  .author-b a { color: var(--accent); }
+  .related { padding-top: 72px; padding-bottom: 110px; }
+  .related h2 { margin: 0 0 22px; font-size: clamp(1.5rem, 2.6vw, 2rem); font-weight: 650; letter-spacing: -0.03em; }
+  .related ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  .related a { display: grid; gap: 8px; text-decoration: none; color: var(--ink); }
+  .related :global(.rel-art) { aspect-ratio: 16 / 10; border-radius: 14px; margin-bottom: 6px; }
+  .related a:hover :global(.rel-art img) { transform: scale(1.04); }
+  .rel-cat { font-size: 14px; font-weight: 600; color: var(--accent); }
+  .rel-t { font-size: 1.15rem; font-weight: 650; letter-spacing: -0.02em; line-height: 1.25; }
+  .related a:hover .rel-t { text-decoration: underline; text-underline-offset: 4px; }
+  @media (max-width: 820px) { .related ul { grid-template-columns: 1fr; } }
   .next {
     margin: 96px 0 120px; display: grid; grid-template-columns: 220px 1fr auto; gap: 28px; align-items: center;
     padding: 14px; padding-right: 28px; border: 1px solid var(--line); border-radius: 18px; background: var(--bg-1); text-decoration: none;

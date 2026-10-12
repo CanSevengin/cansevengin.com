@@ -95,7 +95,7 @@ const T = {
 const icons = [si.siClaude, si.siAstro, si.siVercel, si.siGithub, si.siCloudflare, si.siIcloud, si.siGooglesearchconsole, si.siGreensock];
 const stack = icons.map((icon, i) => [icon, T.stack[i]] as const).filter(([icon]) => icon) as unknown as [{ path: string }, string][];
 ---
-<Base lang={lang} title={T.title} description={T.desc}>
+<Base lang={lang} image={`/og/page/how-${lang}.png`} title={T.title} description={T.desc}>
   <section class="container hero">
     <h1 data-reveal>{T.h1}</h1>
     <p class="lede" data-reveal style="--i:1">{T.lede}</p>

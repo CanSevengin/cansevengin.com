@@ -2,6 +2,8 @@
 import '../styles/global.css';
 import Icon from '../components/Icon.astro';
 import Logo from '../components/Logo.astro';
+import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
 import { SITE, UI, lp, altPath, type Lang } from '../site';
 import { graph, person, website } from '../lib/schema';
 
@@ -90,11 +92,22 @@ const nav = [
         </a>
         <nav aria-label="Primary">
           {nav.map((n) => (
-            <a href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a>
+            <a href={n.href} class="nl" aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a>
           ))}
-          <a href={`mailto:${SITE.email}`} class="nav-hi">{t.nav.hi}</a>
+          <a href={`mailto:${SITE.email}`} class="nl nav-hi">{t.nav.hi}</a>
+          <a href={lp(lang, '/search/')} class="icon-btn" aria-label={t.nav.search} title={t.nav.search}><Icon name="magnifying-glass" size={18} /></a>
           <a href={otherPath} class="lang" hreflang={other} lang={other} aria-label={t.switchLabel} title={t.switchLabel}><Icon name="translate" size={15} />{other.toUpperCase()}</a>
+          <button type="button" class="icon-btn menu-btn" aria-expanded="false" aria-controls="mnav" aria-label={t.nav.menu}>
+            <span class="i-open"><Icon name="list" size={20} /></span><span class="i-close"><Icon name="x" size={20} /></span>
+          </button>
         </nav>
+      </div>
+      <div id="mnav" class="mnav" hidden>
+        <div class="container mnav-in">
+          {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+          <a href={lp(lang, '/how-it-works/')}>{t.nav.how}</a>
+          <a href={`mailto:${SITE.email}`}>{t.nav.hi}</a>
+        </div>
       </div>
     </header>
 
@@ -110,6 +123,7 @@ const nav = [
           <a href={lp(lang, '/how-it-works/')}><Icon name="gear-six" size={16} />{t.foot.built}</a>
           <a href={lp(lang, '/rss.xml')}><Icon name="rss" size={16} />RSS</a>
           <a href={otherPath} hreflang={other} lang={other}><Icon name="translate" size={16} />{t.switchTo}</a>
+          <a href={lp(lang, '/privacy/')}><Icon name="shield-check" size={16} />{t.foot.privacy}</a>
         </div>
         <p class="foot-c">© {new Date().getFullYear()} Can Sevengin. {t.foot.written} {t.foot.photos} <a href="https://unsplash.com/?utm_source=cansevengin&utm_medium=referral" rel="noopener" target="_blank">Unsplash</a>.</p>
       </div>
@@ -121,6 +135,17 @@ const nav = [
         for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
       }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
       els.forEach((el) => io.observe(el));
+
+      // Mobile menu
+      const mbtn = document.querySelector<HTMLButtonElement>('.menu-btn');
+      const mnav = document.getElementById('mnav');
+      mbtn?.addEventListener('click', () => {
+        const open = mbtn.getAttribute('aria-expanded') !== 'true';
+        mbtn.setAttribute('aria-expanded', String(open));
+        if (mnav) mnav.hidden = !open;
+        document.querySelector('.nav')?.classList.toggle('menu-open', open);
+      });
+      addEventListener('keydown', (e) => { if (e.key === 'Escape' && mbtn?.getAttribute('aria-expanded') === 'true') mbtn.click(); });
 
       // Logo writes itself again on hover
       document.querySelectorAll<HTMLElement>('[data-mark]').forEach((el) =>
@@ -142,6 +167,8 @@ const nav = [
         requestAnimationFrame(() => requestAnimationFrame(() => { nav.style.transition = ''; }));
       }
     </script>
+    <Analytics />
+    <SpeedInsights />
   </body>
 </html>
 
@@ -174,11 +201,24 @@ const nav = [
   nav a.lang { display: inline-flex; align-items: center; gap: 5px; margin-left: 4px; font-weight: 600; font-size: 13px; letter-spacing: .02em; box-shadow: inset 0 0 0 1px var(--line-2, #2c3138); }
   .nav.on-light nav a.lang { box-shadow: inset 0 0 0 1px rgb(0 0 0 / .14); }
   .nav-cta { --h: 34px; margin-left: 8px; padding: 0 16px; font-size: 14px; }
+  .icon-btn { display: inline-grid; place-items: center; width: 38px; height: 38px; padding: 0 !important; border-radius: 50%; border: 0; background: transparent; color: var(--ink-2); cursor: pointer; }
+  .icon-btn:hover { color: var(--ink); background: var(--bg-2); }
+  .menu-btn { display: none; }
+  .menu-btn .i-close { display: none; }
+  .menu-open .menu-btn .i-open { display: none; }
+  .menu-open .menu-btn .i-close { display: grid; }
+  .mnav { border-top: 1px solid var(--line); }
+  .mnav-in { display: grid; padding-top: 8px; padding-bottom: 18px; }
+  .mnav a { padding: 14px 2px; font-size: 22px; font-weight: 600; letter-spacing: -0.02em; text-decoration: none; color: var(--ink); border-bottom: 1px solid var(--line); }
+  .mnav a:last-child { border-bottom: 0; }
+  @media (max-width: 720px) {
+    nav a.nl { display: none; }
+    .menu-btn { display: inline-grid; }
+    .menu-open { background: rgb(7 8 10 / .96); }
+    .nav.on-light.menu-open { background: rgb(251 251 253 / .98); }
+  }
   @media (max-width: 560px) {
     .word { display: none; }
-    nav a[href$='/build/'] { display: none; }
-    nav a.nav-hi { display: none; }
-    nav a:not(.btn) { padding: 8px 10px; }
   }
 
   .foot { border-top: 1px solid var(--line); margin-top: 0; padding: 40px 0 48px; }

@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, type Lang } from '../site';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = {
+  en: {
+    title: 'Privacy', desc: 'What cansevengin.com collects, and what it does not.',
+    updated: 'Last updated 12 October 2026',
+    blocks: [
+      ['Short version', 'This is a personal site. It has no ads, no tracking cookies and nothing for sale. I see anonymous visit counts, and I see your email only if you write to me or subscribe.'],
+      ['Visit statistics', 'The site uses Vercel Web Analytics and Speed Insights. They count page views and measure page speed without cookies and without storing personal information such as your IP address. I use the totals to see which notes people read.'],
+      ['Email', `If you email ${SITE.email}, I keep the conversation in my inbox and use it only to reply. If you subscribe to new notes or the Ghostline early access list, your address is stored with Buttondown, the newsletter service, and used only for those emails. Every email has an unsubscribe link.`],
+      ['Hosting and photos', 'The site is hosted on Vercel. Stock photos come from Unsplash through Vercel’s image service. These providers process standard technical data such as your IP address to deliver the pages.'],
+      ['Your rights', `You can ask me to see, correct or delete anything I hold about you at any time: write to ${SITE.email}. This applies under the GDPR and Türkiye’s KVKK alike.`],
+    ],
+  },
+  tr: {
+    title: 'Gizlilik', desc: 'cansevengin.com neyi topluyor, neyi toplamıyor.',
+    updated: 'Son güncelleme: 12 Ekim 2026',
+    blocks: [
+      ['Kısaca', 'Bu kişisel bir site. Reklam yok, takip çerezi yok, satılık bir şey yok. Ben sadece anonim ziyaret sayılarını görüyorum. E-posta adresini ise ancak bana yazarsan ya da abone olursan görürüm.'],
+      ['Ziyaret istatistikleri', 'Sitede Vercel Web Analytics ve Speed Insights kullanılıyor. Bunlar çerez kullanmadan ve IP adresin gibi kişisel bilgileri saklamadan sayfa görüntülemelerini sayar, sayfa hızını ölçer. Toplam rakamlara bakıp hangi notların okunduğunu görüyorum.'],
+      ['E-posta', `${SITE.email} adresine yazarsan yazışma gelen kutumda kalır ve sadece sana cevap vermek için kullanılır. Yeni notlara ya da Ghostline erken erişim listesine abone olursan adresin bülten servisi Buttondown’da saklanır ve sadece bu e-postalar için kullanılır. Her e-postada abonelikten çıkma linki vardır.`],
+      ['Barındırma ve fotoğraflar', 'Site Vercel üzerinde barındırılıyor. Stok fotoğraflar Unsplash’ten, Vercel’in görsel servisi üzerinden geliyor. Bu servisler sayfaları sana ulaştırmak için IP adresi gibi standart teknik verileri işler.'],
+      ['Hakların', `Hakkında tuttuğum bir bilgiyi görmek, düzeltmek ya da sildirmek istersen istediğin zaman ${SITE.email} adresine yazabilirsin. Bu, KVKK ve GDPR kapsamındaki haklarındır.`],
+    ],
+  },
+}[lang];
+---
+<Base lang={lang} title={T.title} description={T.desc}>
+  <section class="t-light"><div class="container wrap">
+    <h1>{T.title}</h1>
+    <p class="upd">{T.updated}</p>
+    <div class="prose">
+      {T.blocks.map(([h, p]) => (<><h2>{h}</h2><p>{p}</p></>))}
+    </div>
+  </div></section>
+</Base>
+
+<style>
+  .wrap { padding-top: 80px; padding-bottom: 140px; max-width: 760px; }
+  h1 { margin: 0; font-size: clamp(2.8rem, 7vw, 5rem); font-weight: 650; letter-spacing: -0.04em; }
+  .upd { margin: 12px 0 8px; color: var(--ink-3); font-size: 15px; }
+  .prose :global(h2) { margin-top: 1.8em; }
+</style>
