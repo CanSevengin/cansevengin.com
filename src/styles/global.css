@@ -5,6 +5,7 @@
 */
 @import '@fontsource-variable/inter/opsz.css';
 @import '@fontsource-variable/geist-mono';
+@import '@fontsource-variable/exo-2/wght.css';
 
 :root {
   --bg: #07080a;

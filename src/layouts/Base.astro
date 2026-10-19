@@ -89,7 +89,7 @@ const nav = [
       <div class="container nav-in">
         <a href={lp(lang, '/')} class="brand" data-mark aria-label={t.home} translate="no">
           <Logo size={32} class="logo" />
-          <span class="word">Can<span>Sevengin</span></span>
+          <span class="word">SEVENGIN</span>
         </a>
         <nav aria-label="Primary">
           {nav.map((n) => (
@@ -150,7 +150,7 @@ const nav = [
       });
       addEventListener('keydown', (e) => { if (e.key === 'Escape' && mbtn?.getAttribute('aria-expanded') === 'true') mbtn.click(); });
 
-      // Logo writes itself again on hover
+      // Logo draws itself again on hover
       document.querySelectorAll<HTMLElement>('[data-mark]').forEach((el) =>
         el.addEventListener('pointerenter', () => el.classList.toggle('replay')));
 
@@ -190,9 +190,7 @@ const nav = [
   }
   .nav-in { height: 56px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; }
-  .word { font-size: 16px; letter-spacing: -0.02em; }
-  .word span { color: var(--ink-3); margin-left: 5px; font-weight: 500; transition: color .2s; }
-  .brand:hover .word span { color: var(--ink); }
+  .word { font-family: 'Exo 2 Variable', var(--sans, system-ui), sans-serif; font-weight: 800; font-size: 17px; letter-spacing: .02em; }
   nav { display: flex; align-items: center; gap: 6px; }
   nav a:not(.btn) {
     text-decoration: none; color: var(--ink-2); font-size: 14px;
