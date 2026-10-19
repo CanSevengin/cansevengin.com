@@ -81,7 +81,7 @@ const ogImage = lang === 'tr' ? `/og/tr/${slug}.png` : `/og/${slug}.png`;
             <img src="/can-avatar.webp" alt="" width="64" height="64" loading="lazy" decoding="async" />
             <div>
               <p class="author-n">Can Sevengin</p>
-              <p class="author-b">{T.bio} <a href={lp(lang, '/about/')}>{T.aboutMe}</a></p>
+              <p class="author-b">{T.bio} <a href={lp(lang, '/about/')}>{T.aboutMe}</a>{SITE.linkedin && <> · <a href={SITE.linkedin} rel="me noopener" target="_blank">LinkedIn</a></>}</p>
             </div>
           </div>
           <Subscribe lang={lang} class="post-sub" />

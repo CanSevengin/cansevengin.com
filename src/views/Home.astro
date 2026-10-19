@@ -228,6 +228,7 @@ const words = t.statement.split(' ');
       <button type="button" class="btn copy" data-copy={SITE.email} data-ok={u.copied} data-fail={u.copyFail} aria-live="polite">
         <Icon name="copy" size={16} /><span>{SITE.email}</span>
       </button>
+      {SITE.linkedin && <a class="btn" href={SITE.linkedin} rel="me noopener" target="_blank"><Icon name="linkedin-logo" size={16} />LinkedIn</a>}
     </div>
    </div>
   </section>

@@ -82,6 +82,7 @@ const url = `https://cansevengin.com${lp(lang, '/about/')}`;
       <div class="ctas" data-reveal style="--i:2">
         <a class="btn btn-primary" href={`mailto:${SITE.email}`}>{T.hi} <Icon name="arrow-right" /></a>
         <a class="btn" href={lp(lang, '/blog/')}>{T.read}</a>
+        {SITE.linkedin && <a class="btn" href={SITE.linkedin} rel="me noopener" target="_blank"><Icon name="linkedin-logo" size={16} />LinkedIn</a>}
       </div>
     </div>
     <figure class="visual" data-reveal style="--i:1">
